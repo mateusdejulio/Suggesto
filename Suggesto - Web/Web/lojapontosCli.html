@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mercado de Pontos — Suggesto</title>
+  <link rel="icon" type="image/png" href="imagens/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/lojaPontosCli.css">
+<style>
+ 
+ .sidebar {
+    width: 256px;
+    min-height: 100vh;
+    background: #0f0e1c;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7c6dfa, transparent);
+    opacity: 0.4;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .logo-icon {
+    width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none; /* REMOVE o quadrado roxo */
+  }
+
+  .logo-img-sidebar {
+    width: 22px; height: 22px;
+    object-fit: contain;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #e8e6ff;
+    letter-spacing: -0.01em;
+  }
+  .logo-text span {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: #6b6890;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+  }
+
+  .nav-section-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b6890;
+    padding: 16px 8px 6px;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #6b6890;
+    transition: all 0.18s ease;
+    text-decoration: none;
+    position: relative;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: #9b97c4;
+  }
+
+  .nav-item.active {
+    background: linear-gradient(90deg, rgba(124,109,250,0.18), rgba(124,109,250,0.06));
+    color: #e8e6ff;
+    border-color: rgba(124,109,250,0.2);
+  }
+
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -1px; top: 25%; bottom: 25%;
+    width: 3px;
+    background: linear-gradient(to bottom, #7c6dfa, #a78bfa);
+    border-radius: 0 3px 3px 0;
+  }
+
+  .nav-icon {
+    width: 17px; height: 17px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.18s;
+  }
+  .nav-item:hover .nav-icon { opacity: 0.75; }
+  .nav-item.active .nav-icon { opacity: 1; }
+
+  .nav-badge {
+    margin-left: auto;
+    background: rgba(124,109,250,0.2);
+    color: #a78bfa;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(124,109,250,0.25);
+    letter-spacing: 0.02em;
+  }
+
+  .sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.18s;
+    border: 1px solid transparent;
+  }
+  .user-card:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.06);
+  }
+
+  .sb-avatar {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #7c6dfa, #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(124,109,250,0.3);
+    letter-spacing: 0.04em;
+  }
+
+  .sb-user-info { flex: 1; min-width: 0; }
+  .sb-user-name {
+    font-size: 13px; font-weight: 600;
+    color: #e8e6ff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+  }
+  .sb-user-role { font-size: 11px; color: #6b6890; margin-top: 1px; }
+
+  .user-sair {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.07);
+    color: #6b6890;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s;
+    flex-shrink: 0;
+  }
+  .user-sair:hover {
+    background: rgba(248,113,113,0.13);
+    border-color: rgba(248,113,113,0.3);
+    color: #f87171;
+  }
+
+  /* Ajusta margin do main para a nova largura da sidebar */
+  .main { margin-left: 256px !important; }
+
+
+
+  .logo-icon {
+  width: 42px !important;
+  height: 42px !important;
+}
+
+.logo-img-sidebar {
+  width: 90% !important;
+  height: 90% !important;
+}
+
+
+.sidebar-logo img,
+.logo-img {
+  width: 40px;   /* ajusta aqui */
+  height: 40px;
+  object-fit: contain;
+}
+  
+
+  /* Ajusta margin do main para a nova largura da sidebar */
+  .main { margin-left: 256px !important; }
+</style>
+</head>
+<body>
+
+<!-- SIDEBAR -->
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+      <img src="imagens/logo.png" alt="Logo" class="logo-img-sidebar">
+    </div>
+    <div class="logo-text">
+      Suggesto
+      <span>Clientes</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+
+    <a class="nav-item" href="inicioCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Início
+    </a>
+
+    <a class="nav-item" href="sugestoesCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      Minhas Sugestões
+      <span class="nav-badge">24</span>
+    </a>
+
+    <a class="nav-item active" href="lojapontosCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+      </svg>
+      Pontos
+    </a>
+
+    <a class="nav-item " href="locaisSalvosCli.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+        Locais Salvos
+      </a>
+
+    <a class="nav-item" href="perfilCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      Perfil
+    </a>
+
+    <!--<div class="nav-section-label">Sistema</div>
+
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+      </svg>
+      Configurações
+    </a>
+
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      Notificações
+    </a>-->
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="sb-avatar" id="sidebarAvatar" >CL</div>
+      <div class="sb-user-info">
+        <div class="sb-user-name" id = "sidebarNome">Carregando...</div>
+        <div class="sb-user-role">Cliente</div>
+      </div>
+      <button class="user-sair" title="Sair" onclick="abrirModalSair()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudo">
+
+    <!-- CABEÇALHO -->
+    <header class="conteudo-header">
+      <div class="header-esquerda">
+        <p class="header-sub">Troque seus pontos</p>
+        <h1 class="header-titulo">Mercado de Pontos</h1>
+      </div>
+      <div class="header-direita">
+        <div class="campo-busca">
+          <i class="fas fa-search"></i>
+          <input type="text" placeholder="Buscar recompensas..." id="campoBusca" oninput="filtrarRecompensas()">
+        </div>
+        <button class="header-notif">
+          <i class="fas fa-bell"></i>
+          <span class="notif-bolinha"></span>
+        </button>
+      </div>
+    </header>
+
+    <!-- PAINEL DE SALDO -->
+    <section class="painel-saldo">
+      <div class="saldo-fundo"></div>
+      <div class="saldo-conteudo">
+        <div class="saldo-esquerda">
+          <div class="saldo-label">
+            <i class="fas fa-map-marker-alt"></i>
+            <span id="enderecoUsuario">Rua Assis, Vila Lemos, Nº 40 — Campinas</span>
+            <button class="trocar-local" onclick="trocarLocalizacao()">Escolher outra localização</button>
+          </div>
+          <div class="saldo-valor">
+            <span class="saldo-numero" id="saldoPontos">20.652</span>
+            <span class="saldo-unidade">pts.</span>
+          </div>
+          <p class="saldo-dica">Você está a <strong>348 pts</strong> do próximo nível</p>
+          <div class="saldo-barra-wrap">
+            <div class="saldo-barra">
+              <div class="saldo-barra-progresso" style="width: 98.3%"></div>
+            </div>
+            <span class="saldo-meta">21.000 pts</span>
+          </div>
+        </div>
+        <div class="saldo-direita">
+          <div class="saldo-estatisticas">
+            <div class="estatistica-item">
+              <span class="estat-numero">47</span>
+              <span class="estat-label">Sugestões</span>
+            </div>
+            <div class="estat-divider"></div>
+            <div class="estatistica-item">
+              <span class="estat-numero">12</span>
+              <span class="estat-label">Resgates</span>
+            </div>
+            <div class="estat-divider"></div>
+            <div class="estatistica-item">
+              <span class="estat-numero">Gold</span>
+              <span class="estat-label">Nível</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTROS DE FAIXAS -->
+    <div class="faixas-wrap">
+      <button class="faixa-btn faixa-btn-ativa" onclick="filtrarFaixa(this, 6000)">Até 6.000 pts</button>
+      <button class="faixa-btn" onclick="filtrarFaixa(this, 18000)">Até 18.000 pts</button>
+      <button class="faixa-btn" onclick="filtrarFaixa(this, 25000)">Até 25.000 pts</button>
+      <button class="faixa-btn" onclick="filtrarFaixa(this, 45000)">Até 45.000 pts</button>
+      <button class="faixa-btn" onclick="filtrarFaixa(this, 999999)">Todos</button>
+    </div>
+
+    <!-- ÁREA DE RECOMPENSAS -->
+    <div class="mercado-area" id="mercadoArea">
+
+      <!-- SEÇÃO ATÉ 6.000 pts -->
+      <section class="recomp-secao" data-faixa="6000">
+        <div class="secao-topo">
+          <div class="secao-titulo-wrap">
+            
+            <h2 class="secao-titulo">Até 6.000 pts</h2>
+          </div>
+          <span class="secao-count">3 recompensas disponíveis</span>
+        </div>
+
+        <div class="recomp-grade">
+          <div class="recomp-card" data-custo="500" data-categoria="cafe">
+            <div class="recomp-imagem recomp-img-starbucks">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">Starbucks</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>500 pts</span>
+              </div>
+              <h3 class="recomp-nome">Café 200ml</h3>
+              <p class="recomp-desc">Um café fresquinho para começar o dia com energia</p>
+              <button class="recomp-btn" onclick="abrirResgate('Café 200ml — Starbucks', 500)">
+                Resgatar
+              </button>
+            </div>
+          </div>
+
+          <div class="recomp-card" data-custo="3000" data-categoria="comida">
+            <div class="recomp-imagem recomp-img-coco">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">Coco Bambu</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>3.000 pts</span>
+              </div>
+              <h3 class="recomp-nome">10% OFF</h3>
+              <p class="recomp-desc">Desconto válido em qualquer pedido acima de R$ 60</p>
+              <button class="recomp-btn" onclick="abrirResgate('10% OFF — Coco Bambu', 3000)">
+                Resgatar
+              </button>
+            </div>
+          </div>
+
+          <div class="recomp-card" data-custo="5500" data-categoria="fastfood">
+            <div class="recomp-imagem recomp-img-mcdonalds">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">McDonald's</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>5.500 pts</span>
+              </div>
+              <h3 class="recomp-nome">McColosso</h3>
+              <p class="recomp-desc">McColosseo grátis na compra de uma bebida</p>
+              <button class="recomp-btn" onclick="abrirResgate('McColosseo — McDonald\'s', 5500)">
+                Resgatar
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SEÇÃO ATÉ 18.000 pts -->
+      <section class="recomp-secao" data-faixa="18000">
+        <div class="secao-topo">
+          <div class="secao-titulo-wrap">
+            
+            <h2 class="secao-titulo">Até 18.000 pts</h2>
+          </div>
+          <span class="secao-count">2 recompensas disponíveis</span>
+        </div>
+
+        <div class="recomp-grade">
+
+          <div class="recomp-card" data-custo="10000" data-categoria="fastfood">
+            <div class="recomp-imagem recomp-img-mcfrites">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">McDonald's</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>10.000 pts</span>
+              </div>
+              <h3 class="recomp-nome">McFritas</h3>
+              <p class="recomp-desc">Batata frita grande grátis em qualquer unidade</p>
+              <button class="recomp-btn" onclick="abrirResgate('McFrites — McDonald\'s', 10000)">
+                Resgatar
+              </button>
+            </div>
+          </div>
+
+          <div class="recomp-card" data-custo="15000" data-categoria="moda">
+            <div class="recomp-imagem recomp-img-zara">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">Zara</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>15.000 pts</span>
+              </div>
+              <h3 class="recomp-nome">R$ 20 OFF</h3>
+              <p class="recomp-desc">Cupom de desconto para qualquer compra na loja online</p>
+              <button class="recomp-btn" onclick="abrirResgate('R$ 20 OFF — Zara', 15000)">
+                Resgatar
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SEÇÃO ATÉ 25.000 pts -->
+      <section class="recomp-secao" data-faixa="25000">
+        <div class="secao-topo">
+          <div class="secao-titulo-wrap">
+           
+            <h2 class="secao-titulo">Até 25.000 pts</h2>
+          </div>
+          <span class="secao-count">1 recompensa disponível</span>
+        </div>
+
+        <div class="recomp-grade">
+
+          <div class="recomp-card" data-custo="22000" data-categoria="supermercado">
+            <div class="recomp-imagem recomp-img-carrefour">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">Carrefour</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>22.000 pts</span>
+              </div>
+              <h3 class="recomp-nome">10% OFF</h3>
+              <p class="recomp-desc">Desconto em compras acima de R$ 150 no supermercado</p>
+              <button class="recomp-btn recomp-btn-bloqueado" onclick="abrirResgate('10% OFF — Carrefour', 22000)" disabled>
+                <i class="fas fa-lock"></i>
+                Pontos insuficientes
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SEÇÃO ATÉ 45.000 pts -->
+      <section class="recomp-secao" data-faixa="45000">
+        <div class="secao-topo">
+          <div class="secao-titulo-wrap">
+        
+            <h2 class="secao-titulo">Até 45.000 pts</h2>
+          </div>
+          <span class="secao-count">3 recompensas disponíveis</span>
+        </div>
+
+        <div class="recomp-grade">
+
+          <div class="recomp-card recomp-card-premium" data-custo="30000" data-categoria="comida">
+            <div class="recomp-imagem recomp-img-manapoke">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">Mana Poke</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+              <span class="recomp-selo">Popular</span>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>30.000 pts</span>
+              </div>
+              <h3 class="recomp-nome">50% OFF</h3>
+              <p class="recomp-desc">Metade do preço em qualquer poke bowl do cardápio</p>
+              <button class="recomp-btn recomp-btn-bloqueado" disabled>
+                <i class="fas fa-lock"></i>
+                Pontos insuficientes
+              </button>
+            </div>
+          </div>
+
+          <div class="recomp-card recomp-card-premium" data-custo="38000" data-categoria="moda">
+            <div class="recomp-imagem recomp-img-youcom">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">YouCom</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+              <span class="recomp-selo">Destaque</span>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>38.000 pts</span>
+              </div>
+              <h3 class="recomp-nome">60% OFF</h3>
+              <p class="recomp-desc">Desconto em compras a partir de R$200 YouCom</p>
+              <button class="recomp-btn recomp-btn-bloqueado" disabled>
+                <i class="fas fa-lock"></i>
+                Pontos insuficientes
+              </button>
+            </div>
+          </div>
+
+          <div class="recomp-card recomp-card-premium" data-custo="42000" data-categoria="fastfood">
+            <div class="recomp-imagem recomp-img-burgerking">
+              <div class="recomp-overlay"></div>
+              <span class="recomp-estabelecimento">Burger King</span>
+              <button class="recomp-salvar" onclick="salvarRecomp(this)">
+                <i class="far fa-heart"></i>
+              </button>
+              <span class="recomp-selo">Exclusivo</span>
+            </div>
+            <div class="recomp-corpo">
+              <div class="recomp-custo">
+                <i class="fas fa-star"></i>
+                <span>42.000 pts</span>
+              </div>
+              <h3 class="recomp-nome">Cupom BK</h3>
+              <p class="recomp-desc">Combo Whopper completo com sobremesa inclusa grátis</p>
+              <button class="recomp-btn recomp-btn-bloqueado" disabled>
+                <i class="fas fa-lock"></i>
+                Pontos insuficientes
+              </button>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+    </div>
+
+    <!-- ESTADO VAZIO -->
+    <div class="mercado-vazio" id="mercadoVazio">
+      <div class="vazio-icone">
+        <i class="fas fa-search"></i>
+      </div>
+      <p class="vazio-titulo">Nenhuma recompensa encontrada</p>
+      <p class="vazio-sub">Tente outro termo ou limpe o filtro</p>
+    </div>
+
+  </main>
+
+  <!-- MODAL DE RESGATE -->
+  <div class="modal-fundo" id="modalResgate">
+    <div class="modal">
+      <div class="modal-topo">
+        <h3 class="modal-titulo">Confirmar resgate</h3>
+        <button class="modal-fechar" onclick="fecharModal()">
+          <i class="fas fa-times"></i>
+        </button>
+      </div>
+
+      <div class="modal-recomp-info">
+        <div class="modal-recomp-icone">
+          <i class="fas fa-gift"></i>
+        </div>
+        <div>
+          <p class="modal-recomp-nome" id="modalRecompNome">—</p>
+          <div class="modal-recomp-custo">
+            <i class="fas fa-star"></i>
+            <span id="modalRecompCusto">—</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-saldo-wrap">
+        <div class="modal-saldo-linha">
+          <span>Seu saldo atual</span>
+          <span class="modal-saldo-valor">20.652 pts</span>
+        </div>
+        <div class="modal-saldo-linha">
+          <span>Custo do resgate</span>
+          <span class="modal-custo-valor" id="modalCustoValor">—</span>
+        </div>
+        <div class="modal-saldo-divider"></div>
+        <div class="modal-saldo-linha modal-saldo-linha-total">
+          <span>Saldo após resgate</span>
+          <span class="modal-saldo-final" id="modalSaldoFinal">—</span>
+        </div>
+      </div>
+
+      <div class="modal-aviso">
+        <i class="fas fa-info-circle"></i>
+        <span>O cupom será enviado para o seu e-mail cadastrado em até 5 minutos.</span>
+      </div>
+
+      <div class="modal-acoes">
+        <button class="modal-btn-cancelar" onclick="fecharModal()">Cancelar</button>
+        <button class="modal-btn-confirmar" onclick="confirmarResgate()">
+          <i class="fas fa-check"></i>
+          Confirmar resgate
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Resgate realizado com sucesso!</span>
+  </div>
+
+  <script src="js/lojaPontosCli.js"></script>
+</body>
+</html>

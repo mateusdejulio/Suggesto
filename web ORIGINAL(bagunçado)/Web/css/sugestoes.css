@@ -1,0 +1,184 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+    background-color: #140e20;
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 5vw;
+  height: 100vh;      
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 3vh; 
+  gap: 4vh;
+}
+
+.sidebar::before {
+  content: "";
+  height: 22vh; 
+}
+
+.suggesto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto; 
+}
+
+.nome {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.815);
+}
+
+.nome h2{
+  font-size: 1.6vh;
+}
+
+
+.logoDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+    width: 5vh;
+}
+
+.iconeMenu{
+  color: rgba(255, 255, 255, 0.815);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.iconeMenu i{
+  font-size: 3vh;
+  transition: transform 0.2s ease;
+}
+
+.principal {
+  color: rgba(255, 255, 255, 0.808);
+  margin-top: 22vh;
+}
+
+.iconeMenu:hover{
+  color: #a9acda;
+}
+
+.iconeMenu:hover i{
+  transform: scale(1.1);
+}
+
+.iconeMenu:hover .menu{
+  transform: scale(1.1);
+}
+
+.menu{
+  font-size: 1.6vh;
+  transition: transform 0.2s ease;
+}
+
+/*CHAT*/
+/* Ajuste no Principal para centralizar conteúdo */
+.principal {
+    width: 70vw;
+    margin-left: 5vw; /* compensando a sidebar */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5vh 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.titulo-pagina {
+    font-size: 4vh;
+    font-weight: 600;
+    margin-bottom: 6vh;
+    color: white;
+}
+
+.container-cards {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 4vh;
+    align-items: center;
+}
+
+.card-sugestao {
+    background-color: #e0e0e0; /* Cor clara do exemplo */
+    border-radius: 20px;
+    padding: 3vh 4vh;
+    width: 100%;
+    max-width: 800px;
+    color: #333;
+    position: relative;
+    box-shadow: 0 8px 0px #bcbcbc; /* Efeito de profundidade do exemplo */
+    transition: all 0.3s ease;
+}
+
+.card-header-custom h3 {
+    margin: 0;
+    font-size: 3vh;
+    color: #140e20;
+    font-weight: 700;
+}
+
+.badge-categoria {
+    font-size: 1.2vh;
+    padding: 0.5vh 1.5vh;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    display: inline-block;
+    margin: 1vh 0;
+}
+
+/* Cores das Etiquetas */
+.restaurante { background-color: #a370f7; }
+.saude { background-color: #7b61ff; }
+
+.estrelas {
+    color: #f1c40f;
+    font-size: 2.2vh;
+    margin-bottom: 1.5vh;
+}
+
+.texto-sugestao {
+    font-size: 2vh;
+    line-height: 1.5;
+    margin-bottom: 4vh;
+    color: #444;
+}
+
+.btn-apagar {
+    position: absolute;
+    bottom: 2vh;
+    right: 2vh;
+    background-color: #ff6b6b;
+    color: white;
+    border: none;
+    padding: 1vh 3vh;
+    border-radius: 10px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-apagar:hover {
+    background-color: #ee5253;
+}
+
+

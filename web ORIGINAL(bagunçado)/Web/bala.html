@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    
+    <style>
+.login-page {
+  height: 100vh;
+  background: radial-gradient(circle at top, #1c0433, #0f0f0f);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Inter', sans-serif;
+}
+
+.login-card {
+  width: 350px;
+  padding: 40px;
+  border-radius: 20px;
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(15px);
+  box-shadow: 0 0 40px rgba(123, 47, 247, 0.3);
+  text-align: center;
+}
+
+.logo-area img {
+  width: 60px;
+  margin-bottom: 10px;
+}
+
+.logo-area h2 {
+  color: white;
+  margin-bottom: 30px;
+}
+
+.form input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 15px;
+  border-radius: 10px;
+  border: none;
+  background: #1f1f1f;
+  color: white;
+  outline: none;
+  transition: 0.3s;
+}
+
+.form input:focus {
+  box-shadow: 0 0 10px #2a0f55;
+}
+
+.form button {
+  width: 100%;
+  padding: 12px;
+  border-radius: 15px;
+  border: none;
+  font-size: 15px;
+  background:#3b137c;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.form button:hover {
+  transform: scale(1.05);
+}
+
+.extras {
+  margin-top: 20px;
+  color: #aaa;
+}
+
+.socials img {
+  width: 35px;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.extras a {
+  color: #9a4fe3;
+  text-decoration: none;
+}
+body {
+  overflow: hidden;
+   margin: 0;
+  padding: 0;
+}
+
+    </style>
+</head>
+<body>
+    <div class="login-page">
+  <div class="login-card">
+
+    <div class="logo-area">
+      <img src="imagens/logo.png" alt="Suggesto">
+      <h2>Criar Conta</h2>
+    </div>
+
+    <div class="form">
+      <input type="email" placeholder="Email">
+      <br><br>
+      <input type="password" placeholder="Senha">
+      <input type="password" placeholder="Repita a senha">
+      <div class="radio-group">
+                    <label class="radio-container">
+                        <input type="radio" name="role" value="cliente" checked onclick="toggleAdminFields()">
+                        <span class="checkmark"></span> Cliente
+                    </label>
+                    <label class="radio-container">
+                        <input type="radio" name="role" value="admin" onclick="toggleAdminFields()">
+                        <span class="checkmark"></span> Administrador
+                    </label>
+                </div>
+
+                 <div id="campos-admin" class="admin-fields-container">
+                    <input type="text" placeholder="Chave de Acesso Admin">
+                    <input type="text" placeholder="ID da Unidade">
+                </div>
+
+      <button>Criar</button>
+    </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script src="js/cadastrar.js"></script>
+</body>
+</html>

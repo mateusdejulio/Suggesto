@@ -1,0 +1,101 @@
+package com.suggesto.backend.model;
+import jakarta.persistence.*;
+import lombok.Data;
+
+@Entity
+@Table(name="usuario") //nome da tabela no banco
+@Data //cria getters e setters automaticamente
+public class Usuario {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "ID_Usuario")
+    private Long id;
+
+    @Column(name = "Nome_Usuario")
+    private String nome;
+
+    @Column(name = "Email")
+    private String email;
+
+    @Column(name = "Senha")
+    private String senha;
+
+    @Enumerated(EnumType.STRING) // Salva o texto "Cliente" ou "Administrador" no banco
+    @Column(name = "Tipo_Usuario")
+    private TipoUsuario tipoUsuario;
+
+    @Column (name = "Cargo")
+    private String cargo;
+
+    @Column(name = "CPF")
+    private String cpf;
+
+    @Column(name = "Telefone")
+    private String telefone;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getSenha() {
+        return senha;
+    }
+
+    public void setSenha(String senha) {
+        this.senha = senha;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public TipoUsuario getTipoUsuario() {
+        return tipoUsuario;
+    }
+
+    public void setTipoUsuario(TipoUsuario tipoUsuario) {
+        this.tipoUsuario = tipoUsuario;
+    }
+
+
+    public String getCargo() {
+        return cargo;
+    }
+
+    public void setCargo(String cargo) {
+        this.cargo = cargo;
+    }
+
+    public String getCpf() {
+        return cpf;
+    }
+
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
+
+    public String getTelefone() {
+        return telefone;
+    }
+
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
+}

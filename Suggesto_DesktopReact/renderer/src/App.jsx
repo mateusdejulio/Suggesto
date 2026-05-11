@@ -1,0 +1,33 @@
+import React, { useState} from "react";
+
+import { HashRouter, Routes, Route} from "react-router-dom";
+
+import Login from "./pages/Login";
+import Dashboard from "./pages/Dashboard";
+import DetalhesEstabelecimento from "./pages/DetalhesEstabelecimento";
+
+import "./App.css";
+
+function App(){
+  const [isLogado, setIsLogado] = useState(false);
+
+  if(!isLogado) {
+    return <Login aoLogar={() => setIsLogado(true)} />
+  }
+
+  return (
+    <HashRouter>
+      <Routes>
+
+        {/* Quando o caminho (path) for "/", mostre o elemento (element) Dashboard */}
+        <Route path = "/" element = {<Dashboard />} />
+
+        {/* Quando o caminho for "/estabelecimento/QUALQUER-NUMERO", mostre os Detalhes */}
+        <Route path = "/estabelecimento/:id" element = {<DetalhesEstabelecimento />} />
+
+      </Routes>
+    </HashRouter>
+  )
+}
+
+export default App;

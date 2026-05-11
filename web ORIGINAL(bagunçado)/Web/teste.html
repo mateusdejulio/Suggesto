@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suggesto</title>
+  <link rel="icon" type="image/png" href="imagens/logo.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/teste.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="sg-nav" id="sgNav">
+    <div class="sg-nav__inner">
+      <a href="#" class="sg-nav__brand">
+        <img src="imagens/logo.png" alt="Suggesto" class="sg-nav__logo">
+        <span>Suggesto</span>
+      </a>
+
+      <button class="sg-nav__toggle" id="navToggle" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="sg-nav__links" id="navLinks">
+        <li><a href="#sobre">Suggesto</a></li>
+        <li><a href="#papeis">Administradores</a></li>
+        <li><a href="#planos">Planos</a></li>
+        <li><a href="#saiba">Saiba Mais</a></li>
+        <li><a href="#download">Download</a></li>
+      </ul>
+
+      <div class="sg-nav__actions" id="navActions">
+        <button class="sg-btn sg-btn--ghost" onclick="abrirEntrar()">Entrar</button>
+        <button class="sg-btn sg-btn--primary" onclick="abrirCadastro()">Cadastre-se</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="sg-hero" id="sobre">
+    <div class="sg-hero__bg">
+      <div class="sg-hero__orb sg-hero__orb--1"></div>
+      <div class="sg-hero__orb sg-hero__orb--2"></div>
+      <div class="sg-hero__orb sg-hero__orb--3"></div>
+      <div class="sg-hero__grid"></div>
+    </div>
+
+    <div class="sg-hero__content">
+      <div class="sg-hero__badge">
+        <span class="sg-badge__dot"></span>
+        Plataforma de feedbacks inteligente
+      </div>
+
+      <h1 class="sg-hero__title">
+        <span class="sg-hero__line sg-hero__line--accent">Pequenas sugestões,</span>
+        <span class="sg-hero__line sg-hero__line--light">grandes mudanças</span>
+      </h1>
+
+      <p class="sg-hero__sub">
+        Um aplicativo criado para aproximar usuários e administradores,<br>
+        promovendo melhorias reais a partir de sugestões.
+      </p>
+
+      <div class="sg-hero__actions">
+        <button class="sg-btn sg-btn--primary sg-btn--lg" onclick="abrirCadastro()">
+          Comece agora
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <button class="sg-btn sg-btn--outline sg-btn--lg" onclick="document.getElementById('papeis').scrollIntoView({behavior:'smooth'})">
+          Saiba mais
+        </button>
+      </div>
+
+      <div class="sg-hero__stats">
+        <div class="sg-stat">
+          <span class="sg-stat__num">3</span>
+          <span class="sg-stat__label">Plataformas</span>
+        </div>
+        <div class="sg-stat__divider"></div>
+        <div class="sg-stat">
+          <span class="sg-stat__num">100%</span>
+          <span class="sg-stat__label">Feedback real</span>
+        </div>
+        <div class="sg-stat__divider"></div>
+        <div class="sg-stat">
+          <span class="sg-stat__num">∞</span>
+          <span class="sg-stat__label">Possibilidades</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="sg-hero__scroll">
+      <div class="sg-scroll-indicator">
+        <div class="sg-scroll-indicator__line"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURES GRID -->
+  <section class="sg-features" id="saiba">
+    <div class="sg-features__header">
+      <p class="sg-section__eyebrow">Por que o Suggesto?</p>
+      <h2 class="sg-section__title">Tudo que sua empresa precisa<br>para ouvir de verdade</h2>
+    </div>
+
+    <div class="sg-features__grid">
+      <div class="sg-feature-card sg-feature-card--highlight">
+        <div class="sg-feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Conexão direta</h3>
+        <p>O Suggesto aproxima quem vive a experiência de quem pode melhorá-la. Clientes compartilham opiniões, administradores recebem insights valiosos.</p>
+      </div>
+
+      <div class="sg-feature-card">
+        <div class="sg-feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Comunicação facilitada</h3>
+        <p>Canal direto entre usuário e estabelecimento. Cada sugestão chega de forma organizada, pronta para gerar mudanças reais.</p>
+      </div>
+
+      <div class="sg-feature-card">
+        <div class="sg-feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Resultados para todos</h3>
+        <p>O cliente é ouvido e reconhecido. O administrador ganha dados que ajudam a melhorar o atendimento e fidelizar o público.</p>
+      </div>
+
+      <div class="sg-feature-card">
+        <div class="sg-feature-card__icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3>Crescimento e engajamento</h3>
+        <p>Clientes participam, acumulam pontos e veem suas ideias se tornando realidade. Estabelecimentos evoluem e fortalecem sua reputação.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAPEIS / CARROSSEL CARDS -->
+  <section class="sg-roles" id="papeis">
+    <div class="sg-roles__header">
+      <p class="sg-section__eyebrow">Quem usa o Suggesto?</p>
+      <h2 class="sg-section__title">Para cada papel,<br>uma experiência</h2>
+    </div>
+
+    <div class="sg-roles__cards">
+      <div class="sg-role-card" id="roleAdmin">
+        <div class="sg-role-card__bg" style="background-image: url('imagens/gerente.png')"></div>
+        <div class="sg-role-card__overlay"></div>
+        <div class="sg-role-card__content">
+          <span class="sg-role-card__tag">Para empresas</span>
+          <h3>Administrador</h3>
+          <p>Gerencie feedbacks, visualize métricas e transforme sugestões em melhorias reais para o seu negócio.</p>
+          <button class="sg-btn sg-btn--ghost-white" onclick="document.getElementById('box-admin').scrollIntoView({behavior:'smooth'})">Saiba mais</button>
+        </div>
+      </div>
+
+      <div class="sg-role-card sg-role-card--center" id="roleSuggesto">
+        <div class="sg-role-card__bg" style="background-image: url('imagens/suggesto.png')"></div>
+        <div class="sg-role-card__overlay sg-role-card__overlay--purple"></div>
+        <div class="sg-role-card__content">
+          <span class="sg-role-card__tag">A plataforma</span>
+          <h3>Suggesto</h3>
+          <p>O ecossistema completo que une clientes e empresas em torno de feedbacks que geram impacto real.</p>
+          <button class="sg-btn sg-btn--primary" onclick="abrirCadastro()">Começar agora</button>
+        </div>
+      </div>
+
+      <div class="sg-role-card" id="roleCliente">
+        <div class="sg-role-card__bg" style="background-image: url('imagens/cliente.png')"></div>
+        <div class="sg-role-card__overlay"></div>
+        <div class="sg-role-card__content">
+          <span class="sg-role-card__tag">Para usuários</span>
+          <h3>Cliente</h3>
+          <p>Envie sugestões, acompanhe respostas e acumule pontos por cada opinião compartilhada.</p>
+          <button class="sg-btn sg-btn--ghost-white" onclick="document.getElementById('box-cliente').scrollIntoView({behavior:'smooth'})">Saiba mais</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CAROUSEL NU-STYLE -->
+  <section class="sg-showcase" id="download">
+    <div class="sg-showcase__track" id="showcaseTrack">
+
+      <!-- Slide 1 - Admin -->
+      <div class="sg-showcase__slide sg-showcase__slide--active">
+        <div class="sg-showcase__text">
+          <span class="sg-section__eyebrow">Para administradores</span>
+          <h2>Evolua ouvindo<br>seus clientes.</h2>
+          <p>Receba sugestões reais, entenda o que seus clientes valorizam e transforme feedbacks em crescimento para o seu negócio.</p>
+          <button class="sg-btn sg-btn--primary sg-btn--lg" onclick="abrirCadastro()">
+            Fazer parte do Suggesto
+          </button>
+        </div>
+        <div class="sg-showcase__visual">
+          <img src="imagens/celularAdm.png" alt="App Administrador" />
+        </div>
+      </div>
+
+      <!-- Slide 2 - Cliente -->
+      <div class="sg-showcase__slide">
+        <div class="sg-showcase__text">
+          <span class="sg-section__eyebrow">Para clientes</span>
+          <h2>Dê sua opinião.<br>Faça a diferença.</h2>
+          <p>Envie sugestões e ideias sobre os lugares que você frequenta e ajude seus estabelecimentos favoritos a evoluírem.</p>
+          <button class="sg-btn sg-btn--primary sg-btn--lg" onclick="abrirCadastro()">
+            Fazer parte do Suggesto
+          </button>
+        </div>
+        <div class="sg-showcase__visual">
+          <img src="imagens/celularCli.png" alt="App Cliente" />
+        </div>
+      </div>
+    </div>
+
+    <div class="sg-showcase__nav">
+      <button class="sg-showcase__dot sg-showcase__dot--active" onclick="goToSlide(0)"></button>
+      <button class="sg-showcase__dot" onclick="goToSlide(1)"></button>
+    </div>
+
+    <div class="sg-showcase__arrows">
+      <button class="sg-arrow" id="showcasePrev">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M12 4l-6 6 6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <button class="sg-arrow" id="showcaseNext">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M8 4l6 6-6 6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+    </div>
+  </section>
+
+  <!-- FEATURE BOXES -->
+  <section class="sg-boxes" id="box-admin">
+    <div class="sg-boxes__inner">
+
+      <div class="sg-box">
+        <div class="sg-box__badge">Administrador</div>
+        <h2 class="sg-box__title">Para quem transforma<br>ideias em ação</h2>
+        <p class="sg-box__intro">Donos, gerentes ou responsáveis pelos estabelecimentos que usam o Suggesto. Com o painel administrativo, você pode:</p>
+        <ul class="sg-box__list">
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Cadastrar e personalizar o perfil do seu estabelecimento
+          </li>
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Visualizar e responder feedbacks de forma organizada
+          </li>
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Acompanhar relatórios e estatísticas para identificar pontos de melhoria
+          </li>
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Mostrar ao público as mudanças implementadas e fortalecer sua imagem
+          </li>
+        </ul>
+        <button class="sg-btn sg-btn--primary" onclick="abrirCadastro()">Sou administrador</button>
+      </div>
+
+      <div class="sg-box sg-box--alt" id="box-cliente">
+        <div class="sg-box__badge sg-box__badge--light">Cliente</div>
+        <h2 class="sg-box__title">Para quem vive<br>a experiência</h2>
+        <p class="sg-box__intro">A pessoa que frequenta restaurantes, cafés, academias, escolas e outros estabelecimentos. Aqui, sua opinião tem poder. Você pode:</p>
+        <ul class="sg-box__list">
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Compartilhar feedbacks sobre atendimento, estrutura e serviços
+          </li>
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Enviar sugestões, elogios e ideias para melhorar o que você mais gosta
+          </li>
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Acompanhar as respostas dos estabelecimentos
+          </li>
+          <li>
+            <span class="sg-box__icon">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M13 4L6 11l-3-3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            Acumular pontos por cada participação e trocá-los por recompensas
+          </li>
+        </ul>
+        <button class="sg-btn sg-btn--primary" onclick="abrirCadastro()">Sou cliente</button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="sg-footer" id="planos">
+    <div class="sg-footer__inner">
+      <div class="sg-footer__top">
+
+        <div class="sg-footer__brand">
+          <div class="sg-footer__logo">
+            <img src="imagens/logo.png" alt="Suggesto">
+            <span>Suggesto</span>
+          </div>
+          <p>Uma plataforma feita para transformar feedbacks em crescimento. Dê voz à sua equipe e descubra novas ideias todos os dias.</p>
+          <p class="sg-footer__devs">
+            Desenvolvido por:<br>
+            Diogo Damascena · Gabriel Gonçalves · Manuela Nogueira
+          </p>
+        </div>
+
+        <div class="sg-footer__col">
+          <h6>Soluções</h6>
+          <ul>
+            <li><a href="#">Sugestões Anônimas</a></li>
+            <li><a href="#">Gestão de Ideias</a></li>
+            <li><a href="#">Relatórios de Engajamento</a></li>
+            <li><a href="#">Caixas de Feedback</a></li>
+          </ul>
+        </div>
+
+        <div class="sg-footer__col">
+          <h6>Recursos</h6>
+          <ul>
+            <li><a href="#">Dashboard Interativo</a></li>
+            <li><a href="#">Integrações</a></li>
+            <li><a href="#">Segurança de Dados</a></li>
+            <li><a href="#">Planos e Preços</a></li>
+          </ul>
+        </div>
+
+        <div class="sg-footer__col">
+          <h6>Explore</h6>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Histórias de Clientes</a></li>
+            <li><a href="#">Central de Ajuda</a></li>
+            <li><a href="#">Perguntas Frequentes</a></li>
+          </ul>
+        </div>
+
+        <div class="sg-footer__col">
+          <h6>Empresa</h6>
+          <ul>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Carreiras</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Guia de Marca</a></li>
+          </ul>
+        </div>
+
+      </div>
+
+      <div class="sg-footer__bottom">
+        <p>© 2025 Suggesto. Todos os direitos reservados. · <a href="#">Termos de Uso</a> · <a href="#">Política de Privacidade</a></p>
+        <div class="sg-footer__social">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/teste.js"></script>
+</body>
+</html>

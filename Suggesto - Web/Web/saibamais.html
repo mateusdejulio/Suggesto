@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Saiba Mais — Suggesto</title>
+  <link rel="icon" type="image/png" href="imagens/logo.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/saibamais.css">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="barra-nav" id="barraPrincipal">
+    <div class="barra-nav-interna">
+      <a href="Index.html" class="nav-logo">
+        <img src="imagens/logo.png" alt="Suggesto" class="nav-logo-img">
+        <span>Suggesto</span>
+      </a>
+
+      <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="saibamais.html" class="nav-link-ativo">Saiba Mais</a></li>
+        <li><a href="adms.html">Administradores</a></li>
+        <li><a href="planos.html">Planos</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+
+      <div class="nav-botoes" id="navBotoes">
+        <button class="botao botao-fantasma" onclick="abrirEntrar()">Entrar</button>
+        <button class="botao botao-principal" onclick="abrirCadastro()">Cadastre-se</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO DA PÁGINA -->
+  <section class="sm-hero">
+    <div class="sm-hero-fundo">
+      <div class="sm-orb sm-orb-1"></div>
+      <div class="sm-orb sm-orb-2"></div>
+      <div class="sm-orb sm-orb-3"></div>
+      <div class="sm-grade"></div>
+    </div>
+    <div class="sm-hero-conteudo">
+      
+      <h1 class="sm-hero-titulo">
+  O Suggesto por dentro: <br> <span class="titulo-destaque">como tudo funciona</span>
+</h1>
+      <p class="sm-hero-sub">
+        Entenda a tecnologia, a missão e o impacto que une clientes e empresas em torno de uma ideia simples: ouvir para melhorar.
+      </p>
+      <div class="sm-hero-acoes">
+        <a href="#missao" class="botao botao-principal botao-grande">
+          Explorar
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M8 3v10M3 9l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <button class="botao botao-contorno botao-grande" onclick="abrirCadastro()">Começar agora</button>
+      </div>
+    </div>
+    <div class="sm-hero-visual">
+      <img src="imagens/icone.png" class="hero-icone">
+      
+    </div>
+  </section>
+
+  <!-- MISSÃO E VISÃO -->
+  <section class="sm-secao" id="missao">
+    <div class="sm-secao-interna">
+      <div class="sm-secao-topo centralizado">
+        <p class="secao-olho">Nossa razão de existir</p>
+        <h2 class="secao-titulo">A missão do Suggesto</h2>
+      </div>
+
+      <div class="missao-grade">
+        <div class="missao-card missao-card-destaque">
+          
+          <h3>Missão</h3>
+          <p>Aproximar clientes e estabelecimentos por meio de um canal direto, organizado e eficiente de sugestões e feedbacks, transformando opiniões em decisões e melhorias reais.</p>
+        </div>
+        <div class="missao-card">
+          
+          <h3>Visão</h3>
+          <p>Ser a principal ponte entre a experiência do cliente e a evolução dos negócios — tornando a escuta ativa um hábito em todas as empresas que buscam crescer com propósito.</p>
+        </div>
+        <div class="missao-card">
+        
+          <h3>Valores</h3>
+          <p>Transparência, engajamento genuíno, inovação contínua e respeito mútuo entre quem compartilha e quem recebe. Acreditamos que toda sugestão tem valor.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O PROBLEMA QUE RESOLVEMOS -->
+  <section class="sm-problema">
+    <div class="sm-secao-interna">
+      <div class="problema-grid">
+        <div class="problema-esquerda">
+          <p class="secao-olho">Por que criamos o Suggesto?</p>
+          <h2 class="secao-titulo">Um problema real,<br>uma solução direta</h2>
+          <p class="problema-texto">
+            Quantas vezes você saiu de um restaurante, academia ou loja com uma crítica na ponta da língua — e não teve como compartilhá-la? E do outro lado: quantas empresas perdem clientes sem nunca entender o motivo?
+          </p>
+          <p class="problema-texto">
+            O Suggesto surgiu para fechar essa lacuna. Criamos um canal simples, acessível e organizado para que sugestões deixem de se perder no ar e comecem a gerar mudanças reais.
+          </p>
+          <div class="problema-numeros">
+            <div class="prob-num">
+              <span class="prob-val">73%</span>
+              <span class="prob-label">dos clientes não reclamam, apenas deixam de voltar</span>
+            </div>
+            <div class="prob-divisor"></div>
+            <div class="prob-num">
+              <span class="prob-val">5×</span>
+              <span class="prob-label">mais barato reter um cliente do que conquistar um novo</span>
+            </div>
+          </div>
+        </div>
+        <div class="problema-direita">
+          <div class="problema-card-empilhado">
+            <div class="pcard pcard-1">
+              <i class="fas fa-comment-slash"></i>
+              <div>
+                <strong>Sugestões se perdem</strong>
+                <span>Clientes desistem de compartilhar por falta de canal adequado</span>
+              </div>
+            </div>
+            <div class="pcard pcard-2">
+              <i class="fas fa-chart-line"></i>
+              <div>
+                <strong>Empresas no escuro</strong>
+                <span>Dados sobre percepção do público chegam tarde ou não chegam</span>
+              </div>
+            </div>
+            <div class="pcard pcard-3 pcard-solucao">
+              <i class="fas fa-check-circle"></i>
+              <div>
+                <strong>Suggesto conecta os dois</strong>
+                <span>Canal direto, organizado e com dados em tempo real</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO FUNCIONA (PASSO A PASSO) -->
+  <section class="sm-secao" id="como-funciona">
+    <div class="sm-secao-interna">
+      <div class="sm-secao-topo centralizado">
+        <p class="secao-olho">Simples de usar</p>
+        <h2 class="secao-titulo">Como o Suggesto funciona</h2>
+        <p class="sm-secao-sub">Em poucos passos, clientes e empresas passam a se comunicar de forma estruturada e produtiva.</p>
+      </div>
+
+      <!-- ABAS: CLIENTE / ADMIN -->
+      <div class="como-abas">
+        <button class="aba-btn aba-ativa" onclick="trocarAba(this, 'cliente')">
+          <i class="fas fa-user"></i> Para o Cliente
+        </button>
+        <button class="aba-btn" onclick="trocarAba(this, 'admin')">
+          <i class="fas fa-building"></i> Para a Empresa
+        </button>
+      </div>
+
+      <div class="como-conteudo" id="aba-cliente">
+        <div class="passos-lista">
+          <div class="passo">
+            <div class="passo-num">01</div>
+            <div class="passo-conteudo">
+              <h4>Crie sua conta gratuitamente</h4>
+              <p>Cadastre-se em segundos como cliente. Basta um e-mail e uma senha — sem burocracia.</p>
+            </div>
+          </div>
+          <div class="passo">
+            <div class="passo-num">02</div>
+            <div class="passo-conteudo">
+              <h4>Encontre o estabelecimento</h4>
+              <p>Busque pelo local onde você esteve — restaurante, academia, café, escola — e acesse o perfil dele na plataforma.</p>
+            </div>
+          </div>
+          <div class="passo">
+            <div class="passo-num">03</div>
+            <div class="passo-conteudo">
+              <h4>Envie sua sugestão</h4>
+              <p>Escreva sua sugestão, escolha a categoria (atendimento, estrutura, produto…) e informe quando esteve no local. Pronto.</p>
+            </div>
+          </div>
+          <div class="passo">
+            <div class="passo-num">04</div>
+            <div class="passo-conteudo">
+              <h4>Acumule pontos e acompanhe</h4>
+              <p>Cada sugestão enviada rende pontos. Acompanhe se o estabelecimento respondeu ou implementou sua ideia.</p>
+            </div>
+          </div>
+        </div>
+        <div class="como-visual">
+          <div class="mockup-tela">
+            <div class="mockup-barra">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="mockup-corpo">
+              <div class="mk-campo mk-campo-largo">
+                <div class="mk-label">Estabelecimento</div>
+                <div class="mk-valor">Big Jack Hamburgueria</div>
+              </div>
+              <div class="mk-campo">
+                <div class="mk-label">Categoria</div>
+                <div class="mk-valor">Atendimento</div>
+              </div>
+              <div class="mk-campo mk-textarea">
+                <div class="mk-label">Sua sugestão</div>
+                <div class="mk-cursor">Poderia ter mais opções vegetarianas…<span class="cursor-piscando">|</span></div>
+              </div>
+              <div class="mk-btn">
+                <i class="fas fa-paper-plane"></i> Enviar sugestão
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="como-conteudo oculto" id="aba-admin">
+        <div class="passos-lista">
+          <div class="passo">
+            <div class="passo-num">01</div>
+            <div class="passo-conteudo">
+              <h4>Cadastre seu estabelecimento</h4>
+              <p>Crie o perfil da sua empresa com nome, categoria, endereço e foto. Configure tudo do jeito que representa melhor o seu negócio.</p>
+            </div>
+          </div>
+          <div class="passo">
+            <div class="passo-num">02</div>
+            <div class="passo-conteudo">
+              <h4>Receba sugestões em tempo real</h4>
+              <p>Todas as sugestões enviadas pelos clientes chegam ao seu painel de forma organizada, categorizadas e com data e hora.</p>
+            </div>
+          </div>
+          <div class="passo">
+            <div class="passo-num">03</div>
+            <div class="passo-conteudo">
+              <h4>Responda e interaja</h4>
+              <p>Responda cada sugestão diretamente pelo painel. O cliente recebe a notificação e sabe que foi ouvido.</p>
+            </div>
+          </div>
+          <div class="passo">
+            <div class="passo-num">04</div>
+            <div class="passo-conteudo">
+              <h4>Analise métricas e evolua</h4>
+              <p>Acesse relatórios com as categorias mais frequentes de feedback, períodos de pico e indicadores de satisfação para tomar decisões baseadas em dados.</p>
+            </div>
+          </div>
+        </div>
+        <div class="como-visual">
+          <div class="mockup-tela">
+            <div class="mockup-barra">
+              <span></span><span></span><span></span>
+            </div>
+            <div class="mockup-corpo">
+              <div class="mk-dashboard">
+                <div class="mk-stat">
+                  <span class="mk-stat-val">48</span>
+                  <span class="mk-stat-label">Novas sugestões</span>
+                </div>
+                <div class="mk-stat mk-stat-verde">
+                  <span class="mk-stat-val">4.7</span>
+                  <span class="mk-stat-label">Avaliação média</span>
+                </div>
+              </div>
+              <div class="mk-sugestao-item">
+                <i class="fas fa-comment-alt"></i>
+                <div>
+                  <strong>Ampliar o horário de funcionamento</strong>
+                  <span>Atendimento · há 2 horas</span>
+                </div>
+                <div class="mk-status">Nova</div>
+              </div>
+              <div class="mk-sugestao-item">
+                <i class="fas fa-comment-alt"></i>
+                <div>
+                  <strong>Adicionar opção de pagamento PIX</strong>
+                  <span>Serviço · há 5 horas</span>
+                </div>
+                <div class="mk-status mk-status-resp">Respondida</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECNOLOGIA -->
+  <section class="sm-tecnologia">
+    <div class="sm-secao-interna">
+      <div class="sm-secao-topo centralizado">
+        <p class="secao-olho">Por baixo do capô</p>
+        <h2 class="secao-titulo">A tecnologia por trás do Suggesto</h2>
+        <p class="sm-secao-sub">Construído com tecnologias modernas e escolhidas a dedo para garantir performance, estabilidade e uma experiência excelente em todas as plataformas.</p>
+      </div>
+
+      <div class="tec-grade">
+        <div class="tec-card">
+          <div class="tec-icone">
+            <i class="fab fa-windows"></i>
+          </div>
+          <h4>Desktop (Windows)</h4>
+          <p>Aplicação nativa em <strong>Electron</strong>, aplicando a biblioteca JavaScript <strong>React</strong> para interfaces modernas e fluidas no ambiente Windows.</p>
+          <div class="tec-tags">
+            <span>Electron</span>
+            <span>React</span>
+          </div>
+        </div>
+
+        <div class="tec-card tec-card-destaque">
+          <div class="tec-icone">
+            <i class="fas fa-globe"></i>
+          </div>
+          <h4>Web</h4>
+          <p>Interface web responsiva construída com <strong>HTML, CSS e JavaScript</strong>, garantindo compatibilidade com todos os navegadores modernos.</p>
+          <div class="tec-tags">
+            <span>HTML5</span>
+            <span>CSS3</span>
+            <span>JavaScript</span>
+          </div>
+        </div>
+
+        <div class="tec-card">
+          <div class="tec-icone">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <h4>Mobile</h4>
+          <p>Aplicativo mobile desenvolvido em <strong>Flutter</strong>, com suporte a Android e iOS a partir de uma única base de código otimizada.</p>
+          <div class="tec-tags">
+            <span>Flutter</span>
+            <span>Dart</span>
+            <span>Android · iOS</span>
+          </div>
+        </div>
+
+        <div class="tec-card">
+          <div class="tec-icone">
+            <i class="fas fa-database"></i>
+          </div>
+          <h4>Banco de Dados</h4>
+          <p>Integração via <strong>SQL</strong> para armazenamento estruturado de usuários, estabelecimentos, sugestões e métricas com alto desempenho.</p>
+          <div class="tec-tags">
+            <span>SQL</span>
+            <span>Autenticação</span>
+            <span>Validação</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- DIFERENCIAIS -->
+  <section class="sm-secao" id="diferenciais">
+    <div class="sm-secao-interna">
+      <div class="sm-secao-topo centralizado">
+        <p class="secao-olho">Por que o Suggesto?</p>
+        <h2 class="secao-titulo">O que nos torna diferentes</h2>
+      </div>
+
+      <div class="diff-grade">
+        <div class="diff-item">
+          <div class="diff-icone">
+            <i class="fas fa-mobile-alt"></i>
+          </div>
+          <div class="diff-texto">
+            <h4>3 plataformas, 1 experiência</h4>
+            <p>Desktop, web e mobile com design unificado. O usuário nunca se perde, independente do dispositivo.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icone">
+            <i class="fas fa-paint-brush"></i>
+          </div>
+          <div class="diff-texto">
+            <h4>Design pensado para uso</h4>
+            <p>Interface escura, tipografia clara e navegação intuitiva. Acessível para qualquer perfil de usuário.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icone">
+            <i class="fas fa-trophy"></i>
+          </div>
+          <div class="diff-texto">
+            <h4>Sistema de pontos e recompensas</h4>
+            <p>Clientes são incentivados a participar. Cada sugestão rende pontos que podem ser trocados por benefícios.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icone">
+            <i class="fas fa-shield-alt"></i>
+          </div>
+          <div class="diff-texto">
+            <h4>Verificação e moderação</h4>
+            <p>Sugestões enviadas fora do estabelecimento passam por revisão antes de serem publicadas, garantindo conteúdo de qualidade.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icone">
+            <i class="fas fa-expand-arrows-alt"></i>
+          </div>
+          <div class="diff-texto">
+            <h4>Escalável desde o início</h4>
+            <p>Arquitetura planejada para crescer: novos módulos, relatórios e integrações podem ser adicionados sem refazer a base.</p>
+          </div>
+        </div>
+        <div class="diff-item">
+          <div class="diff-icone">
+            <i class="fas fa-users"></i>
+          </div>
+          <div class="diff-texto">
+            <h4>Perfis diferenciados</h4>
+            <p>Clientes e administradores têm experiências separadas, cada uma otimizada para suas próprias necessidades e objetivos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TIMELINE DO PROJETO -->
+  <section class="sm-timeline">
+    <div class="sm-secao-interna">
+      <div class="sm-secao-topo centralizado">
+        <p class="secao-olho">Nossa jornada</p>
+        <h2 class="secao-titulo">Como o projeto evoluiu</h2>
+      </div>
+
+      <div class="timeline">
+        <div class="tl-item tl-esquerda">
+          <div class="tl-ponto"></div>
+          <div class="tl-card">
+            <span class="tl-fase">Fase 1</span>
+            <h4>Concepção e pesquisa</h4>
+            <p>Identificação do problema, definição da proposta de valor e estruturação dos requisitos funcionais da plataforma.</p>
+          </div>
+        </div>
+        <div class="tl-item tl-direita">
+          <div class="tl-ponto"></div>
+          <div class="tl-card">
+            <span class="tl-fase">Fase 2</span>
+            <h4>Design e identidade visual</h4>
+            <p>Criação da paleta de cores, tipografia, componentes visuais e protótipos das três versões da plataforma.</p>
+          </div>
+        </div>
+        <div class="tl-item tl-esquerda">
+          <div class="tl-ponto"></div>
+          <div class="tl-card">
+            <span class="tl-fase">Fase 3</span>
+            <h4>Desenvolvimento core</h4>
+            <p>Implementação das funcionalidades essenciais: autenticação, diferenciação de perfis, cadastro de estabelecimentos e banco de dados.</p>
+          </div>
+        </div>
+        <div class="tl-item tl-direita">
+          <div class="tl-ponto tl-ponto-atual"></div>
+          <div class="tl-card tl-card-atual">
+            <span class="tl-fase">Fase 4 — Atual</span>
+            <h4>Expansão de funcionalidades</h4>
+            <p>Gestão completa de sugestões, sistema de pontos, notificações e geração de relatórios e métricas para administradores.</p>
+          </div>
+        </div>
+        <div class="tl-item tl-esquerda tl-futuro">
+          <div class="tl-ponto tl-ponto-futuro"></div>
+          <div class="tl-card tl-card-futuro">
+            <span class="tl-fase">Em breve</span>
+            <h4>Integrações e escala</h4>
+            <p>Integração com APIs externas, analytics avançado e expansão para novos mercados e segmentos.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EQUIPE -->
+  <section class="sm-secao" id="equipe">
+    <div class="sm-secao-interna">
+      <div class="sm-secao-topo centralizado">
+        <p class="secao-olho">Quem faz acontecer</p>
+        <h2 class="secao-titulo">A equipe por trás do Suggesto</h2>
+        <p class="sm-secao-sub">Um projeto integrador desenvolvido com dedicação por estudantes que acreditam que tecnologia transforma experiências.</p>
+      </div>
+
+      <div class="equipe-grade">
+        <div class="equipe-card">
+          <div class="equipe-avatar">DG</div>
+          <h4>Diogo Damascena</h4>
+          <span class="equipe-cargo">Desenvolvimento & Backend</span>
+          <p>Responsável pela arquitetura do sistema, banco de dados e lógica de negócio das três plataformas.</p>
+        </div>
+        <div class="equipe-card equipe-card-destaque">
+          <div class="equipe-avatar">GG</div>
+          <h4>Gabriel Gonçalves</h4>
+          <span class="equipe-cargo">Desenvolvimento Full Stack</span>
+          <p>Atuou no desenvolvimento desktop, web e mobile, garantindo coesão entre todas as versões da plataforma.</p>
+        </div>
+        <div class="equipe-card">
+          <div class="equipe-avatar">MN</div>
+          <h4>Manuela Nogueira</h4>
+          <span class="equipe-cargo">Design & Frontend</span>
+          <p>Criação da identidade visual, protótipos e implementação das interfaces com foco em usabilidade e acessibilidade.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA FINAL -->
+  <section class="sm-cta">
+    <div class="sm-cta-fundo">
+      <div class="cta-orb cta-orb-1"></div>
+      <div class="cta-orb cta-orb-2"></div>
+    </div>
+    <div class="sm-cta-conteudo">
+      <div class="sm-etiqueta">
+        <span class="etiqueta-ponto"></span>
+        Pronto para começar?
+      </div>
+      <h2 class="sm-cta-titulo">Junte-se ao Suggesto.<br>Transforme feedbacks em ação.</h2>
+      <p class="sm-cta-sub">Seja como cliente que quer ser ouvido, ou como empresa que quer evoluir — o Suggesto tem um lugar para você.</p>
+      <div class="sm-cta-acoes">
+        <button class="botao botao-principal botao-grande" onclick="abrirCadastro()">
+          Criar conta grátis
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <a href="planos.html" class="botao botao-contorno botao-grande">Ver planos</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="rodape-interno">
+      <div class="rodape-topo">
+        <div class="rodape-marca">
+          <div class="rodape-logo">
+            <img src="imagens/logo.png" alt="Suggesto">
+            <span>Suggesto</span>
+          </div>
+          <p>Uma plataforma feita para transformar feedbacks em crescimento. Dê voz à sua equipe e descubra novas ideias todos os dias.</p>
+          <p class="rodape-devs">Desenvolvido por:<br>Diogo Damascena · Gabriel Gonçalves · Manuela Nogueira</p>
+        </div>
+        <div class="rodape-coluna">
+          <h6>Soluções</h6>
+          <ul>
+            <li><a href="#">Sugestões Anônimas</a></li>
+            <li><a href="#">Gestão de Ideias</a></li>
+            <li><a href="#">Relatórios de Engajamento</a></li>
+            <li><a href="#">Caixas de Feedback</a></li>
+          </ul>
+        </div>
+        <div class="rodape-coluna">
+          <h6>Recursos</h6>
+          <ul>
+            <li><a href="#">Dashboard Interativo</a></li>
+            <li><a href="#">Integrações</a></li>
+            <li><a href="#">Segurança de Dados</a></li>
+            <li><a href="#">Planos e Preços</a></li>
+          </ul>
+        </div>
+        <div class="rodape-coluna">
+          <h6>Explore</h6>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Histórias de Clientes</a></li>
+            <li><a href="#">Central de Ajuda</a></li>
+            <li><a href="#">Perguntas Frequentes</a></li>
+          </ul>
+        </div>
+        <div class="rodape-coluna">
+          <h6>Empresa</h6>
+          <ul>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Carreiras</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Guia de Marca</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="rodape-base">
+        <p>© 2025 Suggesto. Todos os direitos reservados. · <a href="#">Termos de Uso</a> · <a href="#">Política de Privacidade</a></p>
+        <div class="rodape-redes">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/saibamais.js"></script>
+</body>
+</html>

@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+
+body{
+    background-color: #140e20;
+    display: flex;
+    justify-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 5vw;
+  height: 100vh;      
+  color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 3vh; 
+  gap: 4vh;
+}
+
+.sidebar::before {
+  content: "";
+  height: 22vh; 
+}
+
+.suggesto {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: auto; 
+}
+
+.nome {
+  text-align: center;
+  color: rgba(255, 255, 255, 0.815);
+}
+
+.nome h2{
+  font-size: 1.6vh;
+}
+
+
+.logoDiv{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+    width: 5vh;
+}
+
+.iconeMenu{
+  color: rgba(255, 255, 255, 0.815);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.iconeMenu i{
+  font-size: 3vh;
+  transition: transform 0.2s ease;
+}
+
+.iconeMenu:hover{
+  color: #a9acda;
+}
+
+.iconeMenu:hover i{
+  transform: scale(1.1);
+}
+
+.iconeMenu:hover .menu{
+  transform: scale(1.1);
+}
+
+.menu{
+  font-size: 1.6vh;
+  transition: transform 0.2s ease;
+}
+
+/*PRINCIPAL*/
+.principal {
+  color: rgba(255, 255, 255, 0.808);
+  display: flex;
+  width: 100vw;
+  align-items: center;
+  margin-top: 10vh;
+  flex-direction: column;
+}
+
+.infoClientes{
+  background: rgba(255,255,255,0.1);
+  backdrop-filter: blur(10px);
+  width: auto;
+  height: auto;
+  display: flex;
+  align-items: center;
+  gap: 1vw;
+
+  padding: 2vh;
+  border-radius: 2vh;
+}
+
+.fotoUser{
+  width: 20vh;
+  height: 20vh;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dadosUser{
+  display: flex;
+  flex-direction: column;
+}
+
+.nomeUser{
+  margin: 0;
+  font-size: 2.3vh;
+}
+
+.emailUser{
+  margin: 0vh;
+  font-size: 1.7vh;
+  opacity: 0.7;
+}
+
+.tipoUser{
+  display: inline-block;
+  align-self: flex-start;
+
+  margin-top: 1.5vh;
+
+  font-size: 1.5vh;
+  background-color: #33095F;
+
+  padding: 0.3vh 1vh;
+  border-radius: 1vh;
+}
+
+
+.partedeCima {
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  width: 60vw;
+  position: relative;
+  margin-bottom: 2vh;
+}
+
+.configuracoes {
+  position: absolute;
+  right: 0;
+  top: 0;
+  cursor: pointer;
+  font-size: 2.3vh;
+  transition: transform 0.3s ease;
+}
+
+.configuracoes:hover {
+  transform: rotate(90deg);
+  color: #a9acda;
+}
+
+
+
+
+
+/*SANFONA*/
+.sanfona{
+  width: 60vw;
+  margin-top: 3vh;
+  border-radius: 2vh;
+  overflow: hidden;
+}
+
+.itemSanfona{
+  background: rgba(255,255,255,0.08);
+  border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.tituloSanfona{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 2vh;
+  cursor: pointer;
+  color: white;
+  font-size: 1.7vh;
+  transition: background 0.2s;
+}
+
+.tituloSanfona:hover{
+  background: rgba(255,255,255,0.12);
+}
+
+.tituloSanfona i{
+  transition: transform 0.3s;
+}
+
+/* conteúdo escondido */
+.conteudoSanfona{
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 2vh;
+  color: white;
+  opacity: 0.7;
+  transition: all 0.3s ease;
+  font-size: 1.5vh;
+}
+
+/* quando ativo */
+.itemSanfona.ativo .conteudoSanfona{
+  max-height: 10vh;
+  padding: 2vh;
+}
+
+.itemSanfona.ativo .tituloSanfona i{
+  transform: rotate(180deg);
+}
+

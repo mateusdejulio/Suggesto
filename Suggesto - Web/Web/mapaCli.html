@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Localização — Suggesto</title>
+  <link rel="icon" type="image/png" href="imagens/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/mapaCli.css">
+  <!-- Leaflet.js CSS -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css">
+
+  <style>
+    .sidebar {
+    width: 256px;
+    min-height: 100vh;
+    background: #0f0e1c;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7c6dfa, transparent);
+    opacity: 0.4;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .logo-icon {
+    width: 38px;
+  height: 38px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: none; /* REMOVE o quadrado roxo */
+  }
+
+  .logo-img-sidebar {
+    width: 22px; height: 22px;
+    object-fit: contain;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #e8e6ff;
+    letter-spacing: -0.01em;
+  }
+  .logo-text span {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: #6b6890;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+  }
+
+  .nav-section-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b6890;
+    padding: 16px 8px 6px;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #6b6890;
+    transition: all 0.18s ease;
+    text-decoration: none;
+    position: relative;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: #9b97c4;
+  }
+
+  .nav-item.active {
+    background: linear-gradient(90deg, rgba(124,109,250,0.18), rgba(124,109,250,0.06));
+    color: #e8e6ff;
+    border-color: rgba(124,109,250,0.2);
+  }
+
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -1px; top: 25%; bottom: 25%;
+    width: 3px;
+    background: linear-gradient(to bottom, #7c6dfa, #a78bfa);
+    border-radius: 0 3px 3px 0;
+  }
+
+  .nav-icon {
+    width: 17px; height: 17px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.18s;
+  }
+  .nav-item:hover .nav-icon { opacity: 0.75; }
+  .nav-item.active .nav-icon { opacity: 1; }
+
+  .nav-badge {
+    margin-left: auto;
+    background: rgba(124,109,250,0.2);
+    color: #a78bfa;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(124,109,250,0.25);
+    letter-spacing: 0.02em;
+  }
+
+  .sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.18s;
+    border: 1px solid transparent;
+  }
+  .user-card:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.06);
+  }
+
+  .sb-avatar {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #7c6dfa, #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(124,109,250,0.3);
+    letter-spacing: 0.04em;
+  }
+
+  .sb-user-info { flex: 1; min-width: 0; }
+  .sb-user-name {
+    font-size: 13px; font-weight: 600;
+    color: #e8e6ff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+  }
+  .sb-user-role { font-size: 11px; color: #6b6890; margin-top: 1px; }
+
+  .user-sair {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.07);
+    color: #6b6890;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s;
+    flex-shrink: 0;
+  }
+  .user-sair:hover {
+    background: rgba(248,113,113,0.13);
+    border-color: rgba(248,113,113,0.3);
+    color: #f87171;
+  }
+
+  /* Ajusta margin do main para a nova largura da sidebar */
+  .main { margin-left: 256px !important; }
+
+
+
+  .logo-icon {
+  width: 42px !important;
+  height: 42px !important;
+}
+
+.logo-img-sidebar {
+  width: 90% !important;
+  height: 90% !important;
+}
+
+
+.sidebar-logo img,
+.logo-img {
+  width: 40px;   /* ajusta aqui */
+  height: 40px;
+  object-fit: contain;
+}
+
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sidebar-logo">
+      <div class="logo-icon">
+        <img src="imagens/logo.png" alt="Logo" class="logo-img-sidebar">
+      </div>
+      <div class="logo-text">Suggesto<span>Plataforma</span></div>
+    </div>
+
+    <nav class="sidebar-nav">
+      <div class="nav-section-label">Principal</div>
+      <a class="nav-item" href="inicioCli.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+          <polyline points="9 22 9 12 15 12 15 22"/>
+        </svg>
+        Início
+      </a>
+      <a class="nav-item" href="sugestoesCli.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+        </svg>
+        Minhas Sugestões
+        <span class="nav-badge">24</span>
+      </a>
+      <a class="nav-item" href="lojapontosCli.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+        </svg>
+        Pontos
+      </a>
+
+      <a class="nav-item active" href="locaisSalvosCli.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+        Locais Salvos
+      </a>
+
+
+      <a class="nav-item" href="perfilCli.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+          <circle cx="9" cy="7" r="4"/>
+        </svg>
+        Perfil
+      </a>
+      <div class="nav-section-label">Sistema</div>
+      <a class="nav-item" href="#">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <circle cx="12" cy="12" r="3"/>
+          <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+        </svg>
+        Configurações
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <div class="user-card">
+        <div class="sb-avatar">JD</div>
+        <div class="sb-user-info">
+          <div class="sb-user-name">João Davi</div>
+          <div class="sb-user-role">Cliente</div>
+        </div>
+        <button class="user-sair" title="Sair">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </aside>
+
+
+  <!-- CONTEÚDO -->
+  <main class="conteudo">
+
+    <!-- ÁREA DO MAPA (ocupa toda a parte superior) -->
+    <div class="mapa-wrap" id="mapaWrap">
+
+      <!-- Botão voltar sobre o mapa -->
+      <button class="btn-voltar" onclick="history.back()" title="Voltar">
+        <i class="fas fa-times"></i>
+      </button>
+
+      <!-- Mapa do Google -->
+      <div id="mapa" class="mapa"></div>
+
+      <!-- Overlay clicável para abrir no Google Maps -->
+      <div class="mapa-overlay" id="mapaOverlay" onclick="abrirNoMaps()" title="Abrir no Google Maps">
+        <div class="mapa-overlay-hint" id="mapaHint">
+          <i class="fas fa-external-link-alt"></i>
+          Abrir no Google Maps
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- CARD DO ESTABELECIMENTO (fica na parte inferior) -->
+    <div class="info-card" id="infoCard">
+
+      <div class="info-card-inner">
+
+        <!-- Logo + dados principais -->
+        <div class="info-topo">
+          <div class="info-logo-wrap">
+            <img
+              src="imagens/bigjack.png"
+              alt="Logo"
+              class="info-logo"
+              id="logoEstab"
+              onerror="this.style.display='none';document.getElementById('logoPlaceholder').style.display='flex'"
+            >
+            <div class="info-logo-placeholder" id="logoPlaceholder">
+              <i class="fas fa-store"></i>
+            </div>
+          </div>
+
+          <div class="info-dados">
+            <div class="info-status" id="statusEstab">
+              <span class="status-dot status-aberto" id="statusDot"></span>
+              <span class="status-texto" id="statusTexto">Aberto</span>
+              <span class="status-separador">·</span>
+              <span class="status-fecha" id="statusFecha">Fecha às 22:30</span>
+            </div>
+
+            <h2 class="info-nome" id="nomeEstab">Big Jack Hamburgueria</h2>
+
+            <div class="info-nota">
+              <i class="fas fa-star"></i>
+              <span id="notaEstab">4.8</span>
+              <span class="info-nota-total" id="totalAvaliacoes">(127 avaliações)</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Divisor -->
+        <div class="info-divisor"></div>
+
+        <!-- Detalhes -->
+        <div class="info-detalhes">
+
+          <div class="detalhe-item" id="itemEndereco" onclick="abrirNoMaps()">
+            <div class="detalhe-icone detalhe-icone-roxo">
+              <i class="fas fa-map-marker-alt"></i>
+            </div>
+            <div class="detalhe-conteudo">
+              <span class="detalhe-label">Endereço</span>
+              <span class="detalhe-valor" id="enderecoEstab">
+                R. Oliveira Cardoso, 376 – Jardim Chapadão, Campinas – SP, 13070-148
+              </span>
+            </div>
+            <i class="fas fa-chevron-right detalhe-seta"></i>
+          </div>
+
+          <div class="detalhe-item">
+            <div class="detalhe-icone detalhe-icone-verde">
+              <i class="fas fa-clock"></i>
+            </div>
+            <div class="detalhe-conteudo">
+              <span class="detalhe-label">Horário</span>
+              <span class="detalhe-valor" id="horarioEstab">Seg. a Dom.: 11:00 – 22:30</span>
+            </div>
+          </div>
+
+          <div class="detalhe-item" id="itemTelefone" onclick="ligarPara()">
+            <div class="detalhe-icone detalhe-icone-azul">
+              <i class="fas fa-phone"></i>
+            </div>
+            <div class="detalhe-conteudo">
+              <span class="detalhe-label">Telefone</span>
+              <span class="detalhe-valor" id="telefoneEstab">(19) 3210-3025</span>
+            </div>
+            <i class="fas fa-chevron-right detalhe-seta"></i>
+          </div>
+
+        </div>
+
+       
+
+      </div>
+    </div>
+
+  </main>
+
+
+  <!-- MODAL SUGESTÃO -->
+  <div class="modal-fundo" id="modalSugestao">
+    <div class="modal">
+      <div class="modal-topo">
+        <h3 class="modal-titulo">Fazer sugestão</h3>
+        <button class="modal-fechar" onclick="fecharModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <p class="modal-sub" id="modalSubtitulo">Big Jack Hamburgueria</p>
+
+      <div class="campo-grupo">
+        <label class="campo-label">Categoria</label>
+        <select class="campo-input">
+          <option>Atendimento</option>
+          <option>Estrutura</option>
+          <option>Produto / Serviço</option>
+          <option>Limpeza</option>
+          <option>Funcionamento</option>
+          <option>Outro</option>
+        </select>
+      </div>
+
+      <div class="campo-grupo">
+        <label class="campo-label">Sua sugestão</label>
+        <textarea class="campo-input campo-textarea" id="textSugestao" placeholder="Descreva sua sugestão com detalhes..."></textarea>
+      </div>
+
+      <div class="modal-acoes">
+        <button class="btn-cancelar" onclick="fecharModal()">Cancelar</button>
+        <button class="btn-salvar-modal" onclick="enviarSugestao()">
+          <i class="fas fa-paper-plane"></i>
+          Enviar
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle" id="toastIcone"></i>
+    <span id="toastMsg">Ação realizada!</span>
+  </div>
+
+
+  <!-- Leaflet.js — gratuito, sem chave, sem cadastro -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+  <script src="js/mapaCli.js"></script>
+
+</body>
+</html>

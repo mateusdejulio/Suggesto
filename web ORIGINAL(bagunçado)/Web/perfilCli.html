@@ -1,0 +1,732 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Perfil — Suggesto</title>
+  <link rel="icon" type="image/png" href="imagens/logo.png">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/perfilCli.css">
+
+  <style>
+
+    .sidebar {
+    width: 256px;
+    min-height: 100vh;
+    background: #0f0e1c;
+    border-right: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    flex-direction: column;
+    position: fixed;
+    top: 0; left: 0; bottom: 0;
+    z-index: 10;
+    overflow: hidden;
+  }
+
+  .sidebar::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, #7c6dfa, transparent);
+    opacity: 0.4;
+  }
+
+  .sidebar-logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 28px 20px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .logo-icon {
+    width: 38px; height: 38px;
+    background: linear-gradient(135deg, #7c6dfa 0%, #a78bfa 100%);
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 14px rgba(124,109,250,0.35);
+    flex-shrink: 0;
+  }
+
+  .logo-img-sidebar {
+    width: 22px; height: 22px;
+    object-fit: contain;
+  }
+
+  .logo-text {
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    color: #e8e6ff;
+    letter-spacing: -0.01em;
+  }
+  .logo-text span {
+    display: block;
+    font-size: 10px;
+    font-weight: 400;
+    color: #6b6890;
+    font-family: 'DM Sans', sans-serif;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    margin-top: 1px;
+  }
+
+  .sidebar-nav {
+    flex: 1;
+    padding: 16px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow-y: auto;
+  }
+
+  .nav-section-label {
+    font-size: 9px;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #6b6890;
+    padding: 16px 8px 6px;
+    font-weight: 600;
+    opacity: 0.6;
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 9px 12px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 13.5px;
+    font-weight: 500;
+    color: #6b6890;
+    transition: all 0.18s ease;
+    text-decoration: none;
+    position: relative;
+    letter-spacing: 0.01em;
+    border: 1px solid transparent;
+  }
+
+  .nav-item:hover {
+    background: rgba(255,255,255,0.05);
+    color: #9b97c4;
+  }
+
+  .nav-item.active {
+    background: linear-gradient(90deg, rgba(124,109,250,0.18), rgba(124,109,250,0.06));
+    color: #e8e6ff;
+    border-color: rgba(124,109,250,0.2);
+  }
+
+  .nav-item.active::before {
+    content: '';
+    position: absolute;
+    left: -1px; top: 25%; bottom: 25%;
+    width: 3px;
+    background: linear-gradient(to bottom, #7c6dfa, #a78bfa);
+    border-radius: 0 3px 3px 0;
+  }
+
+  .nav-icon {
+    width: 17px; height: 17px;
+    flex-shrink: 0;
+    opacity: 0.5;
+    transition: opacity 0.18s;
+  }
+  .nav-item:hover .nav-icon { opacity: 0.75; }
+  .nav-item.active .nav-icon { opacity: 1; }
+
+  .nav-badge {
+    margin-left: auto;
+    background: rgba(124,109,250,0.2);
+    color: #a78bfa;
+    font-size: 10px;
+    font-weight: 700;
+    padding: 2px 8px;
+    border-radius: 20px;
+    border: 1px solid rgba(124,109,250,0.25);
+    letter-spacing: 0.02em;
+  }
+
+  .sidebar-footer {
+    padding: 12px;
+    border-top: 1px solid rgba(255,255,255,0.05);
+    flex-shrink: 0;
+  }
+
+  .user-card {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.18s;
+    border: 1px solid transparent;
+  }
+  .user-card:hover {
+    background: rgba(255,255,255,0.04);
+    border-color: rgba(255,255,255,0.06);
+  }
+
+  .sb-avatar {
+    width: 34px; height: 34px;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #7c6dfa, #a78bfa);
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700; font-size: 12px; color: #fff;
+    flex-shrink: 0;
+    box-shadow: 0 2px 8px rgba(124,109,250,0.3);
+    letter-spacing: 0.04em;
+  }
+
+  .sb-user-info { flex: 1; min-width: 0; }
+  .sb-user-name {
+    font-size: 13px; font-weight: 600;
+    color: #e8e6ff;
+    white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+    letter-spacing: -0.01em;
+  }
+  .sb-user-role { font-size: 11px; color: #6b6890; margin-top: 1px; }
+
+  .user-sair {
+    width: 28px; height: 28px;
+    border-radius: 6px;
+    background: none;
+    border: 1px solid rgba(255,255,255,0.07);
+    color: #6b6890;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    transition: all 0.18s;
+    flex-shrink: 0;
+  }
+  .user-sair:hover {
+    background: rgba(248,113,113,0.13);
+    border-color: rgba(248,113,113,0.3);
+    color: #f87171;
+  }
+
+  /* Ajusta margin do main para a nova largura da sidebar */
+  .main { margin-left: 256px !important; }
+  </style>
+</head>
+<body>
+
+  <!-- SIDEBAR -->
+<aside class="sidebar">
+
+  <div class="sidebar-logo">
+    <div class="logo-icon">
+       <img src="imagens/logo.png" alt="Logo" class="logo-img-sidebar">
+    </div>
+    <div class="logo-text">
+      Suggesto
+      <span>Clientes</span>
+    </div>
+  </div>
+
+  <nav class="sidebar-nav">
+    <div class="nav-section-label">Principal</div>
+
+    <a class="nav-item" href="inicioCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+        <polyline points="9 22 9 12 15 12 15 22"/>
+      </svg>
+      Início
+    </a>
+
+    <a class="nav-item" href="sugestoesCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+      </svg>
+      Minhas Sugestões
+      <span class="nav-badge">24</span>
+    </a>
+
+    <a class="nav-item" href="lojaPontosCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M18 20V10M12 20V4M6 20v-6"/>
+      </svg>
+      Pontos
+    </a>
+
+    <a class="nav-item " href="locaisSalvosCli.html">
+        <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+        </svg>
+        Locais Salvos
+      </a>
+
+    <a class="nav-item active" href="perfilCli.html">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+        <circle cx="9" cy="7" r="4"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>
+      </svg>
+      Perfíl
+    </a>
+
+    <div class="nav-section-label">Sistema</div>
+
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <circle cx="12" cy="12" r="3"/>
+        <path d="M19.07 4.93a10 10 0 0 1 0 14.14M4.93 4.93a10 10 0 0 0 0 14.14"/>
+      </svg>
+      Configurações
+    </a>
+
+    <a class="nav-item" href="#">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      Notificações
+    </a>
+  </nav>
+
+  <div class="sidebar-footer">
+    <div class="user-card">
+      <div class="sb-avatar" id="sidebarAvatar" >CL</div>
+      <div class="sb-user-info">
+        <div class="sb-user-name" id = "sidebarNome">Carregando...</div>
+        <div class="sb-user-role">Cliente</div>
+      </div>
+      <button class="user-sair" title="Sair" onclick="abrirModalSair()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+          <polyline points="16 17 21 12 16 7"/>
+          <line x1="21" y1="12" x2="9" y2="12"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+</aside>
+
+  <!-- CONTEÚDO PRINCIPAL -->
+  <main class="conteudo">
+
+    <!-- CABEÇALHO -->
+    <header class="conteudo-header">
+      <div>
+        <p class="header-saudacao">Meu espaço</p>
+        <h1 class="header-titulo">Perfil</h1>
+      </div>
+      <div class="header-acoes">
+        <button class="header-notif" title="Notificações">
+          <i class="fas fa-bell"></i>
+          <span class="notif-bolinha"></span>
+        </button>
+        <button class="header-notif" title="Configurações" onclick="abrirConfiguracoes()">
+          <i class="fas fa-cog"></i>
+        </button>
+      </div>
+    </header>
+
+    <!-- HERO DO PERFIL -->
+    <section class="perfil-hero">
+      <div class="hero-fundo">
+        <div class="hero-orb hero-orb-1"></div>
+        <div class="hero-orb hero-orb-2"></div>
+        <div class="hero-orb hero-orb-3"></div>
+      </div>
+
+      <div class="hero-conteudo">
+        <!-- Avatar -->
+        <div class="avatar-wrapper">
+          <div class="avatar-ring"></div>
+          <div class="avatar-foto">
+            <img src="https://i.pravatar.cc/120?img=47" alt="Manuela" onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-iniciais').style.display='flex'">
+            <div class="avatar-iniciais">MN</div>
+          </div>
+          <button class="avatar-editar" title="Editar foto">
+            <i class="fas fa-camera"></i>
+          </button>
+        </div>
+
+        <!-- Dados principais -->
+        <div class="hero-dados">
+          <div class="hero-nome-linha">
+            <h2 class="hero-nome">Manuela</h2>
+            <div class="hero-nivel">
+              <span class="nivel-badge nivel-ouro">
+                <i class="fas fa-medal"></i>
+                Ouro
+              </span>
+            </div>
+          </div>
+          <p class="hero-email">manuela@gmail.com</p>
+          <p class="hero-membro">Membro desde março de 2024</p>
+        </div>
+
+        <!-- Botão editar -->
+        <button class="botao-editar-perfil" onclick="abrirEdicao()">
+          <i class="fas fa-pen"></i>
+          Editar perfil
+        </button>
+      </div>
+
+      <!-- Stats rápidos -->
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-valor">42</span>
+          <span class="stat-label">Sugestões</span>
+        </div>
+        <div class="stat-divisor"></div>
+        <div class="stat-item">
+          <span class="stat-valor">1.240</span>
+          <span class="stat-label">Pontos</span>
+        </div>
+        <div class="stat-divisor"></div>
+        <div class="stat-item">
+          <span class="stat-valor">8</span>
+          <span class="stat-label">Salvos</span>
+        </div>
+        <div class="stat-divisor"></div>
+        <div class="stat-item">
+          <span class="stat-valor">93%</span>
+          <span class="stat-label">Aprovadas</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- GRID PRINCIPAL -->
+    <div class="perfil-grid">
+
+      <!-- COLUNA ESQUERDA -->
+      <div class="perfil-col-esq">
+
+        <!-- MENU DE NAVEGAÇÃO DO PERFIL -->
+        <div class="card-secao">
+          <h3 class="secao-titulo">Minha conta</h3>
+          <div class="menu-lista">
+
+            <button class="menu-item" onclick="abrirSecao('locais-salvos')">
+              <div class="menu-item-esq">
+                <div class="menu-icone menu-icone-roxo">
+                  <i class="fas fa-bookmark"></i>
+                </div>
+                <div>
+                  <p class="menu-item-titulo">Locais Salvos</p>
+                  <p class="menu-item-sub">8 estabelecimentos favoritos</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right menu-seta"></i>
+            </button>
+
+            <button class="menu-item" onclick="abrirSecao('minhas-sugestoes')">
+              <div class="menu-item-esq">
+                <div class="menu-icone menu-icone-azul">
+                  <i class="fas fa-comment-dots"></i>
+                </div>
+                <div>
+                  <p class="menu-item-titulo">Minhas Sugestões</p>
+                  <p class="menu-item-sub">42 sugestões enviadas</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right menu-seta"></i>
+            </button>
+
+            <button class="menu-item" onclick="abrirSecao('contribuicao')">
+              <div class="menu-item-esq">
+                <div class="menu-icone menu-icone-verde">
+                  <i class="fas fa-chart-bar"></i>
+                </div>
+                <div>
+                  <p class="menu-item-titulo">Contribuição</p>
+                  <p class="menu-item-sub">Veja seu impacto</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right menu-seta"></i>
+            </button>
+
+            <button class="menu-item" onclick="abrirSecao('historico')">
+              <div class="menu-item-esq">
+                <div class="menu-icone menu-icone-laranja">
+                  <i class="fas fa-history"></i>
+                </div>
+                <div>
+                  <p class="menu-item-titulo">Histórico de Pontos</p>
+                  <p class="menu-item-sub">Transações e resgates</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right menu-seta"></i>
+            </button>
+
+          </div>
+        </div>
+
+        <!-- CONFIGURAÇÕES -->
+        <div class="card-secao">
+          <h3 class="secao-titulo">Preferências</h3>
+          <div class="menu-lista">
+
+            <button class="menu-item" onclick="abrirSecao('notificacoes')">
+              <div class="menu-item-esq">
+                <div class="menu-icone menu-icone-roxo">
+                  <i class="fas fa-bell"></i>
+                </div>
+                <div>
+                  <p class="menu-item-titulo">Notificações</p>
+                  <p class="menu-item-sub">Gerenciar alertas</p>
+                </div>
+              </div>
+              <div class="toggle-wrapper">
+                <div class="toggle ativo" onclick="toggleSwitch(this, event)"></div>
+              </div>
+            </button>
+
+            <button class="menu-item" onclick="abrirSecao('privacidade')">
+              <div class="menu-item-esq">
+                <div class="menu-icone menu-icone-azul">
+                  <i class="fas fa-shield-alt"></i>
+                </div>
+                <div>
+                  <p class="menu-item-titulo">Privacidade</p>
+                  <p class="menu-item-sub">Dados e visibilidade</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right menu-seta"></i>
+            </button>
+
+            <button class="menu-item menu-item-perigo" onclick="confirmarSaida()">
+              <div class="menu-item-esq">
+                <div class="menu-icone menu-icone-vermelho">
+                  <i class="fas fa-sign-out-alt"></i>
+                </div>
+                <div>
+                  <p class="menu-item-titulo">Sair da conta</p>
+                  <p class="menu-item-sub">Encerrar sessão</p>
+                </div>
+              </div>
+              <i class="fas fa-chevron-right menu-seta"></i>
+            </button>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- COLUNA DIREITA -->
+      <div class="perfil-col-dir">
+
+        <!-- CARD DE NÍVEL / PROGRESSO -->
+        <div class="card-secao card-nivel">
+          <div class="nivel-topo">
+            <div>
+              <h3 class="secao-titulo" style="margin-bottom:4px">Nível atual</h3>
+              <p class="nivel-desc">Você está quase alcançando Platina!</p>
+            </div>
+            <div class="nivel-badge-grande nivel-ouro">
+              <i class="fas fa-medal"></i>
+              Ouro
+            </div>
+          </div>
+
+          <div class="nivel-progresso-wrapper">
+            <div class="nivel-progresso-labels">
+              <span>Ouro</span>
+              <span>1.240 / 2.000 pts</span>
+              <span>Platina</span>
+            </div>
+            <div class="nivel-barra">
+              <div class="nivel-barra-fill" style="width: 62%">
+                <div class="nivel-barra-brilho"></div>
+              </div>
+            </div>
+            <p class="nivel-faltam"><i class="fas fa-bolt"></i> Faltam 760 pontos para Platina</p>
+          </div>
+
+          <div class="nivel-beneficios">
+            <p class="beneficios-titulo">Benefícios Ouro</p>
+            <div class="beneficios-lista">
+              <div class="beneficio-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Prioridade nas respostas</span>
+              </div>
+              <div class="beneficio-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Badge exclusivo no perfil</span>
+              </div>
+              <div class="beneficio-item">
+                <i class="fas fa-check-circle"></i>
+                <span>Desconto em parceiros</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- ATIVIDADE RECENTE -->
+        <div class="card-secao">
+          <div class="secao-topo">
+            <h3 class="secao-titulo">Atividade Recente</h3>
+            <button class="ver-tudo" onclick="abrirSecao('minhas-sugestoes')">Ver tudo</button>
+          </div>
+
+          <div class="atividade-lista">
+
+            <div class="atividade-item">
+              <div class="atividade-icone atividade-aprovada">
+                <i class="fas fa-check"></i>
+              </div>
+              <div class="atividade-info">
+                <p class="atividade-titulo">Sugestão aprovada</p>
+                <p class="atividade-sub">Big Jack Hamburgueria · Atendimento</p>
+              </div>
+              <div class="atividade-pontos atividade-pontos-positivo">+30 pts</div>
+            </div>
+
+            <div class="atividade-item">
+              <div class="atividade-icone atividade-enviada">
+                <i class="fas fa-paper-plane"></i>
+              </div>
+              <div class="atividade-info">
+                <p class="atividade-titulo">Sugestão enviada</p>
+                <p class="atividade-sub">Café do Centro · Produto/Serviço</p>
+              </div>
+              <div class="atividade-data">há 2 dias</div>
+            </div>
+
+            <div class="atividade-item">
+              <div class="atividade-icone atividade-aprovada">
+                <i class="fas fa-check"></i>
+              </div>
+              <div class="atividade-info">
+                <p class="atividade-titulo">Sugestão aprovada</p>
+                <p class="atividade-sub">SmartFit Campinas · Estrutura</p>
+              </div>
+              <div class="atividade-pontos atividade-pontos-positivo">+30 pts</div>
+            </div>
+
+            <div class="atividade-item">
+              <div class="atividade-icone atividade-salvo">
+                <i class="fas fa-bookmark"></i>
+              </div>
+              <div class="atividade-info">
+                <p class="atividade-titulo">Local salvo</p>
+                <p class="atividade-sub">Cantina Italiana · Vila Nova</p>
+              </div>
+              <div class="atividade-data">há 5 dias</div>
+            </div>
+
+            <div class="atividade-item">
+              <div class="atividade-icone atividade-enviada">
+                <i class="fas fa-paper-plane"></i>
+              </div>
+              <div class="atividade-info">
+                <p class="atividade-titulo">Sugestão enviada</p>
+                <p class="atividade-sub">PanoBianco Academia · Preço</p>
+              </div>
+              <div class="atividade-data">há 1 sem.</div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- CONQUISTAS -->
+        <div class="card-secao">
+          <div class="secao-topo">
+            <h3 class="secao-titulo">Conquistas</h3>
+            <button class="ver-tudo">Ver todas</button>
+          </div>
+          <div class="conquistas-grid">
+            <div class="conquista-item conquista-desbloqueada" title="Primeira Sugestão">
+              <div class="conquista-icone"><i class="fas fa-paper-plane"></i></div>
+              <span class="conquista-nome">Pioneiro</span>
+            </div>
+            <div class="conquista-item conquista-desbloqueada" title="10 sugestões enviadas">
+              <div class="conquista-icone"><i class="fas fa-fire"></i></div>
+              <span class="conquista-nome">Em chamas</span>
+            </div>
+            <div class="conquista-item conquista-desbloqueada" title="Sugestão aprovada">
+              <div class="conquista-icone"><i class="fas fa-trophy"></i></div>
+              <span class="conquista-nome">Vencedor</span>
+            </div>
+            <div class="conquista-item conquista-desbloqueada" title="Nível Ouro">
+              <div class="conquista-icone"><i class="fas fa-medal"></i></div>
+              <span class="conquista-nome">Ouro</span>
+            </div>
+            <div class="conquista-item conquista-bloqueada" title="50 sugestões enviadas">
+              <div class="conquista-icone"><i class="fas fa-star"></i></div>
+              <span class="conquista-nome">Veterano</span>
+            </div>
+            <div class="conquista-item conquista-bloqueada" title="Nível Platina">
+              <div class="conquista-icone"><i class="fas fa-gem"></i></div>
+              <span class="conquista-nome">Platina</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- MODAL EDITAR PERFIL -->
+  <div class="modal-fundo" id="modalEdicao">
+    <div class="modal">
+      <div class="modal-topo">
+        <h3 class="modal-titulo">Editar perfil</h3>
+        <button class="modal-fechar" onclick="fecharModal('modalEdicao')"><i class="fas fa-times"></i></button>
+      </div>
+
+      <div class="campo-grupo">
+        <label class="campo-label">Nome</label>
+        <input type="text" class="campo-input" value="Manuela" placeholder="Seu nome">
+      </div>
+
+      <div class="campo-grupo">
+        <label class="campo-label">E-mail</label>
+        <input type="email" class="campo-input" value="manuela@gmail.com" placeholder="Seu e-mail">
+      </div>
+
+      <div class="campo-grupo">
+        <label class="campo-label">Telefone</label>
+        <input type="tel" class="campo-input" placeholder="(00) 00000-0000">
+      </div>
+
+      <div class="campo-grupo">
+        <label class="campo-label">Cidade</label>
+        <input type="text" class="campo-input" value="Campinas, SP" placeholder="Sua cidade">
+      </div>
+
+      <button class="botao-modal" onclick="salvarEdicao()">
+        <i class="fas fa-check"></i>
+        Salvar alterações
+      </button>
+    </div>
+  </div>
+
+  <!-- MODAL CONFIRMAÇÃO SAÍDA -->
+  <div class="modal-fundo" id="modalSaida">
+    <div class="modal modal-pequeno">
+      <div class="modal-topo">
+        <h3 class="modal-titulo">Sair da conta?</h3>
+        <button class="modal-fechar" onclick="fecharModal('modalSaida')"><i class="fas fa-times"></i></button>
+      </div>
+      <p class="modal-sub">Tem certeza que deseja encerrar sua sessão? Você precisará fazer login novamente.</p>
+      <div class="modal-botoes">
+        <button class="botao-modal-sec" onclick="fecharModal('modalSaida')">Cancelar</button>
+        <button class="botao-modal botao-modal-perigo">
+          <i class="fas fa-sign-out-alt"></i>
+          Sair
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST -->
+  <div class="toast" id="toast">
+    <i class="fas fa-check-circle"></i>
+    <span id="toastMsg">Salvo com sucesso!</span>
+  </div>
+
+  <script src="js/perfilCli.js"></script>
+</body>
+</html>

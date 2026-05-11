@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+  <link rel="icon" type="image/png" href="imagens/logo.png">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suggesto - Login</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="css/cadastro.css">
+</head>
+
+<body>
+  <div class="cadastro-page">
+    <div class="cadastro-card">
+      <div class="logo-area">
+        <h2 class="titulo">Cadastre-se</h2>
+      </div>
+
+      <div class="form">
+    <input type="text" id="usuario" placeholder="Nome de Usuário">
+    <input type="email" id="email" placeholder="Email">
+    <input type="password" id="senha" placeholder="Senha">
+    <input type="password" id="confirmarSenha" placeholder="Confirme sua senha">
+
+    <div class="radio-group">
+        <label class="radio-container" for="cliente">
+            <input type="radio" id="cliente" name="role" value="cliente" checked>
+            <span class="checkmark"></span>
+            Cliente
+        </label>
+
+        <label class="radio-container" for="admin">
+            <input type="radio" id="admin" name="role" value="admin" onchange="window.location.href='planos.html'">
+            <span class="checkmark"></span>
+            Administrador
+        </label>
+    </div>
+      
+
+    <button onclick="cadastrar()">Cadastrar</button>
+</div>
+    </div>
+  </div>
+
+  <div class="toast-erro" id="toastErro">
+        <span id="toastMsgErro">Mensagem de erro aqui</span>
+    </div>
+
+  <script src="js/cadastro.js" defer></script>
+</body>
+
+</html>

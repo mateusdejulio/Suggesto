@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Suggesto — Deixe sua opinião</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=DM+Sans:ital,wght@0,400;0,500;0,600;1,400&display=swap" rel="stylesheet">
+<style>
+/* ─── RESET & BASE ─────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:        #07070f;
+  --surface:   #0e0e1c;
+  --border:    rgba(255,255,255,.07);
+  --border-md: rgba(255,255,255,.12);
+  --purple:    #a78bfa;
+  --purple-dim: rgba(167,139,250,.15);
+  --purple-glow: rgba(167,139,250,.25);
+  --text:      #e2e2f0;
+  --muted:     #5a5a78;
+  --muted-lt:  #8888aa;
+  --green:     #4ade80;
+  --yellow:    #fbbf24;
+  --red:       #f87171;
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'DM Sans', sans-serif;
+  --radius:    14px;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+
+/* ─── NOISE TEXTURE ────────────────────────────────────────────────────────── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 0; opacity: .4;
+}
+
+/* ─── GLOWS ────────────────────────────────────────────────────────────────── */
+.glow-tl {
+  position: fixed; top: -160px; left: -120px;
+  width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(167,139,250,.12) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+.glow-br {
+  position: fixed; bottom: -120px; right: -80px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(74,222,128,.06) 0%, transparent 65%);
+  pointer-events: none; z-index: 0;
+}
+
+/* ─── LAYOUT ───────────────────────────────────────────────────────────────── */
+.page {
+  position: relative; z-index: 1;
+  min-height: 100vh;
+  display: flex; flex-direction: column; align-items: center;
+  padding: 0 20px 80px;
+}
+
+/* ─── TOPO E BOTÃO VOLTAR ──────────────────────────────────────────────────── */
+.topo {
+  width: 100%; max-width: 560px;
+  padding: 36px 0 0;
+  display: flex; align-items: center; justify-content: space-between;
+  animation: fadeDown .5s ease both;
+}
+.topo-esquerda {
+  display: flex; align-items: center; gap: 12px;
+}
+.btn-voltar-global {
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  color: var(--muted-lt);
+  width: 34px; height: 34px;
+  border-radius: 9px;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; transition: all .2s;
+}
+.btn-voltar-global:hover {
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border-color: var(--border-md);
+}
+
+.logo-wrap { display: flex; align-items: center; gap: 8px; }
+.logo-mark {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: var(--purple-dim);
+  border: 1px solid var(--purple-glow);
+  color: var(--purple);
+  display: flex; align-items: center; justify-content: center;
+}
+.logo-name {
+  font-family: var(--font-head);
+  font-size: .95rem; font-weight: 800; color: #fff;
+  letter-spacing: -.3px;
+}
+.data-badge {
+  font-size: .7rem; font-weight: 600;
+  color: var(--muted); letter-spacing: .5px;
+  background: rgba(255,255,255,.04);
+  border: 1px solid var(--border);
+  border-radius: 999px; padding: 5px 12px;
+}
+
+/* ─── HERO ─────────────────────────────────────────────────────────────────── */
+.hero {
+  width: 100%; max-width: 560px;
+  padding: 52px 0 36px;
+  animation: fadeDown .55s .08s ease both;
+  display: none; /* Começa oculto */
+}
+.estab-chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: var(--purple-dim);
+  border: 1px solid var(--purple-glow);
+  border-radius: 999px; padding: 5px 14px 5px 8px;
+  margin-bottom: 20px;
+}
+.estab-dot {
+  width: 20px; height: 20px; border-radius: 6px;
+  background: rgba(167,139,250,.3);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px;
+}
+.estab-chip span {
+  font-size: .72rem; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase; color: var(--purple);
+}
+.hero-titulo {
+  font-family: var(--font-head);
+  font-size: clamp(2.2rem, 6vw, 3.4rem);
+  font-weight: 800; color: #fff;
+  letter-spacing: -2.5px; line-height: 1.05;
+  margin-bottom: 14px;
+}
+.hero-titulo em { font-style: normal; color: var(--purple); }
+.hero-sub {
+  font-size: 1rem; color: var(--muted-lt);
+  line-height: 1.65; max-width: 420px;
+}
+
+/* ─── CARD FORMULÁRIO ──────────────────────────────────────────────────────── */
+.form-card {
+  width: 100%; max-width: 560px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  overflow: hidden;
+  animation: fadeUp .55s .15s ease both;
+  display: none; /* Começa oculto */
+}
+
+/* ─── PASSO INDICATOR ──────────────────────────────────────────────────────── */
+.passos {
+  padding: 20px 28px;
+  border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 8px;
+}
+.passo {
+  display: flex; align-items: center; gap: 7px;
+  font-size: .7rem; font-weight: 700;
+  letter-spacing: .8px; text-transform: uppercase;
+  color: var(--muted); transition: color .3s;
+}
+.passo.ativo { color: var(--purple); }
+.passo.concluido { color: var(--green); }
+.passo-num {
+  width: 22px; height: 22px; border-radius: 6px;
+  border: 1px solid currentColor;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .65rem; transition: background .3s;
+}
+.passo.ativo .passo-num { background: var(--purple-dim); }
+.passo.concluido .passo-num { background: rgba(74,222,128,.12); border-color: var(--green); }
+.passo-sep { flex: 1; height: 1px; background: var(--border); }
+
+/* ─── SEÇÕES DO FORM ───────────────────────────────────────────────────────── */
+.secao {
+  padding: 28px 28px 0;
+  display: none; flex-direction: column; gap: 22px;
+  animation: fadeUp .3s ease both;
+}
+.secao.ativa { display: flex; }
+
+/* ─── CAMPO ────────────────────────────────────────────────────────────────── */
+.campo { display: flex; flex-direction: column; gap: 9px; }
+.campo label {
+  font-size: .65rem; font-weight: 700;
+  letter-spacing: 1.2px; text-transform: uppercase;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 5px;
+}
+.campo label .obrig { color: var(--purple); }
+
+/* ─── CATEGORIAS (chips clicáveis) ────────────────────────────────────────── */
+.chips-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  gap: 10px;
+}
+.chip-cat {
+  display: flex; align-items: center; gap: 10px;
+  background: rgba(255,255,255,.03);
+  border: 1px solid var(--border);
+  border-radius: 12px; padding: 13px 16px;
+  cursor: pointer; transition: all .18s; user-select: none;
+}
+.chip-cat:hover { border-color: var(--purple-glow); background: var(--purple-dim); }
+.chip-cat.selecionado { border-color: var(--purple); background: var(--purple-dim); box-shadow: 0 0 0 1px var(--purple); }
+.chip-ico {
+  width: 32px; height: 32px; border-radius: 8px;
+  background: rgba(255,255,255,.05);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 15px; flex-shrink: 0; transition: background .18s;
+}
+.chip-cat.selecionado .chip-ico { background: rgba(167,139,250,.2); }
+.chip-txt { font-size: .82rem; font-weight: 600; color: var(--muted-lt); line-height: 1.3; }
+.chip-cat.selecionado .chip-txt { color: var(--purple); }
+
+/* ─── NOTA (estrelas) ──────────────────────────────────────────────────────── */
+.nota-wrap { display: flex; flex-direction: column; gap: 14px; }
+.estrelas { display: flex; gap: 10px; }
+.estrela {
+  width: 48px; height: 48px; border-radius: 12px;
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; cursor: pointer; transition: all .18s; user-select: none;
+  filter: grayscale(1); opacity: .4;
+}
+.estrela:hover, .estrela.hover { filter: none; opacity: .7; transform: scale(1.1); }
+.estrela.ativa { filter: none; opacity: 1; transform: scale(1.08); background: rgba(251,191,36,.1); border-color: rgba(251,191,36,.3); }
+.nota-label { font-size: .82rem; font-weight: 600; color: var(--muted-lt); min-height: 20px; transition: color .2s; }
+.nota-bar { height: 3px; border-radius: 999px; background: rgba(255,255,255,.06); overflow: hidden; }
+.nota-progress { height: 100%; border-radius: 999px; background: var(--yellow); width: 0%; transition: width .35s cubic-bezier(.4,0,.2,1), background .35s; }
+
+/* ─── TEXTAREA ─────────────────────────────────────────────────────────────── */
+.textarea-wrap { position: relative; }
+textarea {
+  width: 100%; min-height: 130px; background: rgba(255,255,255,.03);
+  border: 1px solid var(--border); border-radius: 13px; padding: 15px 18px;
+  color: var(--text); font-family: var(--font-body); font-size: .92rem; line-height: 1.65;
+  resize: vertical; outline: none; transition: border-color .18s, background .18s;
+}
+textarea::placeholder { color: var(--muted); font-style: italic; }
+textarea:focus { border-color: var(--purple-glow); background: rgba(167,139,250,.05); box-shadow: 0 0 0 3px rgba(167,139,250,.08); }
+.char-count { position: absolute; bottom: 12px; right: 14px; font-size: .68rem; color: var(--muted); pointer-events: none; transition: color .2s; }
+.char-count.quase { color: var(--yellow); }
+.char-count.limite { color: var(--red); }
+
+/* ─── TIPO (sugestão / crítica / elogio) ───────────────────────────────────── */
+.tipo-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+.tipo-btn {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  background: rgba(255,255,255,.03); border: 1px solid var(--border); border-radius: 13px; padding: 18px 12px;
+  cursor: pointer; transition: all .18s; user-select: none;
+}
+.tipo-btn .tipo-ico { font-size: 22px; }
+.tipo-btn .tipo-nome { font-size: .75rem; font-weight: 700; color: var(--muted-lt); }
+.tipo-btn:hover { background: rgba(255,255,255,.06); border-color: var(--border-md); }
+.tipo-btn.selecionado.sugestao  { border-color: var(--purple); background: var(--purple-dim); }
+.tipo-btn.selecionado.critica   { border-color: var(--red);    background: rgba(248,113,113,.1); }
+.tipo-btn.selecionado.elogio    { border-color: var(--green);  background: rgba(74,222,128,.1); }
+.tipo-btn.selecionado .tipo-nome { color: #fff; }
+
+/* ─── RODAPÉ DO FORM ───────────────────────────────────────────────────────── */
+.form-footer { padding: 24px 28px 28px; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+.btn-back {
+  background: transparent; border: 1px solid var(--border); color: var(--muted-lt); padding: 12px 22px;
+  border-radius: 11px; font-size: .85rem; font-weight: 600; font-family: var(--font-body); cursor: pointer;
+  transition: all .18s; display: none;
+}
+.btn-back:hover { background: rgba(255,255,255,.05); }
+.btn-next, .btn-enviar {
+  display: flex; align-items: center; gap: 8px; background: var(--purple-dim); border: 1px solid var(--purple-glow);
+  color: var(--purple); padding: 12px 28px; border-radius: 11px; font-size: .88rem; font-weight: 700;
+  font-family: var(--font-body); cursor: pointer; transition: all .2s; margin-left: auto;
+}
+.btn-next:hover, .btn-enviar:hover { background: rgba(167,139,250,.28); border-color: var(--purple); color: #fff; }
+.btn-enviar { display: none; }
+.btn-enviar:disabled { opacity: .5; cursor: not-allowed; }
+
+/* ─── SPINNER & SUCESSO ────────────────────────────────────────────────────── */
+.spinner { width: 14px; height: 14px; border-radius: 50%; border: 2px solid rgba(167,139,250,.3); border-top-color: var(--purple); animation: giro .7s linear infinite; display: none; }
+.sucesso { width: 100%; max-width: 560px; display: none; flex-direction: column; align-items: center; text-align: center; padding: 60px 20px; animation: fadeUp .5s ease both; }
+.sucesso-ico { width: 72px; height: 72px; border-radius: 20px; background: rgba(74,222,128,.12); border: 1px solid rgba(74,222,128,.3); display: flex; align-items: center; justify-content: center; font-size: 32px; margin-bottom: 24px; animation: pulse 2s ease infinite; }
+.sucesso-titulo { font-family: var(--font-head); font-size: 2rem; font-weight: 800; color: #fff; letter-spacing: -1px; margin-bottom: 12px; }
+.sucesso-sub { font-size: .95rem; color: var(--muted-lt); line-height: 1.65; max-width: 360px; margin-bottom: 36px; }
+.btn-nova { background: var(--purple-dim); border: 1px solid var(--purple-glow); color: var(--purple); padding: 13px 28px; border-radius: 12px; font-size: .88rem; font-weight: 700; font-family: var(--font-body); cursor: pointer; transition: all .2s; }
+.btn-nova:hover { background: rgba(167,139,250,.28); border-color: var(--purple); color: #fff; }
+
+/* ─── ANIMAÇÕES E EXTRAS ───────────────────────────────────────────────────── */
+@keyframes fadeDown { from { opacity: 0; transform: translateY(-16px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes giro { to { transform: rotate(360deg); } }
+@keyframes pulse { 0%,100% { box-shadow: 0 0 0 0 rgba(74,222,128,.3); } 50% { box-shadow: 0 0 0 12px rgba(74,222,128,0); } }
+
+.page-footer { margin-top: 32px; font-size: .7rem; color: var(--muted); text-align: center; opacity: .6; animation: fadeUp .5s .3s ease both; }
+.page-footer span { color: var(--purple); }
+
+@media (max-width: 520px) {
+  .form-card { border-radius: 18px; }
+  .secao { padding: 22px 20px 0; }
+  .form-footer { padding: 20px 20px 24px; }
+  .passos { padding: 16px 20px; }
+  .chips-grid { grid-template-columns: 1fr 1fr; }
+  .hero-titulo { letter-spacing: -1.8px; }
+  .btn-back { display: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="glow-tl"></div>
+<div class="glow-br"></div>
+
+<div class="page">
+
+  <!-- ── TOPO INTELIGENTE COM BOTÃO VOLTAR ─────────────────────────────────── -->
+  <div class="topo">
+    <div class="topo-esquerda">
+      <!-- Botão Voltar -->
+      <button class="btn-voltar-global" onclick="acaoVoltar()" title="Voltar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="19" y1="12" x2="5" y2="12"></line>
+          <polyline points="12 19 5 12 12 5"></polyline>
+        </svg>
+      </button>
+
+      <div class="logo-wrap">
+        <div class="logo-mark">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <span class="logo-name">Suggesto</span>
+      </div>
+    </div>
+    
+    <span class="data-badge" id="data-hoje"></span>
+  </div>
+
+  <!-- ── HERO ──────────────────────────────────────────────────────────────── -->
+  <div class="hero">
+    <div class="estab-chip">
+      <div class="estab-dot">📍</div>
+      <span id="nome-estab">Café Central</span>
+    </div>
+    <h1 class="hero-titulo">
+      Sua opinião<br>
+      <em>importa aqui.</em>
+    </h1>
+    <p class="hero-sub">
+      Leva menos de um minuto. Cada feedback é lido pela equipe e ajuda a tornar sua experiência ainda melhor.
+    </p>
+  </div>
+
+  <!-- ── SEÇÃO DE PESQUISA ─────────────────────────────────────────────────── -->
+  <div id="secao-pesquisa" style="display: none; width: 100%; max-width: 560px; animation: fadeUp 0.5s ease both; margin-top: 40px;">
+    <div class="campo" style="margin-bottom: 30px">
+      <label>Para qual lugar é sua sugestão?</label>
+      <input type="text" id="input-busca" placeholder="Digite o nome do estabelecimento..." oninput="filtrarLocais()"
+        style="width: 100%; background: var(--surface); border: 1px solid var(--border); padding: 15px; border-radius: 14px; color: #fff; outline: none;" />
+    </div>
+    <div id="grade-locais" style="display: grid; gap: 15px; max-height: 400px; overflow-y: auto; padding-right: 10px;">
+        <!-- Os locais vão aparecer aqui -->
+    </div>
+  </div>
+
+  <!-- ── FORMULÁRIO ─────────────────────────────────────────────────────────── -->
+  <div class="form-card" id="form-card">
+
+    <div class="passos">
+      <div class="passo ativo" id="passo-1"><div class="passo-num">1</div>Categoria</div>
+      <div class="passo-sep"></div>
+      <div class="passo" id="passo-2"><div class="passo-num">2</div>Avaliação</div>
+      <div class="passo-sep"></div>
+      <div class="passo" id="passo-3"><div class="passo-num">3</div>Mensagem</div>
+    </div>
+
+    <!-- SEÇÃO 1 -->
+    <div class="secao ativa" id="secao-1">
+      <div class="campo">
+        <label>Tipo de feedback <span class="obrig">*</span></label>
+        <div class="tipo-grid">
+          <div class="tipo-btn sugestao" data-tipo="sugestao" onclick="selecionarTipo(this)">
+            <span class="tipo-ico">💡</span><span class="tipo-nome">Sugestão</span>
+          </div>
+          <div class="tipo-btn critica" data-tipo="critica" onclick="selecionarTipo(this)">
+            <span class="tipo-ico">⚠️</span><span class="tipo-nome">Crítica</span>
+          </div>
+          <div class="tipo-btn elogio" data-tipo="elogio" onclick="selecionarTipo(this)">
+            <span class="tipo-ico">🏆</span><span class="tipo-nome">Elogio</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="campo">
+        <label>Área do feedback <span class="obrig">*</span></label>
+        <div class="chips-grid" id="chips-categorias">
+          <div class="chip-cat" data-cat="atendimento" data-id="1" onclick="selecionarCat(this)"><div class="chip-ico">🤝</div><div class="chip-txt">Atendimento</div></div>
+          <div class="chip-cat" data-cat="qualidade" data-id="2" onclick="selecionarCat(this)"><div class="chip-ico">⭐</div><div class="chip-txt">Qualidade do produto</div></div>
+          <div class="chip-cat" data-cat="preco" data-id="3" onclick="selecionarCat(this)"><div class="chip-ico">💰</div><div class="chip-txt">Preço</div></div>
+          <div class="chip-cat" data-cat="estrutura" data-id="4" onclick="selecionarCat(this)"><div class="chip-ico">🏗️</div><div class="chip-txt">Estrutura</div></div>
+          <div class="chip-cat" data-cat="ambiente" data-id="5" onclick="selecionarCat(this)"><div class="chip-ico">🎵</div><div class="chip-txt">Ambiente</div></div>
+          <div class="chip-cat" data-cat="higiene" data-id="6" onclick="selecionarCat(this)"><div class="chip-ico">✨</div><div class="chip-txt">Higiene</div></div>
+          <div class="chip-cat" data-cat="cardapio" data-id="7" onclick="selecionarCat(this)"><div class="chip-ico">📋</div><div class="chip-txt">Cardápio</div></div>
+          <div class="chip-cat" data-cat="outro" data-id="8" onclick="selecionarCat(this)"><div class="chip-ico">💬</div><div class="chip-txt">Outro</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 2 -->
+    <div class="secao" id="secao-2">
+      <div class="campo">
+        <label>Como você avalia sua experiência? <span class="obrig">*</span></label>
+        <div class="nota-wrap">
+          <div class="estrelas" id="estrelas">
+            <div class="estrela" data-v="1" onmouseenter="hoverEstrela(1)" onmouseleave="unhoverEstrela()" onclick="selecionarNota(1)">★</div>
+            <div class="estrela" data-v="2" onmouseenter="hoverEstrela(2)" onmouseleave="unhoverEstrela()" onclick="selecionarNota(2)">★</div>
+            <div class="estrela" data-v="3" onmouseenter="hoverEstrela(3)" onmouseleave="unhoverEstrela()" onclick="selecionarNota(3)">★</div>
+            <div class="estrela" data-v="4" onmouseenter="hoverEstrela(4)" onmouseleave="unhoverEstrela()" onclick="selecionarNota(4)">★</div>
+            <div class="estrela" data-v="5" onmouseenter="hoverEstrela(5)" onmouseleave="unhoverEstrela()" onclick="selecionarNota(5)">★</div>
+          </div>
+          <div class="nota-bar"><div class="nota-progress" id="nota-bar"></div></div>
+          <p class="nota-label" id="nota-label">Selecione uma nota</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- SEÇÃO 3 -->
+    <div class="secao" id="secao-3">
+      <div class="campo">
+        <label>Conte com suas palavras <span class="obrig">*</span></label>
+        <div class="textarea-wrap">
+          <textarea id="mensagem" placeholder="O que você gostaria de compartilhar? Quanto mais detalhes, melhor para nós..." maxlength="500" oninput="atualizarContador(this)"></textarea>
+          <span class="char-count" id="char-count">0 / 500</span>
+        </div>
+      </div>
+      <div id="resumo-envio" style="background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:13px;padding:16px 18px;display:flex;flex-direction:column;gap:10px;">
+        <p style="font-size:.65rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--muted)">Resumo do seu feedback</p>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <span id="res-tipo"  style="padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:700;background:var(--purple-dim);color:var(--purple)">—</span>
+          <span id="res-cat"   style="padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:600;background:rgba(255,255,255,.05);color:var(--muted-lt)">—</span>
+          <span id="res-nota"  style="padding:4px 12px;border-radius:999px;font-size:.72rem;font-weight:600;background:rgba(251,191,36,.1);color:#fbbf24">—</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-footer" id="form-footer">
+      <button class="btn-back" id="btn-back" onclick="passo(-1)">← Voltar</button>
+      <button class="btn-next" id="btn-next" onclick="passo(1)">
+        Continuar
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </button>
+      <button class="btn-enviar" id="btn-enviar" onclick="enviar()">
+        <div class="spinner" id="spinner"></div>
+        <span id="enviar-txt">Enviar feedback</span>
+        <svg id="enviar-ico" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13M22 2L15 22l-4-9-9-4 20-7z"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- TELA SUCESSO -->
+  <div class="sucesso" id="sucesso">
+    <div class="sucesso-ico">✓</div>
+    <h2 class="sucesso-titulo">Obrigado!</h2>
+    <p class="sucesso-sub">
+      Seu feedback foi enviado com sucesso. A equipe do <strong id="nome-estab-suc" style="color:#fff"></strong> vai adorar saber disso.
+    </p>
+    <button class="btn-nova" onclick="reiniciar()">Enviar outro feedback</button>
+  </div>
+
+  <p class="page-footer">Powered by <span>Suggesto</span> — Sistema de Gestão de Experiência</p>
+
+</div>
+
+<script>
+// ─── ESTADO GLOBAL E CONFIG ───────────────────────────────────────────────────
+const estado = { 
+    tipo: null, categoria: null, idCategoria: null, 
+    nota: null, passoAtual: 1, idEstabelecimento: null 
+};
+let listaEstabelecimentos = [];
+
+const LABELS_NOTA = ["", "Muito ruim 😞", "Ruim 😕", "Regular 😐", "Bom 😊", "Excelente! 🎉"];
+const CORES_NOTA  = ["", "#f87171", "#fbbf24", "#fbbf24", "#4ade80", "#4ade80"];
+
+// ─── LÓGICA DO BOTÃO VOLTAR GLOBAL ────────────────────────────────────────────
+function acaoVoltar() {
+    const params = new URLSearchParams(window.location.search);
+    const idEstabUrl = params.get('id');
+
+    const secaoPesquisa = document.getElementById('secao-pesquisa');
+    const formCard = document.getElementById('form-card');
+    const telaSucesso = document.getElementById('sucesso');
+
+    // 1. Se estiver na tela de sucesso final, o botão volta pra home page.
+    if (telaSucesso.style.display === 'flex') {
+        window.location.href = 'inicioCli.html'; // ajuste para sua página inicial real
+        return;
+    }
+
+    // 2. Se estiver no formulário E não veio direto por um link com ID da home page
+    if (formCard.style.display === 'block' && !idEstabUrl) {
+        // Esconde form e volta para a tela de pesquisa
+        formCard.style.display = 'none';
+        document.querySelector('.hero').style.display = 'none';
+        secaoPesquisa.style.display = 'block';
+    } 
+    // 3. Se estiver na pesquisa OU veio via URL direto pro formulário, volta pra home.
+    else {
+        window.location.href = 'inicioCli.html'; // ajuste para sua página inicial real
+    }
+}
+
+// ─── INICIALIZAÇÃO ────────────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    const params = new URLSearchParams(window.location.search);
+    const idEstabUrl = params.get('id');
+    const nomeEstabUrl = params.get('nome');
+
+    const d = new Date();
+    const opts = { weekday: 'long', day: '2-digit', month: 'long', year: 'numeric' };
+    const str = d.toLocaleDateString('pt-BR', opts);
+    document.getElementById('data-hoje').textContent = str.charAt(0).toUpperCase() + str.slice(1);
+
+    if (idEstabUrl && nomeEstabUrl) {
+        iniciarFormulario(idEstabUrl, nomeEstabUrl);
+    } else {
+        mostrarTelaDePesquisa();
+    }
+});
+
+function mostrarTelaDePesquisa() {
+    document.getElementById('form-card').style.display = 'none';
+    document.querySelector('.hero').style.display = 'none';
+    document.getElementById('secao-pesquisa').style.display = 'block';
+    carregarEstabelecimentos();
+}
+
+function iniciarFormulario(id, nome) {
+    estado.idEstabelecimento = id;
+    document.getElementById('nome-estab').textContent = nome;
+    document.getElementById('nome-estab-suc').textContent = nome;
+
+    document.getElementById('secao-pesquisa').style.display = 'none';
+    document.querySelector('.hero').style.display = 'block';
+    document.getElementById('form-card').style.display = 'block';
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// ─── PESQUISA NA API ──────────────────────────────────────────────────────────
+async function carregarEstabelecimentos() {
+    try {
+        const resposta = await fetch("http://localhost:8080/api/estabelecimentos");
+        listaEstabelecimentos = await resposta.json();
+        renderizarGradeLocais(listaEstabelecimentos);
+    } catch (err) {
+        console.error("Erro ao carregar estabelecimentos:", err);
+    }
+}
+
+function renderizarGradeLocais(lista) {
+    const grade = document.getElementById("grade-locais");
+    grade.innerHTML = lista.map((est) => `
+        <div class="chip-cat" style="justify-content: space-between; width: 100%; margin-bottom: 10px;" 
+             onclick="iniciarFormulario('${est.idEstabelecimento}', '${est.nome}')">
+            <div style="display: flex; align-items: center; gap: 12px;">
+                <div class="chip-ico">📍</div>
+                <div class="chip-txt" style="font-size: 1rem; color: #fff;">${est.nome}</div>
+            </div>
+            <span style="color: var(--purple); font-size: 0.75rem; font-weight:700">SELECIONAR →</span>
+        </div>
+    `).join("");
+}
+
+function filtrarLocais() {
+    const textoBusca = document.getElementById("input-busca").value.toLowerCase();
+    const filtrados = listaEstabelecimentos.filter((est) =>
+        est.nome.toLowerCase().includes(textoBusca)
+    );
+    renderizarGradeLocais(filtrados);
+}
+
+// ─── NAVEGAÇÃO ENTRE PASSOS ───────────────────────────────────────────────────
+function passo(dir) {
+  if (dir === 1 && !validarPasso()) return;
+  const prox = estado.passoAtual + dir;
+  if (prox < 1 || prox > 3) return;
+
+  document.querySelectorAll('.secao').forEach(s => s.classList.remove('ativa'));
+  document.getElementById(`secao-${prox}`).classList.add('ativa');
+
+  for (let i = 1; i <= 3; i++) {
+    const el = document.getElementById(`passo-${i}`);
+    el.classList.remove('ativo', 'concluido');
+    if (i < prox) {
+      el.classList.add('concluido');
+      el.querySelector('.passo-num').textContent = '✓';
+    } else if (i === prox) {
+      el.classList.add('ativo');
+    }
+  }
+
+  estado.passoAtual = prox;
+  document.getElementById('btn-back').style.display   = prox > 1 ? 'block' : 'none';
+  document.getElementById('btn-next').style.display   = prox < 3 ? 'flex'  : 'none';
+  document.getElementById('btn-enviar').style.display = prox === 3 ? 'flex' : 'none';
+
+  if (prox === 3) atualizarResumo();
+}
+
+function validarPasso() {
+  if (estado.passoAtual === 1 && (!estado.tipo || !estado.categoria)) { shake('.form-card'); return false; }
+  if (estado.passoAtual === 2 && !estado.nota) { shake('#estrelas'); return false; }
+  return true;
+}
+
+function shake(sel) {
+  const el = document.querySelector(sel);
+  if (!el) return;
+  el.style.animation = 'none';
+  el.offsetHeight;
+  el.style.animation = 'shake .4s ease';
+  setTimeout(() => el.style.animation = '', 400);
+}
+
+// ─── TIPO, CATEGORIA E NOTA ───────────────────────────────────────────────────
+function selecionarTipo(el) {
+  document.querySelectorAll('.tipo-btn').forEach(b => b.classList.remove('selecionado'));
+  el.classList.add('selecionado');
+  estado.tipo = el.dataset.tipo;
+}
+
+function selecionarCat(el) {
+  document.querySelectorAll('.chip-cat').forEach(c => c.classList.remove('selecionado'));
+  el.classList.add('selecionado');
+  estado.categoria = el.dataset.cat;
+  estado.idCategoria = el.dataset.id;
+}
+
+function hoverEstrela(v) { document.querySelectorAll('.estrela').forEach((e, i) => { e.classList.toggle('hover', i < v); e.classList.remove('ativa'); }); }
+function unhoverEstrela() { document.querySelectorAll('.estrela').forEach((e, i) => { e.classList.remove('hover'); if (estado.nota) e.classList.toggle('ativa', i < estado.nota); }); }
+function selecionarNota(v) {
+  estado.nota = v;
+  const bar = document.getElementById('nota-bar'); const label = document.getElementById('nota-label');
+  document.querySelectorAll('.estrela').forEach((e, i) => { e.classList.remove('hover'); e.classList.toggle('ativa', i < v); });
+  bar.style.width = (v / 5 * 100) + '%'; bar.style.background = CORES_NOTA[v];
+  label.textContent = LABELS_NOTA[v]; label.style.color = CORES_NOTA[v];
+}
+
+function atualizarContador(el) {
+  const n = el.value.length; const cnt = document.getElementById('char-count');
+  cnt.textContent = `${n} / 500`; cnt.className = 'char-count' + (n > 450 ? ' quase' : '') + (n >= 490 ? ' limite' : '');
+}
+
+// ─── RESUMO ───────────────────────────────────────────────────────────────────
+const LABEL_TIPO = { sugestao: '💡 Sugestão', critica: '⚠️ Crítica', elogio: '🏆 Elogio' };
+const LABEL_CAT  = { atendimento: 'Atendimento', qualidade: 'Qualidade', preco: 'Preço', estrutura: 'Estrutura', ambiente: 'Ambiente', higiene: 'Higiene', cardapio: 'Cardápio', outro: 'Outro' };
+
+function atualizarResumo() {
+  document.getElementById('res-tipo').textContent = LABEL_TIPO[estado.tipo] || '—';
+  document.getElementById('res-cat').textContent  = LABEL_CAT[estado.categoria] || '—';
+  document.getElementById('res-nota').textContent = estado.nota ? `${estado.nota}/5 ${'★'.repeat(estado.nota)}` : '—';
+}
+
+// ─── ENVIO ────────────────────────────────────────────────────────────────────
+async function enviar() {
+  const msg = document.getElementById('mensagem').value.trim();
+  if (!msg) { shake('#secao-3'); return; }
+
+  if (!estado.idEstabelecimento) { alert('Erro: Estabelecimento não foi selecionado!'); return; }
+
+  const btn = document.getElementById('btn-enviar'); btn.disabled = true;
+  document.getElementById('spinner').style.display = 'block'; document.getElementById('enviar-ico').style.display = 'none';
+  document.getElementById('enviar-txt').textContent = 'Enviando...';
+
+  const idUsuarioTeste = localStorage.getItem("idUsuario") || 11;
+  const payload = {
+    idUsuario: parseInt(idUsuarioTeste),
+    idEstabelecimento: parseInt(estado.idEstabelecimento),
+    idCategoria: parseInt(estado.idCategoria) || 1,
+    nota: parseInt(estado.nota), comentario: msg, tipo: estado.tipo
+  };
+
+  try {
+    const r = await fetch('http://localhost:8080/api/avaliacoes', {
+      method: 'POST', headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!r.ok) { const erroTexto = await r.text(); throw new Error('Erro no servidor: ' + erroTexto); }
+    mostrarSucesso();
+  } catch (err) {
+    btn.disabled = false; document.getElementById('spinner').style.display = 'none';
+    document.getElementById('enviar-ico').style.display = 'block'; document.getElementById('enviar-txt').textContent = 'Tentar novamente';
+    alert('Erro ao salvar no banco. Verifique se o Java está rodando!');
+  }
+}
+
+// ─── SUCESSO ──────────────────────────────────────────────────────────────────
+function mostrarSucesso() {
+  document.getElementById('form-card').style.display = 'none'; document.querySelector('.hero').style.display = 'none'; document.getElementById('sucesso').style.display = 'flex';
+}
+function reiniciar() { window.location.href = "fazerSugestao.html"; }
+
+</script>
+<style> @keyframes shake { 0%,100% { transform: translateX(0); } 20%,60% { transform: translateX(-6px); } 40%,80% { transform: translateX(6px); } } </style>
+</body>
+</html>

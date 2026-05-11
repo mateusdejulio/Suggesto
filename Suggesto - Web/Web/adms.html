@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Administradores — Suggesto</title>
+  <link rel="icon" type="image/png" href="imagens/logo.png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="css/adms.css">
+  <link rel="stylesheet" href="css/Index.css">
+
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="barra-nav" id="barraPrincipal">
+    <div class="barra-nav-interna">
+      <a href="Index.html" class="nav-logo">
+        <img src="imagens/logo.png" alt="Suggesto" class="nav-logo-img">
+        <span>Suggesto</span>
+      </a>
+
+      <button class="nav-menu-btn" id="menuBtn" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+
+      <ul class="nav-links" id="navLinks">
+        <li><a href="saibamais.html">Saiba Mais</a></li>
+        <li><a href="adms.html" class="nav-link-ativo">Administradores</a></li>
+        <li><a href="planos.html">Planos</a></li>
+        <li><a href="download.html">Download</a></li>
+      </ul>
+
+      <div class="nav-botoes" id="navBotoes">
+        <button class="botao botao-fantasma" onclick="abrirEntrar()">Entrar</button>
+        <button class="botao botao-principal" onclick="abrirCadastro()">Cadastre-se</button>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-fundo">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <div class="grade"></div>
+    </div>
+
+    <div class="hero-inner">
+      <div class="hero-texto">
+        
+        <h1 class="hero-titulo">
+          Transforme a opinião dos seus clientes em
+          <span class="roxo"> crescimento real</span>
+        </h1>
+        <p class="hero-sub">
+          O Suggesto dá ao seu negócio um canal direto com quem mais importa: o cliente. Receba feedbacks organizados, tome decisões baseadas em dados e fortaleça sua reputação.
+        </p>
+
+        <div class="hero-acoes">
+          <a href="planos.html" class="btn btn-outline btn-grande">Escolha um plano</a>
+        </div>
+      </div>
+
+      <div class="hero-numeros">
+        <div class="num-item">
+          <span class="num-val">73%</span>
+          <span class="num-label">dos clientes insatisfeitos não reclamam — apenas somem</span>
+        </div>
+        <div class="num-sep"></div>
+        <div class="num-item">
+          <span class="num-val">5×</span>
+          <span class="num-label">mais barato reter um cliente do que conquistar um novo</span>
+        </div>
+        <div class="num-sep"></div>
+        <div class="num-item">
+          <span class="num-val">100%</span>
+          <span class="num-label">das sugestões chegam organizadas ao seu painel</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O PROBLEMA -->
+  <section class="secao-alt">
+    <div class="box">
+      <div class="dois-col">
+        <div class="col">
+          <p class="label">Você já se perguntou…</p>
+          <h2 class="titulo">Por que meus clientes não voltam?</h2>
+          <p class="texto">
+            A maioria das empresas descobre que perdeu um cliente somente quando ele já foi embora. Sem um canal de feedback acessível, o cliente frustrado vai embora em silêncio — e leva outros com ele.
+          </p>
+          <p class="texto">
+            O problema não é a falta de opinião. É a falta de um lugar para ela chegar.
+          </p>
+        </div>
+        <div class="col">
+          <div class="lista-prob">
+            <div class="prob-item animavel">
+              <div class="prob-icon prob-ruim"><i class="fas fa-times"></i></div>
+              <div>
+                <strong>Feedback perdido</strong>
+                <p>Clientes comentam com amigos, redes sociais e nunca com você</p>
+              </div>
+            </div>
+            <div class="prob-item animavel">
+              <div class="prob-icon prob-ruim"><i class="fas fa-times"></i></div>
+              <div>
+                <strong>Decisões no achismo</strong>
+                <p>Mudanças feitas sem saber o que o público realmente quer</p>
+              </div>
+            </div>
+            <div class="prob-item animavel">
+              <div class="prob-icon prob-ruim"><i class="fas fa-times"></i></div>
+              <div>
+                <strong>Reputação abalada</strong>
+                <p>Problemas que poderiam ser resolvidos se comunicados a tempo</p>
+              </div>
+            </div>
+            <div class="prob-item prob-ok animavel">
+              <div class="prob-icon prob-bom"><i class="fas fa-check"></i></div>
+              <div>
+                <strong>O Suggesto resolve tudo isso</strong>
+                <p>Canal direto, organizado e com dados para você agir rápido</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- O QUE O ADM GANHA -->
+  <section class="secao">
+    <div class="box">
+      <div class="topo centro">
+        <p class="label">Feito para quem gerencia</p>
+        <h2 class="titulo">Tudo que você precisa<br>em um só painel</h2>
+      </div>
+
+      <div class="recursos">
+
+        <div class="recurso animavel">
+          <div class="rec-icone"><i class="fas fa-inbox"></i></div>
+          <div class="rec-texto">
+            <h4>Caixa de sugestões organizada</h4>
+            <p>Receba todos os feedbacks dos seus clientes em um painel limpo, categorizados por tema, data e prioridade. Sem bagunça, sem perder nada.</p>
+          </div>
+        </div>
+
+        <div class="recurso animavel">
+          <div class="rec-icone"><i class="fas fa-reply"></i></div>
+          <div class="rec-texto">
+            <h4>Responda diretamente</h4>
+            <p>Interaja com quem sugeriu. Quando você responde, o cliente recebe uma notificação — e sabe que foi ouvido. Isso fideliza.</p>
+          </div>
+        </div>
+
+        <div class="recurso animavel">
+          <div class="rec-icone"><i class="fas fa-chart-pie"></i></div>
+          <div class="rec-texto">
+            <h4>Métricas e relatórios</h4>
+            <p>Descubra quais categorias concentram mais reclamações, em que horários chegam mais sugestões e qual a percepção geral da sua empresa.</p>
+          </div>
+        </div>
+
+        <div class="recurso animavel">
+          <div class="rec-icone"><i class="fas fa-store"></i></div>
+          <div class="rec-texto">
+            <h4>Perfil do estabelecimento</h4>
+            <p>Crie uma presença dentro da plataforma com nome, foto, categoria e endereço. Seus clientes te encontram facilmente.</p>
+          </div>
+        </div>
+
+        <div class="recurso animavel">
+          <div class="rec-icone"><i class="fas fa-shield-alt"></i></div>
+          <div class="rec-texto">
+            <h4>Moderação automática</h4>
+            <p>Sugestões enviadas de fora do estabelecimento passam por revisão antes de serem publicadas, garantindo conteúdo genuíno.</p>
+          </div>
+        </div>
+
+        <div class="recurso animavel">
+          <div class="rec-icone"><i class="fas fa-expand-arrows-alt"></i></div>
+          <div class="rec-texto">
+            <h4>Plataforma escalável</h4>
+            <p>Comece pequeno e cresça. A estrutura do Suggesto foi planejada para acompanhar o desenvolvimento do seu negócio.</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- COMO COMEÇA -->
+  <section class="secao-alt">
+    <div class="box">
+      <div class="topo centro">
+        <p class="label">Simples de começar</p>
+        <h2 class="titulo">Em 4 passos você já está<br>ouvindo seus clientes</h2>
+      </div>
+
+      <div class="passos">
+        <div class="passo animavel">
+          <div class="passo-n">01</div>
+          <div class="passo-info">
+            <h4>Crie sua conta de administrador</h4>
+            <p>Cadastre-se escolhendo o perfil "Administrador". Preencha seus dados básicos e você já está dentro.</p>
+          </div>
+        </div>
+        <div class="passo-seta"><i class="fas fa-arrow-right"></i></div>
+
+        <div class="passo animavel">
+          <div class="passo-n">02</div>
+          <div class="passo-info">
+            <h4>Configure seu estabelecimento</h4>
+            <p>Adicione nome, categoria, endereço e uma foto. Quanto mais completo, mais confiança você passa ao cliente.</p>
+          </div>
+        </div>
+        <div class="passo-seta"><i class="fas fa-arrow-right"></i></div>
+
+        <div class="passo animavel">
+          <div class="passo-n">03</div>
+          <div class="passo-info">
+            <h4>Comece a receber sugestões</h4>
+            <p>Seus clientes encontram seu estabelecimento na plataforma e enviam feedbacks. Tudo chega ao seu painel em tempo real.</p>
+          </div>
+        </div>
+        <div class="passo-seta"><i class="fas fa-arrow-right"></i></div>
+
+        <div class="passo animavel">
+          <div class="passo-n">04</div>
+          <div class="passo-info">
+            <h4>Aja e evolua</h4>
+            <p>Responda, analise e tome decisões. Mostre ao seu público que você ouve — e veja a fidelização crescer.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PARA QUEM É -->
+  <section class="secao">
+    <div class="box">
+      <div class="topo centro">
+        <p class="label">Qualquer tipo de negócio</p>
+        <h2 class="titulo">O Suggesto funciona<br>para o seu segmento</h2>
+        <p class="sub">Não importa o tamanho ou ramo da sua empresa. Se você tem clientes, o Suggesto é para você.</p>
+      </div>
+
+      <div class="segmentos">
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-utensils"></i></div>
+          <span>Restaurantes</span>
+        </div>
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-dumbbell"></i></div>
+          <span>Academias</span>
+        </div>
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-mug-hot"></i></div>
+          <span>Cafés</span>
+        </div>
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-graduation-cap"></i></div>
+          <span>Escolas</span>
+        </div>
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-shopping-bag"></i></div>
+          <span>Lojas</span>
+        </div>
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-hotel"></i></div>
+          <span>Hotéis</span>
+        </div>
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-cut"></i></div>
+          <span>Salões</span>
+        </div>
+        <div class="seg animavel">
+          <div class="seg-icone"><i class="fas fa-clinic-medical"></i></div>
+          <span>Clínicas</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- COMPARAÇÃO -->
+  <section class="secao-alt">
+    <div class="box">
+      <div class="topo centro">
+        <p class="label">Antes e depois</p>
+        <h2 class="titulo">Como era sem o Suggesto.<br>Como é com ele.</h2>
+      </div>
+
+      <div class="comparacao">
+        <div class="comp-col comp-sem animavel">
+          <div class="comp-header">
+            <i class="fas fa-times-circle"></i>
+            <h3>Sem o Suggesto</h3>
+          </div>
+          <ul>
+            <li><i class="fas fa-times"></i> Feedbacks chegam de forma aleatória</li>
+            <li><i class="fas fa-times"></i> Não tem como priorizar o que melhorar</li>
+            <li><i class="fas fa-times"></i> Cliente vai embora sem explicação</li>
+            <li><i class="fas fa-times"></i> Decisões baseadas em intuição</li>
+            <li><i class="fas fa-times"></i> Reputação construída sem controle</li>
+            <li><i class="fas fa-times"></i> Sem dados sobre satisfação do público</li>
+          </ul>
+        </div>
+
+        <div class="comp-meio">
+          <div class="comp-logo">
+            <img src="imagens/logo.png" alt="Suggesto">
+          </div>
+        </div>
+
+        <div class="comp-col comp-com animavel">
+          <div class="comp-header">
+            <i class="fas fa-check-circle"></i>
+            <h3>Com o Suggesto</h3>
+          </div>
+          <ul>
+            <li><i class="fas fa-check"></i> Canal direto e organizado com o cliente</li>
+            <li><i class="fas fa-check"></i> Categorias e prioridades bem definidas</li>
+            <li><i class="fas fa-check"></i> Cliente ouvido e fidelizado</li>
+            <li><i class="fas fa-check"></i> Dados reais para guiar melhorias</li>
+            <li><i class="fas fa-check"></i> Reputação construída com transparência</li>
+            <li><i class="fas fa-check"></i> Métricas e relatórios em tempo real</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+    
+
+  <!-- RODAPÉ -->
+  <footer class="rodape">
+    <div class="box">
+      <div class="rodape-topo">
+        <div class="rodape-marca">
+          <div class="rodape-logo">
+            <img src="imagens/logo.png" alt="Suggesto">
+            <span>Suggesto</span>
+          </div>
+          <p>Uma plataforma feita para transformar feedbacks em crescimento. Dê voz à sua equipe e descubra novas ideias todos os dias.</p>
+          <p class="rodape-devs">Desenvolvido por:<br>Diogo Damascena · Gabriel Gonçalves · Manuela Nogueira</p>
+        </div>
+        <div class="rodape-col">
+          <h6>Soluções</h6>
+          <ul>
+            <li><a href="#">Sugestões Anônimas</a></li>
+            <li><a href="#">Gestão de Ideias</a></li>
+            <li><a href="#">Relatórios de Engajamento</a></li>
+            <li><a href="#">Caixas de Feedback</a></li>
+          </ul>
+        </div>
+        <div class="rodape-col">
+          <h6>Recursos</h6>
+          <ul>
+            <li><a href="#">Dashboard Interativo</a></li>
+            <li><a href="#">Integrações</a></li>
+            <li><a href="#">Segurança de Dados</a></li>
+            <li><a href="#">Planos e Preços</a></li>
+          </ul>
+        </div>
+        <div class="rodape-col">
+          <h6>Explore</h6>
+          <ul>
+            <li><a href="#">Blog</a></li>
+            <li><a href="#">Histórias de Clientes</a></li>
+            <li><a href="#">Central de Ajuda</a></li>
+            <li><a href="#">Perguntas Frequentes</a></li>
+          </ul>
+        </div>
+        <div class="rodape-col">
+          <h6>Empresa</h6>
+          <ul>
+            <li><a href="#">Sobre Nós</a></li>
+            <li><a href="#">Carreiras</a></li>
+            <li><a href="#">Contato</a></li>
+            <li><a href="#">Guia de Marca</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="rodape-base">
+        <p>© 2025 Suggesto. Todos os direitos reservados. · <a href="#">Termos de Uso</a> · <a href="#">Política de Privacidade</a></p>
+        <div class="redes">
+          <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+          <a href="#" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+          <a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/adms.js"></script>
+</body>
+</html>

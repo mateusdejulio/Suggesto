@@ -1,0 +1,92 @@
+body {
+    background-color: #140e20;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    font-family: 'Poppins', sans-serif;
+}
+
+.containerConfig {
+    padding: 20px;
+    max-width: 1000px;
+    margin: 5vh auto;
+}
+
+.secoes-wrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 30px;
+    align-items: flex-start;
+}
+
+.secaoConfig {
+    flex: 1; 
+    min-width: 300px;
+}
+
+.header-config {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    padding-top: 10px;
+}
+
+.header-config i {
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.header-config h1 {
+    font-size: 1.4rem;
+    margin: 0;
+    flex-grow: 1;
+    text-align: center;
+    margin-right: 35px;
+}
+
+.titulo-secao {
+    font-size: 0.9rem;
+    color: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.card-config {
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(10px);
+    border-radius: 18px;
+    overflow: hidden;
+    margin-bottom: 30px;
+}
+
+.item-config {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 18px 20px;
+    cursor: pointer;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    transition: background 0.3s;
+}
+
+.item-config:hover {
+    background: rgba(255, 255, 255, 0.12);
+}
+
+.item-config .left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 1rem;
+}
+
+.item-config i {
+    font-size: 1.1rem;
+    opacity: 0.8;
+}
+
+.text-danger {
+    color: #ff5f5f !important;
+}

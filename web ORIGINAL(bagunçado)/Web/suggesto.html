@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suggesto - Sobre</title>
+
+  <!-- FONTES -->
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+  <style>
+    /* RESET */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: #0e0e12;
+      color: #f0f0f5;
+      font-family: 'DM Sans', sans-serif;
+    }
+
+    /* VARIÁVEIS */
+    :root {
+      --roxo: #7c3aed;
+      --roxo-claro: #a78bfa;
+      --fundo-2: #13131a;
+      --fundo-3: #1a1a24;
+      --borda: rgba(255,255,255,0.08);
+    }
+
+    /* NAV */
+    .nav {
+      position: fixed;
+      top: 0;
+      width: 100%;
+      padding: 20px 40px;
+      background: rgba(14,14,18,0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .nav span {
+      font-family: 'Syne';
+      font-weight: 700;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 120px 20px 80px;
+    }
+
+    /* TOPO */
+    .topo {
+      text-align: center;
+      margin-bottom: 60px;
+    }
+
+    .topo h1 {
+      font-family: 'Syne';
+      font-size: 42px;
+      margin-bottom: 10px;
+    }
+
+    .topo p {
+      color: rgba(255,255,255,0.6);
+    }
+
+    /* BLOCOS */
+    .bloco {
+      text-align: center;
+      margin-bottom: 50px;
+    }
+
+    .bloco h2 {
+      font-family: 'Syne';
+      margin-bottom: 10px;
+    }
+
+    .bloco p {
+      color: rgba(255,255,255,0.6);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 50px;
+    }
+
+    .card {
+      background: var(--fundo-2);
+      border: 1px solid var(--borda);
+      padding: 20px;
+      border-radius: 12px;
+      transition: 0.3s;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: var(--roxo);
+    }
+
+    .card h3 {
+      font-family: 'Syne';
+      margin-bottom: 5px;
+    }
+
+    .card p {
+      color: rgba(255,255,255,0.6);
+      font-size: 14px;
+    }
+
+    /* CTA */
+    .cta {
+      text-align: center;
+      padding: 30px;
+      border: 1px solid var(--borda);
+      border-radius: 15px;
+    }
+
+    .cta button {
+      margin-top: 15px;
+      padding: 12px 25px;
+      border: none;
+      border-radius: 30px;
+      background: var(--roxo);
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .cta button:hover {
+      background: #6d28d9;
+    }
+
+    /* RESPONSIVO */
+    @media(max-width: 800px) {
+      .cards {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAV -->
+  <div class="nav">
+    <span>Suggesto</span>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="container">
+
+    <div class="topo">
+      <h1>Transformando sugestões em evolução</h1>
+      <p>Conectando clientes e empresas através de feedbacks reais</p>
+    </div>
+
+    <div class="bloco">
+      <h2>Como surgiu</h2>
+      <p>
+        O Suggesto nasceu da necessidade de criar um canal direto entre clientes e estabelecimentos,
+        permitindo que opiniões reais sejam ouvidas e transformadas em melhorias.
+      </p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Comunicação falha</h3>
+        <p>Clientes não conseguem dar feedback facilmente.</p>
+      </div>
+
+      <div class="card">
+        <h3>Ideias perdidas</h3>
+        <p>Sugestões importantes nunca chegam.</p>
+      </div>
+
+      <div class="card">
+        <h3>Sem organização</h3>
+        <p>Empresas não conseguem analisar dados.</p>
+      </div>
+    </div>
+
+    <div class="bloco">
+      <h2>A solução</h2>
+      <p>
+        O Suggesto organiza sugestões e transforma opiniões em dados úteis para decisões reais.
+      </p>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <h3>Envio simples</h3>
+        <p>Clientes participam facilmente.</p>
+      </div>
+
+      <div class="card">
+        <h3>Organização</h3>
+        <p>Dados estruturados.</p>
+      </div>
+
+      <div class="card">
+        <h3>Melhoria</h3>
+        <p>Empresas evoluem.</p>
+      </div>
+    </div>
+
+    <div class="cta">
+      <h2>Pronto para melhorar seu negócio?</h2>
+      <button>Começar agora</button>
+    </div>
+
+  </div>
+
+</body>
+</html>
