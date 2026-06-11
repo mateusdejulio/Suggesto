@@ -101,5 +101,13 @@ public class EstabelecimentoController {
         } catch (Exception e) {
             return ResponseEntity.status(500).build();
         }
+
+
     }
+
+    @GetMapping("/usuario/{idGerente}")
+public ResponseEntity<List<Estabelecimento>> listarPorAdmin(@PathVariable Long idGerente) {
+ 
+    return ResponseEntity.ok(repository.buscarPorGerenteAtivos(idGerente));
+}
 }

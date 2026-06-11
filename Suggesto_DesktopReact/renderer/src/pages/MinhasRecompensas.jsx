@@ -13,6 +13,7 @@ export default function MinhasRecompensas() {
   const [salvando, setSalvando] = useState(false);
   const [form, setForm] = useState({ nome: "", descricao: "", custoPontos: "" });
 
+  // Busca lojas vinculadas ao gerente logado
   useEffect(() => {
     const idGerente = localStorage.getItem("idUsuario");
     if (!idGerente) return;
@@ -29,30 +30,27 @@ export default function MinhasRecompensas() {
         }
       } catch (e) {
         console.error(e);
+      } finally {
+        setCarregando(false);
       }
     })();
   }, [idEstabParam]);
 
+  // Busca brindes ao mudar a loja selecionada
   useEffect(() => {
     if (!idEstabelecimento) {
       setRecompensas([]);
-      setCarregando(false);
       return;
     }
 
     (async () => {
-      setCarregando(true);
       try {
-        const r = await fetch(
-          `${API}/api/recompensas/estabelecimento/${idEstabelecimento}`,
-        );
+        const r = await fetch(`${API}/api/recompensas/estabelecimento/${idEstabelecimento}`);
         if (r.ok) setRecompensas(await r.json());
         else setRecompensas([]);
       } catch (e) {
         console.error(e);
         setRecompensas([]);
-      } finally {
-        setCarregando(false);
       }
     })();
   }, [idEstabelecimento]);
@@ -106,6 +104,9 @@ export default function MinhasRecompensas() {
     }
   };
 
+  // Trava de segurança: verifica se o admin não possui nenhuma loja ativa
+  const semEstabelecimentos = !carregando && estabelecimentos.length === 0;
+
   return (
     <div className="pagina-recompensas">
       <header className="recomp-header">
@@ -122,21 +123,31 @@ export default function MinhasRecompensas() {
         <section className="recomp-form-card">
           <h2>Novo brinde</h2>
 
-          {estabelecimentos.length > 1 && (
-            <label className="recomp-label">
-              Estabelecimento
-              <select
-                value={idEstabelecimento}
-                onChange={(e) => setIdEstabelecimento(e.target.value)}
-              >
-                {estabelecimentos.map((e) => (
+          {/* Mensagem humana de aviso e bloqueio */}
+          {semEstabelecimentos && (
+            <div className="recomp-aviso-erro" style={{ color: "#ef4444", marginBottom: "1rem", fontSize: "0.9rem" }}>
+              Aviso: Você precisa cadastrar pelo menos um estabelecimento antes de criar recompensas.
+            </div>
+          )}
+
+          <label className="recomp-label">
+            Estabelecimento
+            <select
+              value={idEstabelecimento}
+              onChange={(e) => setIdEstabelecimento(e.target.value)}
+              disabled={semEstabelecimentos} // Trava o select se não houver lojas
+            >
+              {semEstabelecimentos ? (
+                <option value="">Nenhum estabelecimento encontrado</option>
+              ) : (
+                estabelecimentos.map((e) => (
                   <option key={e.idEstabelecimento} value={e.idEstabelecimento}>
                     {e.nome}
                   </option>
-                ))}
-              </select>
-            </label>
-          )}
+                ))
+              )}
+            </select>
+          </label>
 
           <form onSubmit={handleSubmit} className="recomp-form">
             <label className="recomp-label">
@@ -146,6 +157,7 @@ export default function MinhasRecompensas() {
                 onChange={(e) => setForm({ ...form, nome: e.target.value })}
                 placeholder="Ex: Casquinha BK"
                 required
+                disabled={semEstabelecimentos} // Trava o input
               />
             </label>
             <label className="recomp-label">
@@ -155,6 +167,7 @@ export default function MinhasRecompensas() {
                 onChange={(e) => setForm({ ...form, descricao: e.target.value })}
                 placeholder="Ex: Uma casquinha de baunilha"
                 rows={3}
+                disabled={semEstabelecimentos} // Trava o textarea
               />
             </label>
             <label className="recomp-label">
@@ -166,9 +179,14 @@ export default function MinhasRecompensas() {
                 onChange={(e) => setForm({ ...form, custoPontos: e.target.value })}
                 placeholder="Ex: 1000"
                 required
+                disabled={semEstabelecimentos} // Trava o input numérico
               />
             </label>
-            <button type="submit" className="btn-salvar" disabled={salvando}>
+            <button 
+              type="submit" 
+              className="btn-salvar" 
+              disabled={salvando || semEstabelecimentos} // Desabilita o botão completamente
+            >
               {salvando ? "Salvando..." : "Cadastrar recompensa"}
             </button>
           </form>
@@ -178,6 +196,8 @@ export default function MinhasRecompensas() {
           <h2>Recompensas cadastradas</h2>
           {carregando ? (
             <p className="recomp-muted">Carregando...</p>
+          ) : semEstabelecimentos ? (
+            <p className="recomp-muted">Cadastre uma loja para ver as recompensas.</p>
           ) : recompensas.length === 0 ? (
             <p className="recomp-muted">Nenhuma recompensa para este estabelecimento.</p>
           ) : (
