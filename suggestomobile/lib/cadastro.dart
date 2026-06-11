@@ -86,131 +86,149 @@ class _CadastroState extends State<Cadastro> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(18, 6, 30, 1),
-      body: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
+Widget build(BuildContext context) {
+  return Scaffold(
+    backgroundColor: const Color.fromRGBO(18, 6, 30, 1),
+    body: Stack(
+      children: [
+
+        Center(
+          child: SingleChildScrollView(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 100,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
-                // LOGO
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 36,
-                      height: 36,
-                      decoration: BoxDecoration(
-                        color: const Color(0xFF7B2FBE),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Center(
-                        child: Text("?", style: TextStyle(
-                          color: Colors.white,
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: "Poppins"
-                        )),
-                      ),
-                    ),
-                    SizedBox(width: 10),
-                    Text("Suggesto", style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 22,
-                      fontFamily: "PoppinsBold",
-                      fontWeight: FontWeight.w600,
-                    )),
-                  ],
+                // TITULO
+                const Text(
+                  "Criar conta",
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 32,
+                    fontFamily: "PoppinsBold",
+                    fontWeight: FontWeight.bold,
+                  ),
                 ),
 
-                SizedBox(height: 50),
-
-                // TITULO
-                Text("Criar conta", style: TextStyle(
-                  color: Colors.white,
-                  fontSize: 32,
-                  fontFamily: "PoppinsBold",
-                  fontWeight: FontWeight.bold,
-                )),
-
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
 
                 // LABEL EMAIL
                 SizedBox(
-                  width: 300,
+                  width: 400,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Email:", style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: "Poppins")),
-                  ),
-                ),
-                SizedBox(height: 8),
-
-                // CAMPO EMAIL
-                SizedBox(
-                  width: 300,
-                  child: TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
-                    style: TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
-                    decoration: InputDecoration(
-                      hintText: "Digite um email válido",
-                      hintStyle: TextStyle(color: Color.fromARGB(120, 255, 255, 255), fontSize: 13, fontFamily: "Poppins"),
-                      fillColor: Color.fromARGB(123, 88, 8, 129),
-                      filled: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide.none,
-                      ),
-                      focusedBorder: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Color(0xFF7B2FBE), width: 1.5),
+                    child: Text(
+                      "Email:",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: "Poppins",
                       ),
                     ),
                   ),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 8),
 
-                // LABEL SENHA
+                // CAMPO EMAIL
                 SizedBox(
-                  width: 300,
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text("Senha:", style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: "Poppins")),
-                  ),
-                ),
-                SizedBox(height: 8),
-
-                // CAMPO SENHA
-                SizedBox(
-                  width: 300,
+                  width: 400,
                   child: TextField(
-                    controller: senhaController,
-                    obscureText: !senhaVisivel,
-                    style: TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
+                    controller: emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    style: const TextStyle(
+                      color: Color.fromARGB(220, 255, 255, 255),
+                    ),
                     decoration: InputDecoration(
-                      hintText: "Mínimo 8 caracteres",
-                      hintStyle: TextStyle(color: Color.fromARGB(120, 255, 255, 255), fontSize: 13, fontFamily: "Poppins"),
-                      fillColor: Color.fromARGB(123, 88, 8, 129),
+                      hintText: "Digite um email válido",
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(120, 255, 255, 255),
+                        fontSize: 13,
+                        fontFamily: "Poppins",
+                      ),
+                      fillColor: const Color.fromARGB(123, 88, 8, 129),
                       filled: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Color(0xFF7B2FBE), width: 1.5),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF7B2FBE),
+                          width: 1.5,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 16),
+
+                // LABEL SENHA
+                SizedBox(
+                  width: 400,
+                  child: Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      "Senha:",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
+                  ),
+                ),
+
+                const SizedBox(height: 8),
+
+                // CAMPO SENHA
+                SizedBox(
+                  width: 400,
+                  child: TextField(
+                    controller: senhaController,
+                    obscureText: !senhaVisivel,
+                    style: const TextStyle(
+                      color: Color.fromARGB(220, 255, 255, 255),
+                    ),
+                    decoration: InputDecoration(
+                      hintText: "Mínimo 8 caracteres",
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(120, 255, 255, 255),
+                        fontSize: 13,
+                        fontFamily: "Poppins",
+                      ),
+                      fillColor: const Color.fromARGB(123, 88, 8, 129),
+                      filled: true,
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: BorderSide.none,
+                      ),
+                      focusedBorder: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF7B2FBE),
+                          width: 1.5,
+                        ),
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          senhaVisivel ? Icons.visibility : Icons.visibility_off,
-                          color: Color.fromARGB(160, 255, 255, 255),
+                          senhaVisivel
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: const Color.fromARGB(160, 255, 255, 255),
                           size: 20,
                         ),
                         onPressed: () {
@@ -223,38 +241,52 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ),
 
-                SizedBox(height: 12),
+                const SizedBox(height: 12),
 
-                // CAMPO CONFIRMAR SENHA
+                // CONFIRMAR SENHA
                 SizedBox(
-                  width: 300,
+                  width: 400,
                   child: TextField(
                     controller: confirmarSenhaController,
                     obscureText: !confirmarSenhaVisivel,
-                    style: TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
+                    style: const TextStyle(
+                      color: Color.fromARGB(220, 255, 255, 255),
+                    ),
                     decoration: InputDecoration(
                       hintText: "Repita a senha",
-                      hintStyle: TextStyle(color: Color.fromARGB(120, 255, 255, 255), fontSize: 13, fontFamily: "Poppins"),
-                      fillColor: Color.fromARGB(123, 88, 8, 129),
+                      hintStyle: const TextStyle(
+                        color: Color.fromARGB(120, 255, 255, 255),
+                        fontSize: 13,
+                        fontFamily: "Poppins",
+                      ),
+                      fillColor: const Color.fromARGB(123, 88, 8, 129),
                       filled: true,
-                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 14,
+                      ),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: BorderSide(color: Color(0xFF7B2FBE), width: 1.5),
+                        borderSide: const BorderSide(
+                          color: Color(0xFF7B2FBE),
+                          width: 1.5,
+                        ),
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          confirmarSenhaVisivel ? Icons.visibility : Icons.visibility_off,
-                          color: Color.fromARGB(160, 255, 255, 255),
-                          size: 20,
+                          confirmarSenhaVisivel
+                              ? Icons.visibility
+                              : Icons.visibility_off,
+                          color: const Color.fromARGB(160, 255, 255, 255),
                         ),
                         onPressed: () {
                           setState(() {
-                            confirmarSenhaVisivel = !confirmarSenhaVisivel;
+                            confirmarSenhaVisivel =
+                                !confirmarSenhaVisivel;
                           });
                         },
                       ),
@@ -262,110 +294,102 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-                // TIPO DE USUARIO (RADIO)
+                // TIPO DE USUARIO
                 SizedBox(
-                  width: 300,
+                  width: 400,
                   child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text("Quero me cadastrar como:", style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w500,
-                      fontFamily: "Poppins"
-                    )),
+                    child: Text(
+                      "Quero me cadastrar como:",
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w500,
+                        fontFamily: "Poppins",
+                      ),
+                    ),
                   ),
                 ),
-                SizedBox(height: 8),
+
+                const SizedBox(height: 8),
 
                 Container(
-                  width: 300,
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  width: 400,
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
+                  ),
                   decoration: BoxDecoration(
-                    color: Color.fromARGB(123, 88, 8, 129),
+                    color: const Color.fromARGB(123, 88, 8, 129),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
                       Expanded(
                         child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Radio Cliente
-                            Row(
-                              children: [
-                                Radio<String>(
-                                  value: 'cliente',
-                                  groupValue: tipoUsuario,
-                                  activeColor: Color(0xFF9B59D0),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      tipoUsuario = value!;
-                                    });
-                                  },
+                            RadioListTile<String>(
+                              title: const Text(
+                                "Cliente",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins",
                                 ),
-                                Text("Cliente", style: TextStyle(color: Colors.white, fontFamily: "Poppins")),
-                              ],
+                              ),
+                              value: 'cliente',
+                              groupValue: tipoUsuario,
+                              activeColor: Color(0xFF9B59D0),
+                              onChanged: (value) {
+                                setState(() {
+                                  tipoUsuario = value!;
+                                });
+                              },
                             ),
-                            // Radio Administrador
-                            Row(
-                              children: [
-                                Radio<String>(
-                                  value: 'administrador',
-                                  groupValue: tipoUsuario,
-                                  activeColor: Color(0xFF9B59D0),
-                                  onChanged: (value) {
-                                    setState(() {
-                                      tipoUsuario = value!;
-                                    });
-                                  },
+                            RadioListTile<String>(
+                              title: const Text(
+                                "Administrador",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins",
                                 ),
-                                Text("Administrador", style: TextStyle(color: Colors.white, fontFamily: "Poppins")),
-                              ],
+                              ),
+                              value: 'administrador',
+                              groupValue: tipoUsuario,
+                              activeColor: Color(0xFF9B59D0),
+                              onChanged: (value) {
+                                setState(() {
+                                  tipoUsuario = value!;
+                                });
+                              },
                             ),
                           ],
                         ),
-                      ),
-                      // Botão de info
-                      IconButton(
-                        onPressed: () {
-                          showDialog(
-                            context: context,
-                            builder: (context) => AlertDialog(
-                              backgroundColor: Color(0xFF1E0A33),
-                              title: Text("Tipos de conta", style: TextStyle(color: Colors.white, fontFamily: "PoppinsBold")),
-                              content: Text(
-                                "Cliente: acessa os serviços da plataforma.\n\nAdministrador: gerencia a plataforma e seus usuários.",
-                                style: TextStyle(color: Colors.white70, fontFamily: "Poppins"),
-                              ),
-                              actions: [
-                                TextButton(
-                                  onPressed: () => Navigator.pop(context),
-                                  child: Text("OK", style: TextStyle(color: Color(0xFF9B59D0), fontFamily: "Poppins")),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                        icon: Icon(Icons.info_outline, color: Colors.white54, size: 22),
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
-                // SWITCH NOTIFICAÇÕES
+                // SWITCH
                 SizedBox(
-                  width: 300,
+                  width: 400,
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
                     children: [
-                      Text("Receber notificações", style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: "Poppins")),
+                      const Text(
+                        "Receber notificações",
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontFamily: "Poppins",
+                        ),
+                      ),
                       Switch(
                         value: notificacoes,
-                        activeColor: Color(0xFF9B59D0),
+                        activeColor: const Color(0xFF9B59D0),
                         onChanged: (value) {
                           setState(() {
                             notificacoes = value;
@@ -376,79 +400,109 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ),
 
-                SizedBox(height: 8),
-
-                // CHECKBOX TERMOS
+                // CHECKBOX
                 SizedBox(
-                  width: 300,
+                  width: 400,
                   child: Row(
                     children: [
                       Checkbox(
                         value: termosAceitos,
-                        activeColor: Color(0xFF9B59D0),
+                        activeColor: const Color(0xFF9B59D0),
                         onChanged: (value) {
                           setState(() {
                             termosAceitos = value!;
                           });
                         },
                       ),
-                      Expanded(
+                      const Expanded(
                         child: Text(
                           "Aceito os termos de uso",
-                          style: TextStyle(color: Colors.white70, fontSize: 13, fontFamily: "Poppins"),
+                          style: TextStyle(
+                            color: Colors.white70,
+                            fontSize: 13,
+                            fontFamily: "Poppins",
+                          ),
                         ),
                       ),
                     ],
                   ),
                 ),
 
-                SizedBox(height: 10),
+                const SizedBox(height: 10),
 
-                // MENSAGEM DE ERRO
                 if (mensagemErro.isNotEmpty)
-                  Text(mensagemErro, style: TextStyle(color: Colors.redAccent, fontSize: 13)),
+                  Text(
+                    mensagemErro,
+                    style: const TextStyle(
+                      color: Colors.redAccent,
+                    ),
+                  ),
 
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
 
-                // BOTAO CRIAR
+                // BOTAO
                 ElevatedButton(
                   onPressed: criar,
                   style: ElevatedButton.styleFrom(
-                    fixedSize: Size(120, 42),
-                    backgroundColor: Color(0xFF6B21A8),
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                    fixedSize: const Size(120, 42),
+                    backgroundColor: const Color(0xFF6B21A8),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                  child: Text("Criar", style: TextStyle(
-                    color: Color.fromARGB(220, 239, 224, 238),
-                    fontFamily: "PoppinsBold",
-                    fontSize: 15,
-                    fontWeight: FontWeight.w600,
-                  )),
-                ),
-
-                SizedBox(height: 20),
-
-                // VOLTAR PARA LOGIN
-                GestureDetector(
-                  onTap: () => Navigator.pop(context),
-                  child: Text(
-                    "Já tem uma conta? Entrar",
+                  child: const Text(
+                    "Criar",
                     style: TextStyle(
-                      color: Color(0xFF9B59D0),
-                      fontSize: 13,
-                      fontWeight: FontWeight.bold,
-                      decoration: TextDecoration.underline,
-                      decorationColor: Color(0xFF9B59D0),
-                      fontFamily: "Poppins"
+                      color: Color.fromARGB(220, 239, 224, 238),
+                      fontFamily: "PoppinsBold",
+                      fontSize: 15,
                     ),
                   ),
                 ),
 
+                const SizedBox(height: 20),
+
+                GestureDetector(
+                  onTap: () => Navigator.pop(context),
+                  child: const Text(
+                    "Já tem uma conta? Entrar",
+                    style: TextStyle(
+                      color: Color(0xFF9B59D0),
+                      fontSize: 13,
+                      decoration: TextDecoration.underline,
+                      decorationColor: Color(0xFF9B59D0),
+                      fontFamily: "Poppins",
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
         ),
-      ),
-    );
-  }
-}
+
+        // LOGO IGUAL À TELA DE LOGIN
+        Positioned(
+          top: 35,
+          left: 0,
+          right: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset(
+                "assets/images/balaologo.png",
+                width: 50,
+                fit: BoxFit.contain,
+              ),
+              const SizedBox(width: 8),
+              Image.asset(
+                "assets/images/escritalogo.png",
+                height: 35,
+                fit: BoxFit.contain,
+              ),
+            ],
+          ),
+        ),
+      ],
+    ),
+  );
+}}
