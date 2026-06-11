@@ -12,7 +12,6 @@ import java.util.Optional;
 @Repository
 public interface CategoriaRepository extends JpaRepository<Categoria, Long> {
 
-    // Aqui dizemos: "Spring, quando eu chamar findByNome, procure na coluna nomeCategoria"
     @Query("SELECT c FROM Categoria c WHERE c.nomeCategoria = :nome")
     Optional<Categoria> findByNome(@Param("nome") String nome);
 }

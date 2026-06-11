@@ -8,4 +8,3 @@ ReactDOM.createRoot(document.getElementById("root")).render(
         <App/>
     </React.StrictMode>
 )
-//inicializando o react e renderizando o componente principal na div root

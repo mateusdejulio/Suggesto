@@ -2,6 +2,7 @@ package com.suggesto.backend.controller;
 
 import com.suggesto.backend.model.Estabelecimento;
 import com.suggesto.backend.repository.EstabelecimentoRepository;
+import com.suggesto.backend.util.UploadStorage;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -9,7 +10,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.List;
 
@@ -37,20 +37,15 @@ public class EstabelecimentoController {
             @RequestPart(value = "foto", required = false) MultipartFile arquivo) {
 
         try {
-            // Se o estabelecimento for novo, garante que ele nasça ativo (1)
             if (novoEstabelecimento.getAtivo() == null) {
                 novoEstabelecimento.setAtivo(1);
             }
 
             if (arquivo != null && !arquivo.isEmpty()) {
-                Path diretorio = Paths.get("uploads");
-                if (!Files.exists(diretorio)) {
-                    Files.createDirectories(diretorio);
-                }
                 String nomeArquivo = System.currentTimeMillis() + "_" + arquivo.getOriginalFilename();
-                Path caminho = diretorio.resolve(nomeArquivo);
+                Path caminho = UploadStorage.resolverArquivo(nomeArquivo);
                 Files.copy(arquivo.getInputStream(), caminho, StandardCopyOption.REPLACE_EXISTING);
-                novoEstabelecimento.setFotoPath(nomeArquivo);
+                novoEstabelecimento.setFotoPath(UploadStorage.normalizarNomeArquivo(nomeArquivo));
             }
 
             Estabelecimento salvo = repository.save(novoEstabelecimento);
@@ -61,7 +56,6 @@ public class EstabelecimentoController {
         }
     }
 
-    // MUDANÇA AQUI: Agora usa buscarPorGerenteAtivos()
     @GetMapping("/gerente/{id}")
     public ResponseEntity<?> buscarPorGerente(@PathVariable Long id) {
         try {
@@ -78,10 +72,10 @@ public class EstabelecimentoController {
             Estabelecimento estab = repository.findById(id).orElseThrow(() -> new RuntimeException("Não encontrado"));
 
             String nomeArquivo = "estabelecimento_" + id + "_" + arquivo.getOriginalFilename();
-            Path caminho = Paths.get("uploads").resolve(nomeArquivo);
+            Path caminho = UploadStorage.resolverArquivo(nomeArquivo);
             Files.copy(arquivo.getInputStream(), caminho, StandardCopyOption.REPLACE_EXISTING);
 
-            estab.setFotoPath(nomeArquivo);
+            estab.setFotoPath(UploadStorage.normalizarNomeArquivo(nomeArquivo));
             repository.save(estab);
 
             return ResponseEntity.ok("Foto salva com sucesso!" + nomeArquivo);
@@ -90,17 +84,15 @@ public class EstabelecimentoController {
         }
     }
 
-    // MUDANÇA AQUI: Corrigido repository ao invés de estabelecimentoRepository
     @DeleteMapping("/{id}")
     public ResponseEntity<?> inativarEstabelecimento(@PathVariable Long id) {
         return repository.findById(id).map(estab -> {
-            estab.setAtivo(0); // Inativa!
+            estab.setAtivo(0);
             repository.save(estab);
             return ResponseEntity.ok().build();
         }).orElse(ResponseEntity.notFound().build());
     }
 
-    // MUDANÇA AQUI: Agora usa buscarTodosAtivos()
     @GetMapping
     public ResponseEntity<List<Estabelecimento>> listarTodos() {
         try {

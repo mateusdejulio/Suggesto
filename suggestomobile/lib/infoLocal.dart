@@ -214,10 +214,10 @@ class _InfoLocalPageState extends State<InfoLocalPage>
                     style: const TextStyle(
                         color: Colors.white,
                         fontSize: 18,
-                        fontWeight: FontWeight.bold)),
+                        fontWeight: FontWeight.bold, fontFamily: "PoppinsSemi")),
                 Text(_bairro,
                     style:
-                        const TextStyle(color: Colors.white54, fontSize: 13)),
+                        const TextStyle(color: Colors.white54, fontSize: 13, fontFamily: "Poppins")),
               ],
             ),
           ),
@@ -263,7 +263,7 @@ class _InfoLocalPageState extends State<InfoLocalPage>
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Text(_descricao,
-          style: const TextStyle(color: Colors.white60)),
+          style: const TextStyle(color: Colors.white60),),
     );
   }
 
@@ -288,7 +288,7 @@ class _InfoLocalPageState extends State<InfoLocalPage>
       padding: const EdgeInsets.all(16),
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
-          backgroundColor: const Color(0xFF9B59D0),
+          backgroundColor: const Color.fromARGB(255, 57, 0, 103),
           minimumSize: const Size(double.infinity, 50),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14),
@@ -299,7 +299,7 @@ class _InfoLocalPageState extends State<InfoLocalPage>
         },
         child: const Text(
           "Fazer Sugestão",
-          style: TextStyle(fontWeight: FontWeight.bold),
+          style: TextStyle(fontWeight: FontWeight.bold, color: Color.fromARGB(229, 212, 212, 212), fontFamily: "Poppins"),
         ),
       ),
     );

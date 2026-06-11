@@ -52,11 +52,43 @@ public class Estabelecimento {
     private String fotoPath;
 
     public String getFotoPath() {
-        return fotoPath;
+        if (fotoPath == null || fotoPath.isBlank()) {
+            return fotoPath;
+        }
+        String limpo = fotoPath.replace('\\', '/').trim();
+        if (limpo.contains(":/") || limpo.startsWith("/")) {
+            int idx = limpo.lastIndexOf("/uploads/");
+            if (idx >= 0) {
+                return limpo.substring(idx + "/uploads/".length());
+            }
+            int barra = limpo.lastIndexOf('/');
+            return barra >= 0 ? limpo.substring(barra + 1) : limpo;
+        }
+        if (limpo.startsWith("uploads/")) {
+            return limpo.substring("uploads/".length());
+        }
+        return limpo;
     }
 
     public void setFotoPath(String fotoPath) {
-        this.fotoPath = fotoPath;
+        if (fotoPath == null || fotoPath.isBlank()) {
+            this.fotoPath = fotoPath;
+            return;
+        }
+        String limpo = fotoPath.replace('\\', '/').trim();
+        if (limpo.contains(":/")) {
+            int idx = limpo.lastIndexOf("/uploads/");
+            if (idx >= 0) {
+                limpo = limpo.substring(idx + "/uploads/".length());
+            } else {
+                int barra = limpo.lastIndexOf('/');
+                limpo = barra >= 0 ? limpo.substring(barra + 1) : limpo;
+            }
+        }
+        if (limpo.startsWith("uploads/")) {
+            limpo = limpo.substring("uploads/".length());
+        }
+        this.fotoPath = limpo;
     }
 
 

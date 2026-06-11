@@ -9,11 +9,8 @@ public class AvaliacaoRequestDTO {
     private String comentario;
     private String tipo;
 
-    // Construtor padrão (obrigatório para o Jackson/Spring)
     public AvaliacaoRequestDTO() {
     }
-
-    // --- Getters e Setters ---
 
     public Long getIdUsuario() {
         return idUsuario;

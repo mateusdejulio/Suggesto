@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=DM+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 /* ─── Animações ─────────────────────────────────────────────────────────── */
 @keyframes giro {
@@ -9,8 +9,7 @@
 .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, .72);
-  backdrop-filter: blur(6px);
+  background: rgba(0, 0, 0, 0.6);
   z-index: 100;
 }
 
@@ -21,13 +20,13 @@
   transform: translate(-50%, -50%);
   width: min(560px, 92vw);
   max-height: 90vh;
-  background: #0c0c1a;
-  border: 1px solid rgba(167, 139, 250, .18);
-  border-radius: 20px;
+  background: #1c1b26;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 8px;
   overflow: hidden;
   overflow-y: auto;
   z-index: 101;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   box-shadow: 0 32px 80px rgba(0, 0, 0, .7), 0 0 0 1px rgba(167, 139, 250, .08);
 }
 
@@ -84,7 +83,7 @@
 }
 
 .modal-titulo {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 1.2rem;
   font-weight: 800;
   color: #fff;
@@ -167,7 +166,7 @@
   color: #e2e2f0;
   padding: 11px 15px;
   font-size: .88rem;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   outline: none;
   width: 100%;
   transition: border-color .18s, background .18s;
@@ -303,7 +302,7 @@
   border-radius: 11px;
   font-size: .85rem;
   font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   cursor: pointer;
   transition: all .18s;
 }
@@ -325,7 +324,7 @@
   border-radius: 11px;
   font-size: .85rem;
   font-weight: 700;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   cursor: pointer;
   transition: all .18s;
 }

@@ -1,36 +1,43 @@
-// ===== ELEMENTOS DO TOAST =====
 const toastErro = document.getElementById('toastErro');
 const toastMsgErro = document.getElementById('toastMsgErro');
 
-// ===== MOSTRAR / ESCONDER CAMPOS =====
+function isPaginaAdmin() {
+    return window.location.pathname.includes('cadastroAdm');
+}
+
 document.addEventListener("DOMContentLoaded", function () {
     const camposAdmin = document.getElementById("campos-admin");
 
-    function atualizarCampos() {
-        const selecionado = document.querySelector('input[name="role"]:checked');
-        if (!selecionado) return;
+    if (isPaginaAdmin()) {
+        if (camposAdmin) camposAdmin.style.display = "block";
 
-        if (selecionado.value === "admin") {
-            camposAdmin.style.display = "block";
-        } else {
-            camposAdmin.style.display = "none";
+        const planoEscolhido = sessionStorage.getItem("planoEscolhido");
+        const elPlano = document.getElementById("planoSelecionado");
+
+        if (elPlano && planoEscolhido) {
+            elPlano.style.display = "block";
+            elPlano.textContent = `Plano selecionado: ${planoEscolhido}`;
         }
-        
-        // Limpa os erros ao trocar de tipo de conta
-        limparErros();
+    } else if (camposAdmin) {
+        function atualizarCampos() {
+            const selecionado = document.querySelector('input[name="role"]:checked');
+            if (!selecionado) return;
+
+            camposAdmin.style.display = selecionado.value === "admin" ? "block" : "none";
+            limparErros();
+        }
+
+        document.body.addEventListener("change", function (e) {
+            if (e.target.name === "role") atualizarCampos();
+        });
+
+        atualizarCampos();
     }
-
-    document.body.addEventListener("change", function (e) {
-        if (e.target.name === "role") atualizarCampos();
-    });
-
-    atualizarCampos();
 });
 
-// ===== FUNÇÕES VISUAIS (ERROS E SUCESSO) =====
 function mostrarMensagem(mensagem, tipo = 'erro') {
     toastMsgErro.textContent = mensagem;
-    
+
     if (tipo === 'sucesso') {
         toastErro.classList.add('sucesso');
     } else {
@@ -38,44 +45,45 @@ function mostrarMensagem(mensagem, tipo = 'erro') {
     }
 
     toastErro.classList.add('visivel');
-    
+
     setTimeout(() => {
         toastErro.classList.remove('visivel');
     }, 3500);
 }
 
-// Limpa as bordas vermelhas de todos os inputs e selects
 function limparErros() {
     document.querySelectorAll('.form input, .form select').forEach(elemento => {
         elemento.classList.remove('input-erro');
     });
 }
 
-// Limpa o erro do elemento específico quando o usuário começa a interagir
 document.querySelectorAll('.form input, .form select').forEach(elemento => {
     elemento.addEventListener('input', () => elemento.classList.remove('input-erro'));
     elemento.addEventListener('change', () => elemento.classList.remove('input-erro'));
 });
 
-// ===== VALIDAÇÃO =====
+function obterRole() {
+    if (isPaginaAdmin()) return "admin";
+
+    const roleElement = document.querySelector('input[name="role"]:checked');
+    return roleElement ? roleElement.value : "cliente";
+}
+
 function validarCampos() {
-    limparErros(); // Limpa erros anteriores
+    limparErros();
 
     const usuario = document.getElementById('usuario');
     const email = document.getElementById('email');
     const senha = document.getElementById('senha');
     const confirmarSenha = document.getElementById('confirmarSenha');
-    
-    const roleElement = document.querySelector('input[name="role"]:checked');
-    const role = roleElement ? roleElement.value : "";
+    const role = obterRole();
 
-    // Validação campos básicos
     if (!usuario.value.trim() || !email.value.trim() || !senha.value.trim() || !confirmarSenha.value.trim()) {
         if (!usuario.value.trim()) usuario.classList.add('input-erro');
         if (!email.value.trim()) email.classList.add('input-erro');
         if (!senha.value.trim()) senha.classList.add('input-erro');
         if (!confirmarSenha.value.trim()) confirmarSenha.classList.add('input-erro');
-        
+
         mostrarMensagem("Preencha todos os campos obrigatórios.");
         return false;
     }
@@ -99,19 +107,34 @@ function validarCampos() {
         return false;
     }
 
-    // Validação específica para Admin
+    const telefone = document.getElementById('telefone');
+    const cidade = document.getElementById('cidade');
+
+    if (role === 'cliente') {
+        if (telefone && !telefone.value.trim()) {
+            telefone.classList.add('input-erro');
+            mostrarMensagem("Informe seu telefone.");
+            return false;
+        }
+        if (cidade && !cidade.value.trim()) {
+            cidade.classList.add('input-erro');
+            mostrarMensagem("Informe sua cidade.");
+            return false;
+        }
+    }
+
     if (role === 'admin') {
-        const nome = document.getElementById('nomeCompleto');
+        const nomeCompleto = document.getElementById('nomeCompleto');
         const cpf = document.getElementById('cpf');
-        const telefone = document.getElementById('telefone');
         const cargo = document.getElementById('cargo');
 
-        if (!nome.value.trim() || !cpf.value.trim() || !telefone.value.trim() || !cargo.value) {
-            if (!nome.value.trim()) nome.classList.add('input-erro');
-            if (!cpf.value.trim()) cpf.classList.add('input-erro');
-            if (!telefone.value.trim()) telefone.classList.add('input-erro');
-            if (!cargo.value) cargo.classList.add('input-erro');
-            
+        if (!nomeCompleto?.value.trim() || !cpf?.value.trim() || !telefone?.value.trim() || !cargo?.value || !cidade?.value.trim()) {
+            if (!nomeCompleto?.value.trim()) nomeCompleto?.classList.add('input-erro');
+            if (!cpf?.value.trim()) cpf?.classList.add('input-erro');
+            if (!telefone?.value.trim()) telefone?.classList.add('input-erro');
+            if (!cargo?.value) cargo?.classList.add('input-erro');
+            if (!cidade?.value.trim()) cidade?.classList.add('input-erro');
+
             mostrarMensagem("Preencha todos os campos de administrador.");
             return false;
         }
@@ -126,32 +149,44 @@ function validarCampos() {
     return true;
 }
 
-// ===== CADASTRO REAL CONECTADO À API =====
 async function cadastrar() {
+    const role = obterRole();
+
+    if (role === 'admin') {
+        const planoEscolhido = sessionStorage.getItem("planoEscolhido");
+        if (!planoEscolhido || !planoEscolhido.trim()) {
+            mostrarMensagem("Você precisa escolher um plano antes de cadastrar!");
+            window.location.href = 'planos.html';
+            return;
+        }
+    }
+
     if (!validarCampos()) return;
 
     const botao = document.querySelector('.form button');
     const textoOriginal = botao.innerText;
-    
+
     botao.innerText = "Processando...";
     botao.disabled = true;
 
-    const roleSelecionada = document.querySelector('input[name="role"]:checked').value;
-    
-    // Objeto base
+    const telefoneEl = document.getElementById('telefone');
+    const cidadeEl = document.getElementById('cidade');
+
     const novoUsuario = {
         nome: document.getElementById('usuario').value.trim(),
         email: document.getElementById('email').value.trim(),
         senha: document.getElementById('senha').value.trim(),
-        tipoUsuario: roleSelecionada === "admin" ? "Administrador" : "Cliente"
+        tipoUsuario: role === "admin" ? "Administrador" : "Cliente",
+        telefone: telefoneEl ? telefoneEl.value.trim() : "",
+        cidade: cidadeEl ? cidadeEl.value.trim() : ""
     };
 
-    // Adiciona os campos extras se for Admin
-    if (roleSelecionada === "admin") {
-        novoUsuario.nome = document.getElementById('nomeCompleto').value.trim(); // Substitui o apelido pelo nome completo
+    if (role === "admin") {
+        const nomeCompleto = document.getElementById('nomeCompleto');
+        novoUsuario.nome = nomeCompleto ? nomeCompleto.value.trim() : novoUsuario.nome;
         novoUsuario.cpf = document.getElementById('cpf').value.trim();
-        novoUsuario.telefone = document.getElementById('telefone').value.trim();
         novoUsuario.cargo = document.getElementById('cargo').value;
+        novoUsuario.plano = sessionStorage.getItem("planoEscolhido");
     }
 
     try {
@@ -164,14 +199,16 @@ async function cadastrar() {
         const resultado = await resposta.json();
 
         if (resposta.ok) {
+            if (role === "admin") {
+                sessionStorage.removeItem("planoEscolhido");
+            }
+
             mostrarMensagem("Cadastro realizado com sucesso! Redirecionando...", "sucesso");
-            
-            // Aguarda 2 segundos para o usuário ler a mensagem verde e manda para o login
+
             setTimeout(() => {
                 window.location.href = "login.html";
             }, 2000);
         } else {
-            // Mostra o erro do backend (ex: E-mail já em uso)
             mostrarMensagem(resultado.message || "Erro ao cadastrar. Verifique os dados.");
             botao.innerText = textoOriginal;
             botao.disabled = false;

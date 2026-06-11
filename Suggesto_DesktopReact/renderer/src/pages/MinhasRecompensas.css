@@ -1,0 +1,137 @@
+.pagina-recompensas {
+  min-height: 100vh;
+  padding: 32px 40px 48px;
+  background: #0e0e16;
+  color: #f0f0f8;
+  font-family: "Inter", system-ui, sans-serif;
+}
+
+.recomp-header {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.recomp-header h1 {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 28px;
+  margin: 0 0 4px;
+}
+
+.recomp-header p {
+  margin: 0;
+  color: rgba(240, 240, 248, 0.55);
+  font-size: 14px;
+}
+
+.btn-voltar {
+  color: #a78bfa;
+  text-decoration: none;
+  font-size: 14px;
+  width: fit-content;
+}
+
+.recomp-layout {
+  display: grid;
+  grid-template-columns: 360px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .recomp-layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.recomp-form-card,
+.recomp-lista-card {
+  background: #13131f;
+  border: 1px solid rgba(255, 255, 255, 0.07);
+  border-radius: 16px;
+  padding: 24px;
+}
+
+.recomp-form-card h2,
+.recomp-lista-card h2 {
+  font-family: "Inter", system-ui, sans-serif;
+  font-size: 18px;
+  margin: 0 0 20px;
+}
+
+.recomp-form {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.recomp-label {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(240, 240, 248, 0.55);
+}
+
+.recomp-label input,
+.recomp-label textarea,
+.recomp-label select {
+  background: #1a1a2e;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 10px 12px;
+  color: #f0f0f8;
+  font-size: 14px;
+}
+
+.btn-salvar {
+  margin-top: 8px;
+  background: #7c3aed;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 16px;
+  color: #fff;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.btn-salvar:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.recomp-muted {
+  color: rgba(240, 240, 248, 0.45);
+  font-size: 14px;
+}
+
+.recomp-tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+
+.recomp-tabela th,
+.recomp-tabela td {
+  text-align: left;
+  padding: 12px 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.recomp-tabela th {
+  color: rgba(240, 240, 248, 0.45);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.btn-excluir {
+  background: rgba(248, 113, 113, 0.12);
+  border: 1px solid rgba(248, 113, 113, 0.3);
+  color: #f87171;
+  border-radius: 8px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 12px;
+}

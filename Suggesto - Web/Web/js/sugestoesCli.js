@@ -1,7 +1,5 @@
-// --- CONFIGURAÇÕES ---
 const API_BASE_URL = "http://localhost:8080/api/avaliacoes";
 
-// Memória local para os filtros funcionarem rápido
 let todasAsSugestoes = [];
 let filtrosAtuais = {
   texto: "",
@@ -15,7 +13,6 @@ document.addEventListener("DOMContentLoaded", () => {
   carregarSugestoesDoUsuario();
 });
 
-// --- COMUNICAÇÃO COM A API ---
 async function carregarSugestoesDoUsuario() {
   const idUsuario = localStorage.getItem("idUsuario") || 11; // Seu ID de teste
 
@@ -39,7 +36,6 @@ async function carregarSugestoesDoUsuario() {
   }
 }
 
-// --- LÓGICA DE FILTROS ---
 function aplicarFiltros() {
   filtrosAtuais.texto = document
     .getElementById("campoBusca")
@@ -170,7 +166,6 @@ function limparTudo() {
   aplicarFiltros();
 }
 
-// --- RENDERIZAÇÃO NA TELA ---
 function renderizarLista(sugestoes) {
   const container = document.getElementById("sugestoesList");
   const listaVazia = document.getElementById("listaVazia");
@@ -185,7 +180,6 @@ function renderizarLista(sugestoes) {
   listaVazia.style.display = "none";
 
   sugestoes.forEach((sugestao) => {
-    // --- 1. Lógica do Status ---
     const statusAtual = (sugestao.status || "analise").toLowerCase();
     const classeStatusFaixa = `card-faixa-${statusAtual}`;
     const classeStatusTexto = `status-${statusAtual}`;
@@ -201,13 +195,11 @@ function renderizarLista(sugestoes) {
       textoStatus = "Recusada";
     }
 
-    // --- 2. Lógica do Tipo Visual (Elogio, Crítica, Sugestão) ---
     const tipoAtual = (sugestao.tipo || "sugestao").toLowerCase();
     let iconeTipo = "💡";
     if (tipoAtual === "critica") iconeTipo = "⚠️";
     if (tipoAtual === "elogio") iconeTipo = "🏆";
 
-    // --- 3. Formatação Diversa ---
     const dataOriginal = sugestao.dataAvaliacao
       ? sugestao.dataAvaliacao.split("T")[0]
       : new Date().toISOString().split("T")[0];

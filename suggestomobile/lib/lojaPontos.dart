@@ -8,7 +8,7 @@ class LojasPontosPage extends StatefulWidget {
 }
 
 class _LojasPontosPageState extends State<LojasPontosPage> {
-  int _currentIndex = 2; // Pontos selecionado
+  int _currentIndex = 2;
   int _faixaSelecionada = 0;
 
   final int _meusPontos = 20652;
@@ -21,84 +21,80 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
   ];
 
   final List<Map<String, dynamic>> _recompensas = [
-    // Até 6.000 pts
     {
       'faixa': 0,
       'titulo': 'Café 200ml',
       'parceiro': 'Starbucks',
-      'imagem': 'https://images.unsplash.com/photo-1541167760496-1628856ab772?w=400&q=80',
+      'imagem': 'assets/images/starbucks.png',
       'cor': const Color(0xFF00704A),
-      'tag': 'CAFÉ',
+      'pontosTag': '4.000 pts',
     },
     {
       'faixa': 0,
       'titulo': '10% OFF',
       'parceiro': 'Coco Bambu',
-      'imagem': 'https://images.unsplash.com/photo-1559847844-5315695dadae?w=400&q=80',
+      'imagem': 'assets/images/cocobambu.png',
       'cor': const Color(0xFF8B1A1A),
-      'tag': '10% OFF',
+      'pontosTag': '5.000 pts',
     },
     {
       'faixa': 0,
-      'titulo': 'McColoso',
+      'titulo': 'McColosso',
       'parceiro': 'McDonald\'s',
-      'imagem': 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?w=400&q=80',
+      'imagem': 'assets/images/mcColosso.png',
       'cor': const Color(0xFFDA291C),
-      'tag': 'LANCHE',
+      'pontosTag': '4.000 pts',
     },
-    // Até 25.000 pts
     {
       'faixa': 2,
       'titulo': 'McFritas',
       'parceiro': 'McDonald\'s',
-      'imagem': 'https://images.unsplash.com/photo-1630384060421-cb20d0e0649d?w=400&q=80',
+      'imagem': 'assets/images/mcFritas.png',
       'cor': const Color(0xFFDA291C),
-      'tag': 'LANCHE',
+      'pontosTag': '20.000 pts',
     },
     {
       'faixa': 2,
       'titulo': 'R\$20 OFF',
       'parceiro': 'Zara',
-      'imagem': 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=400&q=80',
+      'imagem': 'assets/images/zara.jpg',
       'cor': const Color(0xFF222222),
-      'tag': 'MODA',
+      'pontosTag': '25.000 pts',
     },
     {
       'faixa': 2,
       'titulo': '10% OFF',
       'parceiro': 'Carrefour',
-      'imagem': 'https://images.unsplash.com/photo-1542838132-92c53300491e?w=400&q=80',
+      'imagem': 'assets/images/carrefour.png',
       'cor': const Color(0xFF004A97),
-      'tag': '10% OFF',
+      'pontosTag': '25.000 pts',
     },
-    // Até 45.000 pts
     {
       'faixa': 3,
       'titulo': '50% OFF',
       'parceiro': 'PokeMania',
-      'imagem': 'https://images.unsplash.com/photo-1569050467447-ce54b3bbc37d?w=400&q=80',
+      'imagem': 'assets/images/manapoke.jpg',
       'cor': const Color(0xFF1A3A2A),
-      'tag': '50% OFF',
+      'pontosTag': '30.000 pts',
     },
     {
       'faixa': 3,
       'titulo': '60% OFF',
       'parceiro': 'Youcom',
-      'imagem': 'https://images.unsplash.com/photo-1441984904996-e0b6ba687e04?w=400&q=80',
+      'imagem': 'assets/images/youcom.png',
       'cor': const Color(0xFF111111),
-      'tag': '60% OFF',
+      'pontosTag': '45.000 pts',
     },
     {
       'faixa': 3,
       'titulo': 'Cupom',
       'parceiro': 'BurgerKing',
-      'imagem': 'https://images.unsplash.com/photo-1586816001966-79b736744398?w=400&q=80',
+      'imagem': 'assets/images/bk.jpg',
       'cor': const Color(0xFF502314),
-      'tag': 'CUPOM',
+      'pontosTag': '45.000 pts',
     },
   ];
 
-  // Grupos de faixas exibidas
   final List<Map<String, dynamic>> _grupos = [
     {'label': 'Até 6.000 pts', 'faixaIndex': 0},
     {'label': 'Até 25.000 pts', 'faixaIndex': 2},
@@ -114,6 +110,7 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     return Scaffold(
       backgroundColor: const Color(0xFF12061E),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           _buildHeader(),
           Expanded(
@@ -122,9 +119,9 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 20),
+                  const SizedBox(height: 24),
                   _buildPontosDestaque(),
-                  const SizedBox(height: 16),
+                  const SizedBox(height: 24),
                   _buildFaixasTabs(),
                   const SizedBox(height: 24),
                   ..._grupos.map((grupo) => _buildGrupoRecompensas(
@@ -142,68 +139,72 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildHeader() {
     return Container(
       width: double.infinity,
-      decoration: const BoxDecoration(
-        color: Color(0xFF1A0A2E),
-        border: Border(
-          bottom: BorderSide(color: Color(0xFF2A1A4A), width: 1),
-        ),
-      ),
+      color: const Color(0xFF12061E),
       child: SafeArea(
         bottom: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(20, 16, 20, 16),
+          padding: const EdgeInsets.fromLTRB(20, 24, 20, 16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Localização
-              Text(
+              const Text(
                 'Sua localização',
                 style: TextStyle(
-                  color: Colors.white.withOpacity(0.5),
-                  fontSize: 12,
-                  fontFamily: 'Syne',
+                  color: Colors.white,
+                  fontSize: 15,
+                  fontFamily: 'PoppinsBold',
                 ),
               ),
-              const SizedBox(height: 6),
-              Row(
-                children: [
-                  const Icon(
-                    Icons.location_on,
-                    color: Color(0xFF9B59D0),
-                    size: 16,
-                  ),
-                  const SizedBox(width: 4),
-                  Expanded(
-                    child: Text(
-                      'RUA ASSIS, VILA LEMOS, Nº 40 – CAMPINAS',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Syne',
-                        letterSpacing: 0.2,
-                      ),
-                      overflow: TextOverflow.ellipsis,
+              const SizedBox(height: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                decoration: BoxDecoration(
+                  color: const Color(0xFF1E0E32),
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Row(
+                      children: [
+                        const Icon(
+                          Icons.location_on_outlined,
+                          color: Colors.white54,
+                          size: 18,
+                        ),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: Text(
+                            'RUA ASSIS, VILA LEMOS, Nº 40 – CAMPINAS',
+                            style: const TextStyle(
+                              color: Colors.white,
+                              fontSize: 11,
+                              fontFamily: 'PoppinsSemi',
+                              letterSpacing: 0.3,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 6),
-              GestureDetector(
-                onTap: () {},
-                child: Text(
-                  'Escolher outra localização',
-                  style: TextStyle(
-                    color: const Color(0xFF9B59D0).withOpacity(0.85),
-                    fontSize: 11,
-                    decoration: TextDecoration.underline,
-                    decorationColor: const Color(0xFF9B59D0),
-                    fontFamily: 'Syne',
-                  ),
+                    const SizedBox(height: 8),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Text(
+                        'Escolher outra localização',
+                        style: TextStyle(
+                          color: Colors.white54,
+                          fontSize: 11,
+                          decoration: TextDecoration.underline,
+                          decorationColor: Colors.white54,
+                          fontFamily: 'Poppins',
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -213,42 +214,29 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildPontosDestaque() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 20),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          Text(
-            '${_formatarPontos(_meusPontos)} pts.',
-            style: const TextStyle(
-              color: Color(0xFF9B59D0),
-              fontSize: 34,
-              fontWeight: FontWeight.bold,
-              fontFamily: 'Syne',
-              height: 1,
-            ),
+      child: ShaderMask(
+        shaderCallback: (bounds) => const LinearGradient(
+          colors: [Color(0xFF88C3BE), Color(0xFFCED0EA)],
+          begin: Alignment.centerLeft,
+          end: Alignment.centerRight,
+        ).createShader(bounds),
+        child: Text(
+          '${_formatarPontos(_meusPontos)} pts.',
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 26,
+            fontFamily: 'PoppinsBold',
+            height: 1,
           ),
-          const SizedBox(width: 8),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 4),
-            child: Text(
-              'seus pontos',
-              style: TextStyle(
-                color: Colors.white.withOpacity(0.4),
-                fontSize: 13,
-                fontFamily: 'Syne',
-              ),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }
 
   String _formatarPontos(int pts) {
-    // ex: 20652 → 20.652
     final s = pts.toString();
     if (s.length <= 3) return s;
     final List<String> partes = [];
@@ -260,51 +248,38 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     return partes.join('.');
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildFaixasTabs() {
     return SizedBox(
-      height: 36,
+      height: 30,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.symmetric(horizontal: 20),
         itemCount: _faixas.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 0),
+        separatorBuilder: (_, __) => const SizedBox(width: 24),
         itemBuilder: (context, index) {
           final isSelected = _faixaSelecionada == index;
           return GestureDetector(
             onTap: () => setState(() => _faixaSelecionada = index),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 12),
-                  child: Text(
-                    _faixas[index],
-                    style: TextStyle(
-                      color: isSelected
-                          ? const Color(0xFF9B59D0)
-                          : Colors.white.withOpacity(0.38),
-                      fontSize: 12,
-                      fontFamily: 'Syne',
-                      fontWeight: isSelected
-                          ? FontWeight.bold
-                          : FontWeight.normal,
-                    ),
+            child: Container(
+              decoration: BoxDecoration(
+                border: Border(
+                  bottom: BorderSide(
+                    color: isSelected ? const Color(0xFF4A2A7A) : Colors.transparent,
+                    width: 2,
                   ),
                 ),
-                const SizedBox(height: 4),
-                AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  height: 2,
-                  width: 60,
-                  decoration: BoxDecoration(
-                    color: isSelected
-                        ? const Color(0xFF9B59D0)
-                        : Colors.transparent,
-                    borderRadius: BorderRadius.circular(2),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: 8),
+                child: Text(
+                  _faixas[index],
+                  style: TextStyle(
+                    color: isSelected ? Colors.white : Colors.white.withOpacity(0.4),
+                    fontSize: 13,
+                    fontFamily: isSelected ? 'PoppinsSemi' : 'Poppins',
                   ),
                 ),
-              ],
+              ),
             ),
           );
         },
@@ -312,7 +287,6 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildGrupoRecompensas(String label, int faixaIndex) {
     final lista = _recompensasDaFaixa(faixaIndex);
     if (lista.isEmpty) return const SizedBox();
@@ -327,24 +301,22 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
             style: const TextStyle(
               color: Colors.white,
               fontSize: 16,
-              fontFamily: 'Syne',
-              fontWeight: FontWeight.bold,
+              fontFamily: 'PoppinsBold',
             ),
           ),
         ),
-        const SizedBox(height: 12),
+        const SizedBox(height: 16),
         SizedBox(
-          height: 148,
+          height: 145,
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 20),
             itemCount: lista.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (context, index) =>
-                _buildRecompensaCard(lista[index]),
+            separatorBuilder: (_, __) => const SizedBox(width: 14),
+            itemBuilder: (context, index) => _buildRecompensaCard(lista[index]),
           ),
         ),
-        const SizedBox(height: 24),
+        const SizedBox(height: 8),
       ],
     );
   }
@@ -352,115 +324,62 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
   Widget _buildRecompensaCard(Map<String, dynamic> recompensa) {
     return GestureDetector(
       onTap: () => _mostrarDetalhes(recompensa),
-      child: Container(
-        width: 112,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          color: const Color(0xFF1E0E32),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.35),
-              blurRadius: 8,
-              offset: const Offset(0, 4),
-            ),
-          ],
-        ),
-        clipBehavior: Clip.hardEdge,
+      child: SizedBox(
+        width: 110,
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // Imagem
-            Expanded(
-              flex: 3,
-              child: Stack(
-                children: [
-                  Positioned.fill(
-                    child: Image.network(
-                      recompensa['imagem'],
-                      fit: BoxFit.cover,
-                      errorBuilder: (_, __, ___) => Container(
-                        color: recompensa['cor'] as Color,
-                        child: const Center(
-                          child: Icon(Icons.card_giftcard,
-                              color: Colors.white38, size: 28),
-                        ),
-                      ),
-                    ),
+            Container(
+              height: 110,
+              width: 110,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(10),
+                image: DecorationImage(
+                  image: AssetImage(recompensa['imagem']),
+                  fit: BoxFit.cover,
+                ),
+              ),
+              child: Align(
+                alignment: Alignment.topLeft,
+                child: Container(
+                  margin: const EdgeInsets.only(top: 6, left: 6),
+                  padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 3),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withOpacity(0.65),
+                    borderRadius: BorderRadius.circular(4),
                   ),
-                  // Overlay gradiente
-                  Positioned.fill(
-                    child: DecoratedBox(
-                      decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topCenter,
-                          end: Alignment.bottomCenter,
-                          colors: [
-                            Colors.transparent,
-                            Colors.black.withOpacity(0.4),
-                          ],
-                        ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        Icons.generating_tokens,
+                        color: Colors.white,
+                        size: 9,
                       ),
-                    ),
-                  ),
-                  // Tag topo esquerdo
-                  Positioned(
-                    top: 6,
-                    left: 6,
-                    child: Container(
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 5, vertical: 2),
-                      decoration: BoxDecoration(
-                        color: (recompensa['cor'] as Color).withOpacity(0.85),
-                        borderRadius: BorderRadius.circular(4),
-                      ),
-                      child: Text(
-                        recompensa['tag'],
+                      const SizedBox(width: 3),
+                      Text(
+                        recompensa['pontosTag'],
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 8,
-                          fontWeight: FontWeight.bold,
-                          letterSpacing: 0.3,
+                          fontFamily: 'PoppinsSemi',
                         ),
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ),
-            ),
-            // Info
-            Expanded(
-              flex: 2,
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(8, 6, 8, 6),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      recompensa['titulo'],
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 12,
-                        fontWeight: FontWeight.bold,
-                        fontFamily: 'Syne',
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                    const SizedBox(height: 2),
-                    Text(
-                      recompensa['parceiro'],
-                      style: TextStyle(
-                        color: Colors.white.withOpacity(0.5),
-                        fontSize: 10,
-                        fontFamily: 'Syne',
-                      ),
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                  ],
                 ),
               ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '${recompensa['titulo']} - ${recompensa['parceiro']}',
+              style: const TextStyle(
+                color: Colors.white,
+                fontSize: 10,
+                fontFamily: 'Poppins',
+              ),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
             ),
           ],
         ),
@@ -468,7 +387,6 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   void _mostrarDetalhes(Map<String, dynamic> recompensa) {
     showModalBottomSheet(
       context: context,
@@ -483,7 +401,6 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            // Handle
             Container(
               width: 40,
               height: 4,
@@ -493,13 +410,12 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
               ),
             ),
             const SizedBox(height: 20),
-            // Imagem
             ClipRRect(
               borderRadius: BorderRadius.circular(16),
               child: SizedBox(
                 height: 160,
                 width: double.infinity,
-                child: Image.network(
+                child: Image.asset(
                   recompensa['imagem'],
                   fit: BoxFit.cover,
                   errorBuilder: (_, __, ___) => Container(
@@ -524,8 +440,7 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
                         style: const TextStyle(
                           color: Colors.white,
                           fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          fontFamily: 'Syne',
+                          fontFamily: 'PoppinsBold',
                         ),
                       ),
                       const SizedBox(height: 4),
@@ -534,15 +449,14 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
                         style: TextStyle(
                           color: Colors.white.withOpacity(0.5),
                           fontSize: 14,
-                          fontFamily: 'Syne',
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ],
                   ),
                 ),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                   decoration: BoxDecoration(
                     color: const Color(0xFF9B59D0).withOpacity(0.15),
                     borderRadius: BorderRadius.circular(10),
@@ -554,8 +468,7 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
                     style: TextStyle(
                       color: Color(0xFF9B59D0),
                       fontSize: 12,
-                      fontWeight: FontWeight.bold,
-                      fontFamily: 'Syne',
+                      fontFamily: 'PoppinsBold',
                     ),
                   ),
                 ),
@@ -579,8 +492,7 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
                   'Resgatar recompensa',
                   style: TextStyle(
                     fontSize: 15,
-                    fontWeight: FontWeight.bold,
-                    fontFamily: 'Syne',
+                    fontFamily: 'PoppinsBold',
                   ),
                 ),
               ),
@@ -591,41 +503,20 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildBottomNav() {
     final items = [
-      {
-        'icon': Icons.home_outlined,
-        'activeIcon': Icons.home,
-        'label': 'Início'
-      },
-      {
-        'icon': Icons.chat_bubble_outline,
-        'activeIcon': Icons.chat_bubble,
-        'label': 'Minhas\nSugestões'
-      },
-      {
-        'icon': Icons.stars_outlined,
-        'activeIcon': Icons.stars,
-        'label': 'Pontos'
-      },
-      {
-        'icon': Icons.person_outline,
-        'activeIcon': Icons.person,
-        'label': 'Perfil'
-      },
+      {'icon': Icons.home_filled, 'label': 'Início'},
+      {'icon': Icons.forum, 'label': 'Minhas\nSugestões'},
+      {'icon': Icons.monetization_on, 'label': 'Pontos'},
+      {'icon': Icons.person, 'label': 'Perfil'},
     ];
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A0A2E),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            blurRadius: 20,
-            offset: const Offset(0, -4),
-          ),
-        ],
+        color: const Color(0xFF12061E),
+        border: const Border(
+          top: BorderSide(color: Color(0xFF1E0E32), width: 1),
+        ),
       ),
       child: SafeArea(
         top: false,
@@ -636,7 +527,7 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
             children: List.generate(items.length, (index) {
               final isSelected = _currentIndex == index;
               return GestureDetector(
-                onTap:() {
+                onTap: () {
                   setState(() => _currentIndex = index);
 
                   if (index == 0) Navigator.pushNamed(context, '/home_cliente');
@@ -645,33 +536,28 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
                 },
                 behavior: HitTestBehavior.opaque,
                 child: SizedBox(
-                  width: 70,
+                  width: 75,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        isSelected
-                            ? items[index]['activeIcon'] as IconData
-                            : items[index]['icon'] as IconData,
+                        items[index]['icon'] as IconData,
                         color: isSelected
-                            ? const Color(0xFF9B59D0)
-                            : Colors.white38,
+                            ? Colors.white
+                            : Colors.white.withOpacity(0.5),
                         size: 24,
                       ),
-                      const SizedBox(height: 3),
+                      const SizedBox(height: 4),
                       Text(
                         items[index]['label'] as String,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: isSelected
-                              ? const Color(0xFF9B59D0)
-                              : Colors.white38,
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.5),
                           fontSize: 10,
-                          height: 1.2,
-                          fontFamily: 'Syne',
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.normal,
+                          height: 1.1,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ],

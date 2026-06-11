@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mercado de Pontos — Suggesto</title>
   <link rel="icon" type="image/png" href="imagens/logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/lojaPontosCli.css">
 <style>
@@ -56,7 +56,7 @@
   }
 
   .logo-text {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
     font-size: 15px;
     color: #e8e6ff;
@@ -67,7 +67,7 @@
     font-size: 10px;
     font-weight: 400;
     color: #6b6890;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     margin-top: 1px;
@@ -267,7 +267,6 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
       Minhas Sugestões
-      <span class="nav-badge">24</span>
     </a>
 
     <a class="nav-item active" href="lojapontosCli.html">
@@ -366,12 +365,12 @@
             <span class="saldo-numero" id="saldoPontos">20.652</span>
             <span class="saldo-unidade">pts.</span>
           </div>
-          <p class="saldo-dica">Você está a <strong>348 pts</strong> do próximo nível</p>
+          <p class="saldo-dica" id="saldoDica">Calculando progresso...</p>
           <div class="saldo-barra-wrap">
             <div class="saldo-barra">
-              <div class="saldo-barra-progresso" style="width: 98.3%"></div>
+              <div class="saldo-barra-progresso" id="saldoBarraProgresso" style="width: 0%"></div>
             </div>
-            <span class="saldo-meta">21.000 pts</span>
+            <span class="saldo-meta" id="saldoMeta">—</span>
           </div>
         </div>
         <div class="saldo-direita">
@@ -387,7 +386,7 @@
             </div>
             <div class="estat-divider"></div>
             <div class="estatistica-item">
-              <span class="estat-numero">Gold</span>
+              <span class="estat-numero" id="estatNivel">—</span>
               <span class="estat-label">Nível</span>
             </div>
           </div>
@@ -404,265 +403,8 @@
       <button class="faixa-btn" onclick="filtrarFaixa(this, 999999)">Todos</button>
     </div>
 
-    <!-- ÁREA DE RECOMPENSAS -->
-    <div class="mercado-area" id="mercadoArea">
-
-      <!-- SEÇÃO ATÉ 6.000 pts -->
-      <section class="recomp-secao" data-faixa="6000">
-        <div class="secao-topo">
-          <div class="secao-titulo-wrap">
-            
-            <h2 class="secao-titulo">Até 6.000 pts</h2>
-          </div>
-          <span class="secao-count">3 recompensas disponíveis</span>
-        </div>
-
-        <div class="recomp-grade">
-          <div class="recomp-card" data-custo="500" data-categoria="cafe">
-            <div class="recomp-imagem recomp-img-starbucks">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">Starbucks</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>500 pts</span>
-              </div>
-              <h3 class="recomp-nome">Café 200ml</h3>
-              <p class="recomp-desc">Um café fresquinho para começar o dia com energia</p>
-              <button class="recomp-btn" onclick="abrirResgate('Café 200ml — Starbucks', 500)">
-                Resgatar
-              </button>
-            </div>
-          </div>
-
-          <div class="recomp-card" data-custo="3000" data-categoria="comida">
-            <div class="recomp-imagem recomp-img-coco">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">Coco Bambu</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>3.000 pts</span>
-              </div>
-              <h3 class="recomp-nome">10% OFF</h3>
-              <p class="recomp-desc">Desconto válido em qualquer pedido acima de R$ 60</p>
-              <button class="recomp-btn" onclick="abrirResgate('10% OFF — Coco Bambu', 3000)">
-                Resgatar
-              </button>
-            </div>
-          </div>
-
-          <div class="recomp-card" data-custo="5500" data-categoria="fastfood">
-            <div class="recomp-imagem recomp-img-mcdonalds">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">McDonald's</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>5.500 pts</span>
-              </div>
-              <h3 class="recomp-nome">McColosso</h3>
-              <p class="recomp-desc">McColosseo grátis na compra de uma bebida</p>
-              <button class="recomp-btn" onclick="abrirResgate('McColosseo — McDonald\'s', 5500)">
-                Resgatar
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SEÇÃO ATÉ 18.000 pts -->
-      <section class="recomp-secao" data-faixa="18000">
-        <div class="secao-topo">
-          <div class="secao-titulo-wrap">
-            
-            <h2 class="secao-titulo">Até 18.000 pts</h2>
-          </div>
-          <span class="secao-count">2 recompensas disponíveis</span>
-        </div>
-
-        <div class="recomp-grade">
-
-          <div class="recomp-card" data-custo="10000" data-categoria="fastfood">
-            <div class="recomp-imagem recomp-img-mcfrites">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">McDonald's</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>10.000 pts</span>
-              </div>
-              <h3 class="recomp-nome">McFritas</h3>
-              <p class="recomp-desc">Batata frita grande grátis em qualquer unidade</p>
-              <button class="recomp-btn" onclick="abrirResgate('McFrites — McDonald\'s', 10000)">
-                Resgatar
-              </button>
-            </div>
-          </div>
-
-          <div class="recomp-card" data-custo="15000" data-categoria="moda">
-            <div class="recomp-imagem recomp-img-zara">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">Zara</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>15.000 pts</span>
-              </div>
-              <h3 class="recomp-nome">R$ 20 OFF</h3>
-              <p class="recomp-desc">Cupom de desconto para qualquer compra na loja online</p>
-              <button class="recomp-btn" onclick="abrirResgate('R$ 20 OFF — Zara', 15000)">
-                Resgatar
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SEÇÃO ATÉ 25.000 pts -->
-      <section class="recomp-secao" data-faixa="25000">
-        <div class="secao-topo">
-          <div class="secao-titulo-wrap">
-           
-            <h2 class="secao-titulo">Até 25.000 pts</h2>
-          </div>
-          <span class="secao-count">1 recompensa disponível</span>
-        </div>
-
-        <div class="recomp-grade">
-
-          <div class="recomp-card" data-custo="22000" data-categoria="supermercado">
-            <div class="recomp-imagem recomp-img-carrefour">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">Carrefour</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>22.000 pts</span>
-              </div>
-              <h3 class="recomp-nome">10% OFF</h3>
-              <p class="recomp-desc">Desconto em compras acima de R$ 150 no supermercado</p>
-              <button class="recomp-btn recomp-btn-bloqueado" onclick="abrirResgate('10% OFF — Carrefour', 22000)" disabled>
-                <i class="fas fa-lock"></i>
-                Pontos insuficientes
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SEÇÃO ATÉ 45.000 pts -->
-      <section class="recomp-secao" data-faixa="45000">
-        <div class="secao-topo">
-          <div class="secao-titulo-wrap">
-        
-            <h2 class="secao-titulo">Até 45.000 pts</h2>
-          </div>
-          <span class="secao-count">3 recompensas disponíveis</span>
-        </div>
-
-        <div class="recomp-grade">
-
-          <div class="recomp-card recomp-card-premium" data-custo="30000" data-categoria="comida">
-            <div class="recomp-imagem recomp-img-manapoke">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">Mana Poke</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-              <span class="recomp-selo">Popular</span>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>30.000 pts</span>
-              </div>
-              <h3 class="recomp-nome">50% OFF</h3>
-              <p class="recomp-desc">Metade do preço em qualquer poke bowl do cardápio</p>
-              <button class="recomp-btn recomp-btn-bloqueado" disabled>
-                <i class="fas fa-lock"></i>
-                Pontos insuficientes
-              </button>
-            </div>
-          </div>
-
-          <div class="recomp-card recomp-card-premium" data-custo="38000" data-categoria="moda">
-            <div class="recomp-imagem recomp-img-youcom">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">YouCom</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-              <span class="recomp-selo">Destaque</span>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>38.000 pts</span>
-              </div>
-              <h3 class="recomp-nome">60% OFF</h3>
-              <p class="recomp-desc">Desconto em compras a partir de R$200 YouCom</p>
-              <button class="recomp-btn recomp-btn-bloqueado" disabled>
-                <i class="fas fa-lock"></i>
-                Pontos insuficientes
-              </button>
-            </div>
-          </div>
-
-          <div class="recomp-card recomp-card-premium" data-custo="42000" data-categoria="fastfood">
-            <div class="recomp-imagem recomp-img-burgerking">
-              <div class="recomp-overlay"></div>
-              <span class="recomp-estabelecimento">Burger King</span>
-              <button class="recomp-salvar" onclick="salvarRecomp(this)">
-                <i class="far fa-heart"></i>
-              </button>
-              <span class="recomp-selo">Exclusivo</span>
-            </div>
-            <div class="recomp-corpo">
-              <div class="recomp-custo">
-                <i class="fas fa-star"></i>
-                <span>42.000 pts</span>
-              </div>
-              <h3 class="recomp-nome">Cupom BK</h3>
-              <p class="recomp-desc">Combo Whopper completo com sobremesa inclusa grátis</p>
-              <button class="recomp-btn recomp-btn-bloqueado" disabled>
-                <i class="fas fa-lock"></i>
-                Pontos insuficientes
-              </button>
-            </div>
-          </div>
-
-        </div>
-      </section>
-
-    </div>
+    <!-- ÁREA DE RECOMPENSAS (renderizada via JS) -->
+    <div class="mercado-area" id="mercadoArea"></div>
 
     <!-- ESTADO VAZIO -->
     <div class="mercado-vazio" id="mercadoVazio">
@@ -701,7 +443,7 @@
       <div class="modal-saldo-wrap">
         <div class="modal-saldo-linha">
           <span>Seu saldo atual</span>
-          <span class="modal-saldo-valor">20.652 pts</span>
+          <span class="modal-saldo-valor" id="modalSaldoAtual">—</span>
         </div>
         <div class="modal-saldo-linha">
           <span>Custo do resgate</span>
@@ -719,7 +461,12 @@
         <span>O cupom será enviado para o seu e-mail cadastrado em até 5 minutos.</span>
       </div>
 
-      <div class="modal-acoes">
+      <div class="modal-cupom" id="modalCupomSucesso" style="display:none">
+        <p class="modal-cupom-label">Seu cupom</p>
+        <p class="modal-cupom-codigo" id="modalCodigoCupom">SUG-XXXXXX</p>
+      </div>
+
+      <div class="modal-acoes" id="modalAcoesResgate">
         <button class="modal-btn-cancelar" onclick="fecharModal()">Cancelar</button>
         <button class="modal-btn-confirmar" onclick="confirmarResgate()">
           <i class="fas fa-check"></i>
@@ -735,6 +482,7 @@
     <span id="toastMsg">Resgate realizado com sucesso!</span>
   </div>
 
+  <script src="js/pontosNiveis.js"></script>
   <script src="js/lojaPontosCli.js"></script>
 </body>
 </html>

@@ -13,10 +13,11 @@ import java.util.Optional;
 @Repository
 public interface AvaliacaoRepository extends JpaRepository<Avaliacao, Long> {
 
-    // Usamos @Query para explicar ao Spring exatamente o que queremos
     @Query("SELECT a FROM Avaliacao a WHERE a.estabelecimento.idEstabelecimento = :id")
     List<Avaliacao> findByEstabelecimentoId(@Param("id") Long id);
 
     @Query("SELECT a FROM Avaliacao a WHERE a.usuario.id = :usuarioId")
     List<Avaliacao> buscarPorUsuario(@Param("usuarioId") Long usuarioId);
+
+    long countByUsuario_Id(Long usuarioId);
 }

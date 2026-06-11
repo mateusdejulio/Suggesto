@@ -1,25 +1,19 @@
-// ===== ELEMENTOS =====
 const emailInput = document.getElementById('email');
 const senhaInput = document.getElementById('senha');
 const toastErro = document.getElementById('toastErro');
 const toastMsgErro = document.getElementById('toastMsgErro');
 
-// ===== FUNÇÃO PARA MOSTRAR O ERRO BONITO =====
 function mostrarErro(mensagem) {
     toastMsgErro.textContent = mensagem;
     toastErro.classList.add('visivel');
     
-    // Esconde a mensagem automaticamente depois de 3.5 segundos
     setTimeout(() => {
         toastErro.classList.remove('visivel');
     }, 3500);
 }
 
-// Limpa a borda vermelha de erro quando o usuário começa a digitar
-emailInput.addEventListener('input', () => emailInput.classList.remove('input-erro'));
 senhaInput.addEventListener('input', () => senhaInput.classList.remove('input-erro'));
 
-// ===== VALIDAÇÃO =====
 function validarCampos() {
     const email = emailInput.value.trim();
     const senha = senhaInput.value.trim();

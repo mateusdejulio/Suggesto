@@ -1,12 +1,48 @@
-// ===== CARREGAR DADOS DO USUÁRIO (localStorage) =====
+const API_BASE = "http://localhost:8080/api";
+const PLACEHOLDER_ESTABELECIMENTO = "imagens/placeholder-local.png";
+
+function obterIdUsuario() {
+  const raw = localStorage.getItem("idUsuario") ?? sessionStorage.getItem("idUsuario");
+  const id = Number(raw);
+  return Number.isFinite(id) && id > 0 ? id : null;
+}
+
+function obterIdEstabelecimento(estab) {
+  const candidatos = [
+    estab?.idEstabelecimento,
+    estab?.id_estabelecimento,
+    estab?.id
+  ];
+
+  for (const valor of candidatos) {
+    const id = Number(valor);
+    if (Number.isFinite(id) && id > 0) return id;
+  }
+
+  return null;
+}
+
+function urlFotoEstabelecimento(fotoPath) {
+  const nome = fotoPath ? String(fotoPath).trim() : "";
+  if (!nome) return PLACEHOLDER_ESTABELECIMENTO;
+  if (nome.startsWith("http://") || nome.startsWith("https://")) return nome;
+  const relativo = nome.replace(/^uploads\//, "");
+  return `http://localhost:8080/uploads/${relativo}`;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
+  const idUsuario = localStorage.getItem('idUsuario');
+  if (!idUsuario) {
+    window.location.href = 'login.html';
+    return;
+  }
+
   carregarDadosUsuario();
-  atualizarContador();
+  carregarLocaisSalvos();
 });
 
 function carregarDadosUsuario() {
   const nomeCompleto = localStorage.getItem('nomeUsuario') || 'Cliente';
-  const primeiroNome = nomeCompleto.split(' ')[0];
 
   const partes = nomeCompleto.split(' ');
   let iniciais = partes[0].charAt(0).toUpperCase();
@@ -20,8 +56,107 @@ function carregarDadosUsuario() {
   if (elAvatar) elAvatar.innerText = iniciais;
 }
 
+async function carregarLocaisSalvos() {
+  const grade = document.getElementById('locaisGrade');
+  const vazio = document.getElementById('locaisVazio');
+  const idUsuario = localStorage.getItem('idUsuario');
 
-// ===== FILTRO DE BUSCA =====
+  if (!grade || !idUsuario) return;
+
+  try {
+    const resposta = await fetch(`${API_BASE}/locais-salvos/usuario/${idUsuario}`);
+
+    if (!resposta.ok) {
+      throw new Error('Erro ao buscar locais salvos.');
+    }
+
+    const estabelecimentos = await resposta.json();
+    grade.innerHTML = '';
+
+    if (!estabelecimentos.length) {
+      vazio?.classList.add('visivel');
+      atualizarContador();
+      return;
+    }
+
+    vazio?.classList.remove('visivel');
+
+    estabelecimentos.forEach(estab => {
+      const card = criarCardSalvo(estab);
+      if (!card.dataset.estabelecimentoId) {
+        console.warn('Estabelecimento sem ID válido — remoção pode falhar:', estab);
+      }
+      grade.appendChild(card);
+    });
+
+    atualizarContador();
+  } catch (error) {
+    console.error('Erro ao carregar locais salvos:', error);
+    grade.innerHTML = `
+      <p style="color: white; text-align: center; grid-column: 1/-1;">
+        Não foi possível carregar seus locais salvos.
+      </p>
+    `;
+  }
+}
+
+function criarCardSalvo(estab) {
+  const idCerto = obterIdEstabelecimento(estab);
+  const nomeCerto = estab.nome || 'Nome Indisponível';
+  const categoriaCard = estab.categoria ? estab.categoria.toLowerCase() : 'outros';
+  const imagemURL = urlFotoEstabelecimento(estab.fotoPath);
+
+  const card = document.createElement('div');
+  card.className = 'local-card';
+  card.dataset.categoria = categoriaCard;
+  card.dataset.nome = nomeCerto;
+  if (idCerto) {
+    card.dataset.estabelecimentoId = String(idCerto);
+  }
+
+  card.innerHTML = `
+    <div class="local-imagem">
+      <img class="local-foto" src="${imagemURL}" alt="${nomeCerto}"
+        onerror="this.onerror=null;this.src='${PLACEHOLDER_ESTABELECIMENTO}'">
+      <span class="local-categoria">${estab.categoria || 'Local'}</span>
+      <button class="local-remover" type="button" title="Remover dos salvos"
+        data-estabelecimento-id="${idCerto ?? ''}">
+        <i class="fas fa-heart"></i>
+      </button>
+    </div>
+    <div class="local-info">
+      <div class="local-info-topo">
+        <div>
+          <h3 class="local-nome">${nomeCerto}</h3>
+          <p class="local-endereco"><i class="fas fa-map-marker-alt"></i> ${estab.endereco || 'Endereço não informado'}</p>
+        </div>
+        <div class="local-nota">
+          <i class="fas fa-star"></i>
+          <span>5.0</span>
+        </div>
+      </div>
+      <div class="local-rodape">
+        <span class="local-tag">#${estab.categoria || 'Sugestão'}</span>
+        <button class="local-btn-sugestao" type="button">
+          <i class="fas fa-comment-alt"></i> Sugerir
+        </button>
+      </div>
+    </div>
+  `;
+
+  card.querySelector('.local-remover')?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    confirmarRemover(card);
+  });
+
+  card.querySelector('.local-btn-sugestao')?.addEventListener('click', (event) => {
+    event.stopPropagation();
+    window.location.href = `./fazerSugestao.html?id=${idCerto}&nome=${encodeURIComponent(nomeCerto)}`;
+  });
+
+  return card;
+}
+
 function filtrarLocais() {
   const busca = document.getElementById('campoBusca').value.toLowerCase();
   const cards = document.querySelectorAll('#locaisGrade .local-card');
@@ -36,12 +171,10 @@ function filtrarLocais() {
     if (visivel) visiveis++;
   });
 
-  vazio.classList.toggle('visivel', visiveis === 0);
+  vazio.classList.toggle('visivel', visiveis === 0 && cards.length > 0);
   atualizarContador();
 }
 
-
-// ===== FILTRO POR CATEGORIA =====
 function filtrarCategoria(botao, categoria) {
   document.querySelectorAll('.filtro-chip').forEach(b => b.classList.remove('filtro-chip-ativo'));
   botao.classList.add('filtro-chip-ativo');
@@ -57,12 +190,10 @@ function filtrarCategoria(botao, categoria) {
     if (visivel) visiveis++;
   });
 
-  vazio.classList.toggle('visivel', visiveis === 0);
+  vazio.classList.toggle('visivel', visiveis === 0 && cards.length > 0);
   atualizarContador();
 }
 
-
-// ===== LIMPAR FILTROS =====
 function limparFiltros() {
   document.getElementById('campoBusca').value = '';
   const chips = document.querySelectorAll('.filtro-chip');
@@ -74,8 +205,6 @@ function limparFiltros() {
   atualizarContador();
 }
 
-
-// ===== ORDENAÇÃO =====
 function ordenarLocais() {
   const criterio = document.getElementById('selectOrdenacao').value;
   const grade = document.getElementById('locaisGrade');
@@ -84,68 +213,80 @@ function ordenarLocais() {
   cards.sort((a, b) => {
     if (criterio === 'nome') {
       return a.dataset.nome.localeCompare(b.dataset.nome);
-    } else if (criterio === 'avaliacao') {
-      return parseFloat(b.dataset.avaliacao) - parseFloat(a.dataset.avaliacao);
     }
-    return 0; // 'recente': ordem original
+    return 0;
   });
 
   cards.forEach(card => grade.appendChild(card));
 }
 
-
-// ===== REMOVER LOCAL =====
 let cardParaRemover = null;
 
-function confirmarRemover(botao) {
-  cardParaRemover = botao.closest('.local-card');
-  const nome = cardParaRemover.querySelector('.local-nome').textContent;
+function confirmarRemover(card) {
+  cardParaRemover = card;
+  const nome = card.querySelector('.local-nome').textContent;
   document.getElementById('modalRemoverNome').textContent =
     `"${nome}" será removido da sua lista de salvos.`;
 
   abrirModal('modalRemover');
 
-  document.getElementById('btnConfirmarRemover').onclick = () => {
+  document.getElementById('btnConfirmarRemover').onclick = async () => {
     if (!cardParaRemover) return;
+
+    const usuarioId = obterIdUsuario();
+    const btnRemover = cardParaRemover.querySelector('.local-remover');
+    const estabelecimentoId = Number(
+      cardParaRemover.dataset.estabelecimentoId
+      || btnRemover?.dataset?.estabelecimentoId
+    );
     const nomeLocal = cardParaRemover.querySelector('.local-nome').textContent;
 
-    cardParaRemover.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
-    cardParaRemover.style.opacity = '0';
-    cardParaRemover.style.transform = 'scale(0.95)';
+    console.log("Usuario:", usuarioId, "Estabelecimento:", estabelecimentoId);
 
-    setTimeout(() => {
-      cardParaRemover.remove();
-      cardParaRemover = null;
-      fecharModal('modalRemover');
-      atualizarContador();
-      mostrarToast(`"${nomeLocal}" removido dos salvos.`);
+    if (!usuarioId || !Number.isFinite(estabelecimentoId) || estabelecimentoId <= 0) {
+      mostrarToast('Não foi possível identificar o local para remover.');
+      return;
+    }
 
-      const cards = document.querySelectorAll('#locaisGrade .local-card');
-      if (cards.length === 0) {
-        document.getElementById('locaisVazio').classList.add('visivel');
-      }
-    }, 300);
+    try {
+      const resposta = await fetch(
+        `${API_BASE}/locais-salvos/${usuarioId}/${estabelecimentoId}`,
+        { method: 'DELETE' }
+      );
+
+      if (!resposta.ok) throw new Error('Erro ao remover local salvo.');
+
+      cardParaRemover.style.transition = 'opacity 0.3s ease, transform 0.3s ease';
+      cardParaRemover.style.opacity = '0';
+      cardParaRemover.style.transform = 'scale(0.95)';
+
+      setTimeout(() => {
+        cardParaRemover.remove();
+        cardParaRemover = null;
+        fecharModal('modalRemover');
+        atualizarContador();
+        mostrarToast(`"${nomeLocal}" removido dos salvos.`);
+
+        const cards = document.querySelectorAll('#locaisGrade .local-card');
+        if (cards.length === 0) {
+          document.getElementById('locaisVazio').classList.add('visivel');
+        }
+      }, 300);
+    } catch (error) {
+      console.error('Erro ao remover local salvo:', error);
+      mostrarToast('Não foi possível remover o local.');
+    }
   };
 }
 
-
-// ===== ATUALIZAR CONTADOR DE SALVOS =====
 function atualizarContador() {
   const total = document.querySelectorAll('#locaisGrade .local-card').length;
   const el = document.getElementById('totalSalvos');
   if (el) el.textContent = total;
 }
 
-
-// ===== MODAL DE SUGESTÃO =====
 function abrirSugestaoLocal(nomeLocal) {
   document.getElementById('modalLocalNome').textContent = nomeLocal;
-
-  const select = document.querySelector('#modalSugestao select');
-  for (let opt of select.options) {
-    if (opt.text === nomeLocal) { select.value = opt.value; break; }
-  }
-
   abrirModal('modalSugestao');
 }
 
@@ -161,8 +302,6 @@ function enviarSugestao() {
   mostrarToast('Sugestão enviada com sucesso!');
 }
 
-
-// ===== MODAIS GENÉRICOS =====
 function abrirModal(id) {
   document.getElementById(id).classList.add('aberto');
 }
@@ -184,8 +323,6 @@ document.addEventListener('keydown', (e) => {
   }
 });
 
-
-// ===== MODAL SAIR =====
 function abrirModalSair() {
   abrirModal('modalSair');
 }
@@ -196,8 +333,6 @@ function confirmarSair() {
   window.location.href = 'login.html';
 }
 
-
-// ===== TOAST =====
 let toastTimeout;
 
 function mostrarToast(mensagem) {
@@ -206,53 +341,4 @@ function mostrarToast(mensagem) {
   document.getElementById('toastMsg').textContent = mensagem;
   toast.classList.add('visivel');
   toastTimeout = setTimeout(() => toast.classList.remove('visivel'), 3000);
-};
-
-
-function abrirLocal(estab) {
-  sessionStorage.setItem('loc_nome', estab.nome);
-  sessionStorage.setItem('loc_endereco', estab.endereco);
-  sessionStorage.setItem('loc_telefone', estab.telefone);
-  sessionStorage.setItem('loc_horario', estab.horario);
-  sessionStorage.setItem('loc_fecha', estab.fecha);
-  sessionStorage.setItem('loc_nota', estab.nota);
-  sessionStorage.setItem('loc_avaliacoes', estab.avaliacoes);
-  sessionStorage.setItem('loc_logo', estab.logo);
-
-  window.location.href = 'estabelecimentoCli.html';
-}
-
-function abrirLocalCard(card) {
-  sessionStorage.setItem('loc_nome', card.dataset.nome);
-  sessionStorage.setItem('loc_endereco', card.dataset.endereco);
-  sessionStorage.setItem('loc_telefone', card.dataset.telefone);
-  sessionStorage.setItem('loc_horario', card.dataset.horario);
-  sessionStorage.setItem('loc_fecha', card.dataset.fecha);
-  sessionStorage.setItem('loc_nota', card.dataset.nota);
-  sessionStorage.setItem('loc_avaliacoes', card.dataset.avaliacoes);
-  sessionStorage.setItem('loc_logo', card.dataset.logo);
-
-  window.location.href = 'mapaCli.html';
-}
-
-function salvarRecomp(event, btn) {
-  event.stopPropagation(); // 🔥 impede o redirecionamento
-
-  // sua lógica de salvar
-  btn.classList.toggle("ativo");
-}
-
-function abrirModalSair() { 
-    const modal = document.getElementById('modalSair');
-    if (modal) modal.classList.add('aberto'); 
-}
-
-function fecharModal(id) { 
-    const modal = document.getElementById(id);
-    if (modal) modal.classList.remove('aberto'); 
-}
-
-function confirmarSair() { 
-    localStorage.clear(); 
-    window.location.href = 'login.html'; 
 }

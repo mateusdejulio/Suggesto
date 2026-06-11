@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:suggestomobile/buscarEstabelecimento.dart';
 import 'package:suggestomobile/cadastro.dart';
 import 'package:suggestomobile/infoLocal.dart';
 import 'package:suggestomobile/inicialcli.dart';
@@ -8,6 +9,7 @@ import 'package:suggestomobile/locaisSalvos.dart';
 import 'package:suggestomobile/login.dart';
 import 'package:suggestomobile/lojaPontos.dart';
 import 'package:suggestomobile/perfilClie.dart';
+import 'package:suggestomobile/sobrenos.dart';
 import 'package:suggestomobile/sugerir.dart';
 
 void main() {
@@ -30,7 +32,6 @@ class MyApp extends StatelessWidget {
 
       initialRoute: '/login', 
       
-      // O seu "mapa" de navegação
       routes: {
         '/login': (context) => Login(),
         '/cadastro': (context) => Cadastro(),
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
         '/locais_salvos': (context) => LocaisSalvosPage(),
         '/loja': (context) => LojasPontosPage(),
         '/info_local': (context) => InfoLocalPage(local: {},),
+        '/sobrenos': (context) => Sobrenos(),
       },
     );
   }

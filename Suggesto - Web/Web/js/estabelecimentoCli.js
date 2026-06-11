@@ -1,24 +1,3 @@
-// =====================================================================
-// estabelecimentoCli.js
-//
-// Tela de sugestões do estabelecimento — intermediária entre a lista
-// de locais e o mapa.
-//
-// Como navegar para esta tela a partir de outra página:
-//   sessionStorage.setItem('est_nome',      'Big Jack Hamburgueria');
-//   sessionStorage.setItem('est_categoria', 'Restaurante');
-//   sessionStorage.setItem('est_endereco',  'R. Oliveira Cardoso, 376, Campinas, SP');
-//   sessionStorage.setItem('est_telefone',  '(19) 3210-3025');
-//   sessionStorage.setItem('est_horario',   'Seg. a Dom.: 11:00 – 22:30');
-//   sessionStorage.setItem('est_fecha',     '22:30');
-//   sessionStorage.setItem('est_nota',      '4.8');
-//   sessionStorage.setItem('est_avaliacoes','127');
-//   sessionStorage.setItem('est_logo',      'imagens/bigjack.png');
-//   window.location.href = 'estabelecimentoCli.html';
-// =====================================================================
-
-
-// ── DADOS DO ESTABELECIMENTO ─────────────────────────────────────────
 const est = {
   nome:       sessionStorage.getItem('est_nome')       || 'Big Jack Hamburgueria',
   categoria:  sessionStorage.getItem('est_categoria')  || 'Restaurante',

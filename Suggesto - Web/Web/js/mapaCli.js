@@ -1,26 +1,3 @@
-// =====================================================================
-// localEstabelecimento.js
-// Leaflet.js + OpenStreetMap + Nominatim (geocoding gratuito)
-//
-// O endereço é convertido automaticamente em coordenadas reais pelo
-// Nominatim — o mapa sempre mostra o lugar certo.
-//
-// Como chamar desta página (ex: no inicioCli.js):
-//   sessionStorage.setItem('loc_nome',      'Big Jack Hamburgueria');
-//   sessionStorage.setItem('loc_endereco',  'R. Oliveira Cardoso, 376, Campinas, SP');
-//   sessionStorage.setItem('loc_telefone',  '(19) 3210-3025');
-//   sessionStorage.setItem('loc_horario',   'Seg. a Dom.: 11:00 – 22:30');
-//   sessionStorage.setItem('loc_fecha',     '22:30');
-//   sessionStorage.setItem('loc_nota',      '4.8');
-//   sessionStorage.setItem('loc_avaliacoes','127');
-//   sessionStorage.setItem('loc_logo',      'imagens/bigjack.png');
-//   window.location.href = 'localEstabelecimento.html';
-//
-// Não precisa mais passar lat/lng — o sistema busca sozinho!
-// =====================================================================
-
-
-// ── DADOS DO ESTABELECIMENTO ─────────────────────────────────────────
 const dadosEstab = {
   nome:       sessionStorage.getItem('loc_nome')       || 'Big Jack Hamburgueria',
   endereco:   sessionStorage.getItem('loc_endereco')   || 'R. Oliveira Cardoso, 376, Jardim Chapadão, Campinas, SP',

@@ -72,6 +72,24 @@ flutter:
     - assets/images/iconefacebook.png
     - assets/images/iconefacebook.png
     - assets/images/iconefacebook.png
+    - assets/images/diogo.jpg
+    - assets/images/gabrielG.jpg
+    - assets/images/manuela.jpg
+    - assets/images/imagemInicio.png
+    - assets/images/bigjack.jpg
+    - assets/images/panobianco.png
+    - assets/images/starbucks.png
+    - assets/images/youcom.png
+    - assets/images/mcColosso.png
+    - assets/images/mcFritas.png
+    - assets/images/cocobambu.png
+    - assets/images/zara.jpg
+    - assets/images/carrefour.png
+    - assets/images/manapoke.jpg
+    - assets/images/panobianco.png
+    - assets/images/bk.jpg
+    - assets/images/cafeteria.jpg
+    - assets/images/cotil.jpg
     
 
   # An image asset can refer to one or more resolution-specific "variants", see
@@ -91,11 +109,19 @@ flutter:
         - asset: assets/fonts/Syne-Bold.ttf
   #       - asset: fonts/Schyler-Italic.ttf
   #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
+    - family: PoppinsBold
+      fonts:
+        - asset: assets/fonts/Poppins-bold.ttf
   #       - asset: fonts/TrajanPro_Bold.ttf
   #         weight: 700
+    - family: Poppins
+      fonts:
+        - asset: assets/fonts/Poppins-Light.ttf
+
+    - family: PoppinsSemi
+      fonts:
+        - asset: assets/fonts/Poppins-SemiBold.ttf
+        
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/to/font-from-package

@@ -95,7 +95,7 @@
     width: 300px;
     padding: 12px 20px;
     font-size: 16px;
-    border-radius: 25px;
+    border-radius: 6px;
     border: none;
     background-color: #520694;
     color: white;
@@ -111,7 +111,7 @@
     padding: 12px 0;
     font-size: 18px;
     border: none;
-    border-radius: 25px;
+    border-radius: 6px;
     background-color: #7530B1;
     color: white;
     cursor: pointer;

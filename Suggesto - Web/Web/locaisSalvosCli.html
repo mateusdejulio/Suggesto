@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Locais Salvos — Suggesto</title>
   <link rel="icon" type="image/png" href="imagens/logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/locaisSalvosCli.css">
 
@@ -56,7 +56,7 @@
   }
 
   .logo-text {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
     font-size: 15px;
     color: #e8e6ff;
@@ -67,7 +67,7 @@
     font-size: 10px;
     font-weight: 400;
     color: #6b6890;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     margin-top: 1px;
@@ -264,7 +264,6 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
       Minhas Sugestões
-      <span class="nav-badge">24</span>
     </a>
 
     <a class="nav-item" href="lojapontosCli.html">
@@ -377,227 +376,7 @@
       </div>
 
       <!-- GRADE DE LOCAIS -->
-      <div class="locais-grade" id="locaisGrade">
-
-        <div class="local-card" onclick="abrirLocal({
-  nome: 'Big Jack Hamburgueria',
-  endereco: 'R. Oliveira Cardoso, 376, Campinas, SP',
-  telefone: '(19) 3210-3025',
-  horario: 'Seg. a Dom.: 11:00 – 22:30',
-  fecha: '22:30',
-  nota: '4.8',
-  avaliacoes: '127',
-  logo: 'imagens/bigjack.png'
-  })" data-categoria="restaurante" data-nome="Big Jack Hamburgueria" data-avaliacao="4.8" data-sugestoes="124">
-          <div class="local-imagem" style="background-image: url('imagens/bigjack.png')">
-            <span class="local-categoria">Restaurante</span>
-            <button class="local-remover" onclick="confirmarRemover(this); salvarRecomp(event, this)" title="Remover dos salvos">
-              <i class="fas fa-bookmark"></i>
-            </button>
-          </div>
-          <div class="local-info">
-            <div class="local-info-topo">
-              <div>
-                <h3 class="local-nome">Big Jack Hamburgueria</h3>
-                <p class="local-endereco"><i class="fas fa-map-marker-alt"></i> Bairro Castelo, Campinas</p>
-              </div>
-              <div class="local-nota">
-                <i class="fas fa-star"></i>
-                <span>4.8</span>
-              </div>
-            </div>
-            <div class="local-rodape">
-              <span class="local-tag">Hambúrguer</span>
-              <span class="local-tag">Delivery</span>
-              <button class="local-btn-sugestao" onclick="abrirSugestaoLocal('Big Jack Hamburgueria')">
-                <i class="fas fa-comment-alt"></i> Sugerir
-              </button>
-            </div>
-          </div>
-          <div class="card-data-salvo">
-            <i class="fas fa-clock"></i> Salvo há 2 dias
-          </div>
-        </div>
-
-
-
-
-
-        <div class="local-card" onclick="abrirLocal({
-          nome: 'Café do Centro',
-  endereco: 'Rua dos Bandeirantes, 415 - Cambuí',
-  telefone: '(19) 3333-4444',
-  horario: 'Seg. a Dom.: 09:00 – 20:00',
-  fecha: '23:30',
-  nota: '4.5',
-  avaliacoes: '89',
-  logo: 'imagens/pizzaria.png'
-        })" data-categoria="cafe" data-nome="Café do Centro" data-avaliacao="4.7" data-sugestoes="87">
-          <div class="local-imagem" style="background-image: url('imagens/cafeteria2.png')">
-            <span class="local-categoria">Café</span>
-            <button class="local-remover" onclick="confirmarRemover(this); salvarRecomp(event, this)" title="Remover dos salvos">
-              <i class="fas fa-bookmark"></i>
-            </button>
-          </div>
-          <div class="local-info">
-            <div class="local-info-topo">
-              <div>
-                <h3 class="local-nome">Café do Centro</h3>
-                <p class="local-endereco"><i class="fas fa-map-marker-alt"></i> Rua das Flores, Campinas</p>
-              </div>
-              <div class="local-nota">
-                <i class="fas fa-star"></i>
-                <span>4.7</span>
-              </div>
-            </div>
-            <div class="local-rodape">
-              <span class="local-tag">Especialidade</span>
-              <span class="local-tag">Wi-fi</span>
-              <button class="local-btn-sugestao" onclick="abrirSugestaoLocal('Café do Centro')">
-                <i class="fas fa-comment-alt"></i> Sugerir
-              </button>
-            </div>
-          </div>
-          <div class="card-data-salvo">
-            <i class="fas fa-clock"></i> Salvo há 1 semana
-          </div>
-        </div>
-
-
-        <div class="local-card" onclick="abrirLocal({
-          nome: 'Panobianco',
-  endereco: 'Av. Dr. Moraes Salles, 1630 - Nova Campinas',
-  telefone: '(19)99288-1086',
-  horario: 'Seg. a Dom.: 09:00 – 21:00',
-  fecha: '21:30',
-  nota: '4.5',
-  avaliacoes: '79',
-  logo: 'imagens/panobianco.png'
-        })" data-categoria="academia" data-nome="PanoBianco Academia" data-avaliacao="4.5" data-sugestoes="56">
-          <div class="local-imagem" style="background-image: url('imagens/panobianco.png')">
-            <span class="local-categoria">Academia</span>
-            <button class="local-remover" onclick="confirmarRemover(this); salvarRecomp(event, this)" title="Remover dos salvos">
-              <i class="fas fa-bookmark"></i>
-            </button>
-          </div>
-          <div class="local-info">
-            <div class="local-info-topo">
-              <div>
-                <h3 class="local-nome">PanoBianco Academia</h3>
-                <p class="local-endereco"><i class="fas fa-map-marker-alt"></i> Centro, Campinas</p>
-              </div>
-              <div class="local-nota">
-                <i class="fas fa-star"></i>
-                <span>4.5</span>
-              </div>
-            </div>
-            <div class="local-rodape">
-              <span class="local-tag">Musculação</span>
-              <span class="local-tag">24h</span>
-              <button class="local-btn-sugestao" onclick="abrirSugestaoLocal('PanoBianco Academia')">
-                <i class="fas fa-comment-alt"></i> Sugerir
-              </button>
-            </div>
-          </div>
-          <div class="card-data-salvo">
-            <i class="fas fa-clock"></i> Salvo há 2 semanas
-          </div>
-        </div>
-
-        <div class="local-card" data-categoria="restaurante" data-nome="Cantina Italiana" data-avaliacao="4.9" data-sugestoes="210">
-          <div class="local-imagem" style="background-image: url('imagens/cantinaitaliana.png')">
-            <span class="local-categoria">Restaurante</span>
-            <button class="local-remover" onclick="confirmarRemover(this); salvarRecomp(event, this)" title="Remover dos salvos">
-              <i class="fas fa-bookmark"></i>
-            </button>
-          </div>
-          <div class="local-info">
-            <div class="local-info-topo">
-              <div>
-                <h3 class="local-nome">Cantina Italiana</h3>
-                <p class="local-endereco"><i class="fas fa-map-marker-alt"></i> Vila Nova, Campinas</p>
-              </div>
-              <div class="local-nota">
-                <i class="fas fa-star"></i>
-                <span>4.9</span>
-              </div>
-            </div>
-            <div class="local-rodape">
-              <span class="local-tag">Italiana</span>
-              <span class="local-tag">Família</span>
-              <button class="local-btn-sugestao" onclick="abrirSugestaoLocal('Cantina Italiana')">
-                <i class="fas fa-comment-alt"></i> Sugerir
-              </button>
-            </div>
-          </div>
-          <div class="card-data-salvo">
-            <i class="fas fa-clock"></i> Salvo há 3 dias
-          </div>
-        </div>
-
-        <div class="local-card" data-categoria="cafe" data-nome="Brew Specialty Coffee" data-avaliacao="4.6" data-sugestoes="43">
-          <div class="local-imagem" style="background-image: url('imagens/cafeteria.png')">
-            <span class="local-categoria">Café</span>
-            <button class="local-remover" onclick="confirmarRemover(this); salvarRecomp(event, this)" title="Remover dos salvos">
-              <i class="fas fa-bookmark"></i>
-            </button>
-          </div>
-          <div class="local-info">
-            <div class="local-info-topo">
-              <div>
-                <h3 class="local-nome">Café da Poesia</h3>
-                <p class="local-endereco"><i class="fas fa-map-marker-alt"></i> Cambuí, Campinas</p>
-              </div>
-              <div class="local-nota">
-                <i class="fas fa-star"></i>
-                <span>4.6</span>
-              </div>
-            </div>
-            <div class="local-rodape">
-              <span class="local-tag">Artesanal</span>
-              <span class="local-tag">Pet friendly</span>
-              <button class="local-btn-sugestao" onclick="abrirSugestaoLocal('Brew Specialty Coffee')">
-                <i class="fas fa-comment-alt"></i> Sugerir
-              </button>
-            </div>
-          </div>
-          <div class="card-data-salvo">
-            <i class="fas fa-clock"></i> Salvo há 5 dias
-          </div>
-        </div>
-
-        <div class="local-card" data-categoria="academia" data-nome="SmartFit Campinas" data-avaliacao="4.3" data-sugestoes="31">
-          <div class="local-imagem" style="background-image: url('imagens/smartfit.png')">
-            <span class="local-categoria">Academia</span>
-            <button class="local-remover" onclick="confirmarRemover(this); salvarRecomp(event, this)" title="Remover dos salvos">
-              <i class="fas fa-bookmark"></i>
-            </button>
-          </div>
-          <div class="local-info">
-            <div class="local-info-topo">
-              <div>
-                <h3 class="local-nome">SmartFit Campinas</h3>
-                <p class="local-endereco"><i class="fas fa-map-marker-alt"></i> Shopping Dom Pedro, Campinas</p>
-              </div>
-              <div class="local-nota">
-                <i class="fas fa-star"></i>
-                <span>4.3</span>
-              </div>
-            </div>
-            <div class="local-rodape">
-              <span class="local-tag">Funcional</span>
-              <span class="local-tag">Yoga</span>
-              <button class="local-btn-sugestao" onclick="abrirSugestaoLocal('SmartFit Campinas')">
-                <i class="fas fa-comment-alt"></i> Sugerir
-              </button>
-            </div>
-          </div>
-          <div class="card-data-salvo">
-            <i class="fas fa-clock"></i> Salvo há 1 mês
-          </div>
-        </div>
-
-      </div>
+      <div class="locais-grade" id="locaisGrade"></div>
 
       <!-- ESTADO VAZIO -->
       <div class="locais-vazio" id="locaisVazio">

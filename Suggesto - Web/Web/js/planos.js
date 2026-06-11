@@ -89,6 +89,11 @@ document.querySelectorAll('.plano-card, .faq-item').forEach((elemento, indice) =
 
 
 // ===== NAVEGAÇÃO =====
+function assinarPlano(nomePlano) {
+  sessionStorage.setItem("planoEscolhido", nomePlano);
+  window.location.href = "cadastroAdm.html";
+}
+
 function abrirCadastroAdm() {
   window.location.href = "cadastroAdm.html";
 }

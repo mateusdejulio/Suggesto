@@ -1,10 +1,12 @@
 package com.suggesto.backend.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name="usuario") //nome da tabela no banco
-@Data //cria getters e setters automaticamente
+@Table(name = "usuario")
+@Data
 public class Usuario {
 
     @Id
@@ -18,14 +20,15 @@ public class Usuario {
     @Column(name = "Email")
     private String email;
 
+    @JsonIgnore
     @Column(name = "Senha")
     private String senha;
 
-    @Enumerated(EnumType.STRING) // Salva o texto "Cliente" ou "Administrador" no banco
+    @Enumerated(EnumType.STRING)
     @Column(name = "Tipo_Usuario")
     private TipoUsuario tipoUsuario;
 
-    @Column (name = "Cargo")
+    @Column(name = "Cargo")
     private String cargo;
 
     @Column(name = "CPF")
@@ -33,6 +36,19 @@ public class Usuario {
 
     @Column(name = "Telefone")
     private String telefone;
+
+    @Column(name = "Cidade")
+    private String cidade;
+
+    @Column(name = "Foto_Url")
+    private String fotoUrl;
+
+    @Column(name = "pontos", nullable = false)
+    private Integer pontos = 0;
+
+    @ManyToOne
+    @JoinColumn(name = "plano_id")
+    private Plano plano;
 
     public Long getId() {
         return id;
@@ -74,7 +90,6 @@ public class Usuario {
         this.tipoUsuario = tipoUsuario;
     }
 
-
     public String getCargo() {
         return cargo;
     }
@@ -97,5 +112,37 @@ public class Usuario {
 
     public void setTelefone(String telefone) {
         this.telefone = telefone;
+    }
+
+    public String getCidade() {
+        return cidade;
+    }
+
+    public void setCidade(String cidade) {
+        this.cidade = cidade;
+    }
+
+    public String getFotoUrl() {
+        return fotoUrl;
+    }
+
+    public void setFotoUrl(String fotoUrl) {
+        this.fotoUrl = fotoUrl;
+    }
+
+    public Plano getPlano() {
+        return plano;
+    }
+
+    public void setPlano(Plano plano) {
+        this.plano = plano;
+    }
+
+    public Integer getPontos() {
+        return pontos != null ? pontos : 0;
+    }
+
+    public void setPontos(Integer pontos) {
+        this.pontos = pontos != null ? Math.max(0, pontos) : 0;
     }
 }

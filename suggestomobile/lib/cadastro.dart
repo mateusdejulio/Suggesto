@@ -1,4 +1,6 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'usuarios.dart';
 
 class Cadastro extends StatefulWidget {
   const Cadastro({super.key});
@@ -12,9 +14,76 @@ class _CadastroState extends State<Cadastro> {
   final TextEditingController senhaController = TextEditingController();
   final TextEditingController confirmarSenhaController = TextEditingController();
 
-  String _tipoUsuario = 'cliente'; // 'cliente' ou 'administrador'
-  bool _senhaVisivel = false;
-  bool _confirmarSenhaVisivel = false;
+
+  String tipoUsuario = 'cliente';
+  bool termosAceitos = false;
+  bool notificacoes = false;
+  bool senhaVisivel = false;
+  bool confirmarSenhaVisivel = false;
+  String mensagemErro = "";
+
+  void criar() {
+    String email = emailController.text.trim();
+    String senha = senhaController.text.trim();
+    String confirmar = confirmarSenhaController.text.trim();
+
+    if (email.isEmpty || senha.isEmpty || confirmar.isEmpty) {
+      setState(() => mensagemErro = "Preencha todos os campos.");
+      return;
+    }
+
+    if (senha.length < 8) {
+      setState(() => mensagemErro = "A senha deve ter no mínimo 8 caracteres.");
+      return;
+    }
+
+    if (senha != confirmar) {
+      setState(() => mensagemErro = "As senhas não coincidem.");
+      return;
+    }
+
+    if (!termosAceitos) {
+      setState(() => mensagemErro = "Você deve aceitar os termos de uso.");
+      return;
+    }
+
+    // Verifica se email já existe
+    for (var u in usuariosCadastrados) {
+      if (u['email'] == email) {
+        setState(() => mensagemErro = "Este email já está cadastrado.");
+        return;
+      }
+    }
+
+    // Salva no vetor global
+    usuariosCadastrados.add({
+      'email': email,
+      'senha': senha,
+      'tipo': tipoUsuario,
+      'notificacoes': notificacoes,
+      'termosAceitos': termosAceitos,
+    });
+    
+   print("===========================================");
+    print("Email: $email");
+    print("Senha: $senha");
+    print("Tipo de usuário: $tipoUsuario");
+    print("Notificações: $notificacoes");
+    print("Termos: $termosAceitos");
+    print("===========================================");
+
+
+    setState(() => mensagemErro = "");
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("Conta criada com sucesso!", style: TextStyle(fontFamily: "Poppins"),),
+        backgroundColor: Color(0xFF2D5A27),
+      ),
+    );
+
+    Navigator.pushNamed(context, '/home_cliente');
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +96,8 @@ class _CadastroState extends State<Cadastro> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                // Logo
+
+                // LOGO
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -38,156 +108,114 @@ class _CadastroState extends State<Cadastro> {
                         color: const Color(0xFF7B2FBE),
                         borderRadius: BorderRadius.circular(8),
                       ),
-                      child: const Center(
-                        child: Text(
-                          "?",
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                          ),
-                        ),
+                      child: Center(
+                        child: Text("?", style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 18,
+                          fontWeight: FontWeight.bold,
+                          fontFamily: "Poppins"
+                        )),
                       ),
                     ),
-                    const SizedBox(width: 10),
-                    const Text(
-                      "Suggesto",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 22,
-                        fontFamily: "Syne",
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
+                    SizedBox(width: 10),
+                    Text("Suggesto", style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 22,
+                      fontFamily: "PoppinsBold",
+                      fontWeight: FontWeight.w600,
+                    )),
                   ],
                 ),
 
-                const SizedBox(height: 50),
+                SizedBox(height: 50),
 
-                // Título
-                const Text(
-                  "Criar conta",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 32,
-                    fontFamily: "Syne",
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
+                // TITULO
+                Text("Criar conta", style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 32,
+                  fontFamily: "PoppinsBold",
+                  fontWeight: FontWeight.bold,
+                )),
 
-                const SizedBox(height: 30),
+                SizedBox(height: 30),
 
-                // Label Email
+                // LABEL EMAIL
                 SizedBox(
                   width: 300,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Email:",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    child: Text("Email:", style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: "Poppins")),
                   ),
                 ),
+                SizedBox(height: 8),
 
-                const SizedBox(height: 8),
-
-                // Campo Email
+                // CAMPO EMAIL
                 SizedBox(
                   width: 300,
                   child: TextField(
                     controller: emailController,
                     keyboardType: TextInputType.emailAddress,
-                    style: const TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
+                    style: TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
                     decoration: InputDecoration(
                       hintText: "Digite um email válido",
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(120, 255, 255, 255),
-                        fontSize: 13,
-                      ),
-                      fillColor: const Color.fromARGB(123, 88, 8, 129),
+                      hintStyle: TextStyle(color: Color.fromARGB(120, 255, 255, 255), fontSize: 13, fontFamily: "Poppins"),
+                      fillColor: Color.fromARGB(123, 88, 8, 129),
                       filled: true,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF7B2FBE),
-                          width: 1.5,
-                        ),
+                        borderSide: BorderSide(color: Color(0xFF7B2FBE), width: 1.5),
                       ),
                     ),
                   ),
                 ),
 
-                const SizedBox(height: 16),
+                SizedBox(height: 16),
 
-                // Label Senha
+                // LABEL SENHA
                 SizedBox(
                   width: 300,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Senha:",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    child: Text("Senha:", style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: "Poppins")),
                   ),
                 ),
+                SizedBox(height: 8),
 
-                const SizedBox(height: 8),
-
-                // Campo Senha
+                // CAMPO SENHA
                 SizedBox(
                   width: 300,
                   child: TextField(
                     controller: senhaController,
-                    obscureText: !_senhaVisivel,
-                    style: const TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
+                    obscureText: !senhaVisivel,
+                    style: TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
                     decoration: InputDecoration(
-                      hintText: "Crie uma senha de no mínimo 8 dígitos",
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(120, 255, 255, 255),
-                        fontSize: 13,
-                      ),
-                      fillColor: const Color.fromARGB(123, 88, 8, 129),
+                      hintText: "Mínimo 8 caracteres",
+                      hintStyle: TextStyle(color: Color.fromARGB(120, 255, 255, 255), fontSize: 13, fontFamily: "Poppins"),
+                      fillColor: Color.fromARGB(123, 88, 8, 129),
                       filled: true,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF7B2FBE),
-                          width: 1.5,
-                        ),
+                        borderSide: BorderSide(color: Color(0xFF7B2FBE), width: 1.5),
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _senhaVisivel ? Icons.visibility : Icons.visibility_off,
-                          color: const Color.fromARGB(160, 255, 255, 255),
+                          senhaVisivel ? Icons.visibility : Icons.visibility_off,
+                          color: Color.fromARGB(160, 255, 255, 255),
                           size: 20,
                         ),
                         onPressed: () {
                           setState(() {
-                            _senhaVisivel = !_senhaVisivel;
+                            senhaVisivel = !senhaVisivel;
                           });
                         },
                       ),
@@ -195,47 +223,38 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ),
 
-                const SizedBox(height: 12),
+                SizedBox(height: 12),
 
-                // Campo Confirmar Senha
+                // CAMPO CONFIRMAR SENHA
                 SizedBox(
                   width: 300,
                   child: TextField(
                     controller: confirmarSenhaController,
-                    obscureText: !_confirmarSenhaVisivel,
-                    style: const TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
+                    obscureText: !confirmarSenhaVisivel,
+                    style: TextStyle(color: Color.fromARGB(220, 255, 255, 255)),
                     decoration: InputDecoration(
                       hintText: "Repita a senha",
-                      hintStyle: const TextStyle(
-                        color: Color.fromARGB(120, 255, 255, 255),
-                        fontSize: 13,
-                      ),
-                      fillColor: const Color.fromARGB(123, 88, 8, 129),
+                      hintStyle: TextStyle(color: Color.fromARGB(120, 255, 255, 255), fontSize: 13, fontFamily: "Poppins"),
+                      fillColor: Color.fromARGB(123, 88, 8, 129),
                       filled: true,
-                      contentPadding: const EdgeInsets.symmetric(
-                        horizontal: 16,
-                        vertical: 14,
-                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
                         borderSide: BorderSide.none,
                       ),
                       focusedBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10),
-                        borderSide: const BorderSide(
-                          color: Color(0xFF7B2FBE),
-                          width: 1.5,
-                        ),
+                        borderSide: BorderSide(color: Color(0xFF7B2FBE), width: 1.5),
                       ),
                       suffixIcon: IconButton(
                         icon: Icon(
-                          _confirmarSenhaVisivel ? Icons.visibility : Icons.visibility_off,
-                          color: const Color.fromARGB(160, 255, 255, 255),
+                          confirmarSenhaVisivel ? Icons.visibility : Icons.visibility_off,
+                          color: Color.fromARGB(160, 255, 255, 255),
                           size: 20,
                         ),
                         onPressed: () {
                           setState(() {
-                            _confirmarSenhaVisivel = !_confirmarSenhaVisivel;
+                            confirmarSenhaVisivel = !confirmarSenhaVisivel;
                           });
                         },
                       ),
@@ -243,171 +262,176 @@ class _CadastroState extends State<Cadastro> {
                   ),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
-                // Label tipo de usuário
+                // TIPO DE USUARIO (RADIO)
                 SizedBox(
                   width: 300,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      "Quero me cadastrar como:",
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
+                    child: Text("Quero me cadastrar como:", style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w500,
+                      fontFamily: "Poppins"
+                    )),
                   ),
                 ),
+                SizedBox(height: 8),
 
-                const SizedBox(height: 8),
-
-                // Radio buttons - Cliente / Administrador
                 Container(
                   width: 300,
-                  padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                   decoration: BoxDecoration(
-                    color: const Color.fromARGB(123, 88, 8, 129),
+                    color: Color.fromARGB(123, 88, 8, 129),
                     borderRadius: BorderRadius.circular(10),
                   ),
                   child: Row(
                     children: [
-                      // Coluna com os radio buttons
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            // Cliente
+                            // Radio Cliente
                             Row(
                               children: [
                                 Radio<String>(
                                   value: 'cliente',
-                                  groupValue: _tipoUsuario,
-                                  activeColor: const Color(0xFF9B59D0),
-                                  fillColor: WidgetStateProperty.resolveWith((states) {
-                                    if (states.contains(WidgetState.selected)) {
-                                      return const Color(0xFF9B59D0);
-                                    }
-                                    return Colors.white.withOpacity(0.5);
-                                  }),
+                                  groupValue: tipoUsuario,
+                                  activeColor: Color(0xFF9B59D0),
                                   onChanged: (value) {
                                     setState(() {
-                                      _tipoUsuario = value!;
+                                      tipoUsuario = value!;
                                     });
                                   },
                                 ),
-                                const Text(
-                                  "Cliente",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
+                                Text("Cliente", style: TextStyle(color: Colors.white, fontFamily: "Poppins")),
                               ],
                             ),
-
-                            // Administrador
+                            // Radio Administrador
                             Row(
                               children: [
                                 Radio<String>(
                                   value: 'administrador',
-                                  groupValue: _tipoUsuario,
-                                  activeColor: const Color(0xFF9B59D0),
-                                  fillColor: WidgetStateProperty.resolveWith((states) {
-                                    if (states.contains(WidgetState.selected)) {
-                                      return const Color(0xFF9B59D0);
-                                    }
-                                    return Colors.white.withOpacity(0.5);
-                                  }),
+                                  groupValue: tipoUsuario,
+                                  activeColor: Color(0xFF9B59D0),
                                   onChanged: (value) {
                                     setState(() {
-                                      _tipoUsuario = value!;
+                                      tipoUsuario = value!;
                                     });
                                   },
                                 ),
-                                const Text(
-                                  "Administrador",
-                                  style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 14,
-                                  ),
-                                ),
+                                Text("Administrador", style: TextStyle(color: Colors.white, fontFamily: "Poppins")),
                               ],
                             ),
                           ],
                         ),
                       ),
-
-                      // Ícone de info
+                      // Botão de info
                       IconButton(
                         onPressed: () {
                           showDialog(
                             context: context,
                             builder: (context) => AlertDialog(
-                              backgroundColor: const Color(0xFF1E0A33),
-                              title: const Text(
-                                "Tipos de conta",
-                                style: TextStyle(color: Colors.white, fontFamily: "Syne"),
-                              ),
-                              content: const Text(
+                              backgroundColor: Color(0xFF1E0A33),
+                              title: Text("Tipos de conta", style: TextStyle(color: Colors.white, fontFamily: "PoppinsBold")),
+                              content: Text(
                                 "Cliente: acessa os serviços da plataforma.\n\nAdministrador: gerencia a plataforma e seus usuários.",
-                                style: TextStyle(color: Colors.white70),
+                                style: TextStyle(color: Colors.white70, fontFamily: "Poppins"),
                               ),
                               actions: [
                                 TextButton(
                                   onPressed: () => Navigator.pop(context),
-                                  child: const Text(
-                                    "OK",
-                                    style: TextStyle(color: Color(0xFF9B59D0)),
-                                  ),
+                                  child: Text("OK", style: TextStyle(color: Color(0xFF9B59D0), fontFamily: "Poppins")),
                                 ),
                               ],
                             ),
                           );
                         },
-                        icon: const Icon(
-                          Icons.info_outline,
-                          color: Colors.white54,
-                          size: 22,
+                        icon: Icon(Icons.info_outline, color: Colors.white54, size: 22),
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 16),
+
+                // SWITCH NOTIFICAÇÕES
+                SizedBox(
+                  width: 300,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text("Receber notificações", style: TextStyle(color: Colors.white, fontSize: 14, fontFamily: "Poppins")),
+                      Switch(
+                        value: notificacoes,
+                        activeColor: Color(0xFF9B59D0),
+                        onChanged: (value) {
+                          setState(() {
+                            notificacoes = value;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+
+                SizedBox(height: 8),
+
+                // CHECKBOX TERMOS
+                SizedBox(
+                  width: 300,
+                  child: Row(
+                    children: [
+                      Checkbox(
+                        value: termosAceitos,
+                        activeColor: Color(0xFF9B59D0),
+                        onChanged: (value) {
+                          setState(() {
+                            termosAceitos = value!;
+                          });
+                        },
+                      ),
+                      Expanded(
+                        child: Text(
+                          "Aceito os termos de uso",
+                          style: TextStyle(color: Colors.white70, fontSize: 13, fontFamily: "Poppins"),
                         ),
                       ),
                     ],
                   ),
                 ),
 
-                const SizedBox(height: 30),
+                SizedBox(height: 10),
 
-                // Botão Criar
+                // MENSAGEM DE ERRO
+                if (mensagemErro.isNotEmpty)
+                  Text(mensagemErro, style: TextStyle(color: Colors.redAccent, fontSize: 13)),
+
+                SizedBox(height: 20),
+
+                // BOTAO CRIAR
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/home_cliente');// lógica de cadastro aqui
-                  },
+                  onPressed: criar,
                   style: ElevatedButton.styleFrom(
-                    fixedSize: const Size(120, 42),
-                    backgroundColor: const Color(0xFF6B21A8),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    elevation: 0,
+                    fixedSize: Size(120, 42),
+                    backgroundColor: Color(0xFF6B21A8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
                   ),
-                  child: const Text(
-                    "Criar",
-                    style: TextStyle(
-                      color: Color.fromARGB(220, 239, 224, 238),
-                      fontFamily: "Syne",
-                      fontSize: 15,
-                      fontWeight: FontWeight.w600,
-                    ),
-                  ),
+                  child: Text("Criar", style: TextStyle(
+                    color: Color.fromARGB(220, 239, 224, 238),
+                    fontFamily: "PoppinsBold",
+                    fontSize: 15,
+                    fontWeight: FontWeight.w600,
+                  )),
                 ),
 
-                const SizedBox(height: 20),
+                SizedBox(height: 20),
 
-                // Voltar para login
+                // VOLTAR PARA LOGIN
                 GestureDetector(
                   onTap: () => Navigator.pop(context),
-                  child: const Text(
+                  child: Text(
                     "Já tem uma conta? Entrar",
                     style: TextStyle(
                       color: Color(0xFF9B59D0),
@@ -415,9 +439,11 @@ class _CadastroState extends State<Cadastro> {
                       fontWeight: FontWeight.bold,
                       decoration: TextDecoration.underline,
                       decorationColor: Color(0xFF9B59D0),
+                      fontFamily: "Poppins"
                     ),
                   ),
                 ),
+
               ],
             ),
           ),

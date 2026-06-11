@@ -1,36 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@600;800&family=DM+Sans:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
-/* ─── Layout Raiz ───────────────────────────────────────────────────────── */
 .dashboard-wrapper {
   display: flex;
   min-height: 100vh;
-  background: #080810;
-  font-family: 'DM Sans', sans-serif;
+  background: #121214;
+  font-family: 'Inter', system-ui, sans-serif;
   color: #e2e2f0;
   position: relative;
   overflow: hidden;
 }
 
-.dash-glow-1 {
-  position: fixed;
-  top: -140px;
-  right: -100px;
-  width: 500px;
-  height: 500px;
-  background: radial-gradient(circle, rgba(167, 139, 250, .13) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
-}
-
+.dash-glow-1,
 .dash-glow-2 {
-  position: fixed;
-  bottom: -80px;
-  left: 200px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(74, 222, 128, .055) 0%, transparent 70%);
-  pointer-events: none;
-  z-index: 0;
+  display: none;
 }
 
 /* ─── Sidebar ───────────────────────────────────────────────────────────── */
@@ -83,7 +65,7 @@
 }
 
 .logo-name {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 1rem;
   font-weight: 800;
   color: #fff;
@@ -270,7 +252,7 @@
 }
 
 .saudacao {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: clamp(1.8rem, 3vw, 2.8rem);
   font-weight: 800;
   color: #fff;
@@ -301,7 +283,7 @@
   border-radius: 12px;
   font-size: .85rem;
   font-weight: 600;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   cursor: pointer;
   transition: all .18s;
   white-space: nowrap;
@@ -355,7 +337,7 @@
 }
 
 .metric-val {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-weight: 800;
   line-height: 1;
   overflow: hidden;
@@ -388,7 +370,7 @@
 }
 
 .sec-title {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 1.25rem;
   font-weight: 800;
   color: #fff;
@@ -423,7 +405,7 @@
   gap: 8px;
   cursor: pointer;
   transition: all .18s;
-  font-family: 'DM Sans', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
 }
 
 .card-add:hover {
@@ -539,7 +521,7 @@
 }
 
 .card-nome {
-  font-family: 'Syne', sans-serif;
+  font-family: 'Inter', system-ui, sans-serif;
   font-size: 1.15rem;
   font-weight: 800;
   color: #fff;

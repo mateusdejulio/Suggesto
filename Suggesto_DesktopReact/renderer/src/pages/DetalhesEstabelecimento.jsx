@@ -73,8 +73,11 @@ function DetalhesEstabelecimento() {
                     nota: av.nota,
                     sentimento: sent,
                     categoria: av.categoria?.nomeCategoria?.toLowerCase() || 'sugestão',
-                    autor: 'Cliente Verificado', 
-                    data: new Date().toISOString().split('T')[0]
+                    autor: av.usuario?.nome || 'Cliente Verificado',
+                    status: (av.status || 'analise').toLowerCase(),
+                    data: av.dataAvaliacao
+                      ? av.dataAvaliacao.split('T')[0]
+                      : new Date().toISOString().split('T')[0]
                 };
             });
 
@@ -94,6 +97,33 @@ function DetalhesEstabelecimento() {
     };
     buscarDados();
   }, [id]);
+
+  const atualizarStatus = async (idAvaliacao, status) => {
+    try {
+      const r = await fetch(`http://localhost:8080/api/avaliacoes/${idAvaliacao}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ status }),
+      });
+      if (!r.ok) {
+        const err = await r.json();
+        throw new Error(err.message || 'Erro ao atualizar status.');
+      }
+      setSugestoes((prev) =>
+        prev.map((s) =>
+          s.id === idAvaliacao ? { ...s, status: status.toLowerCase() } : s
+        )
+      );
+    } catch (e) {
+      console.error(e);
+      alert(e.message || 'Não foi possível atualizar a sugestão.');
+    }
+  };
+
+  const statusAceito = (status) =>
+    ['aceita', 'aceito', 'resolvida', 'resolvido', 'implementado', 'implementada'].includes(
+      (status || '').toLowerCase()
+    );
 
   // ── Filtragem ──────────────────────────────────────────────────────────────
   const sugestoesFiltradas = sugestoes.filter((s) => {
@@ -128,9 +158,14 @@ function DetalhesEstabelecimento() {
 
       {/* ── Cabeçalho ───────────────────────────────────────────────────── */}
       <header className="cabecalho">
-        <Link to="/" className="btn-voltar">
-          ← Dashboard
-        </Link>
+        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+          <Link to="/" className="btn-voltar">
+            ← Dashboard
+          </Link>
+          <Link to={`/estabelecimento/${id}/recompensas`} className="btn-voltar">
+            Minhas Recompensas
+          </Link>
+        </div>
 
         <div className="cabecalho-corpo">
           <span className="badge-categoria">GERAL</span>
@@ -272,7 +307,27 @@ function DetalhesEstabelecimento() {
                     {s.autor.charAt(0).toUpperCase()}
                   </div>
                   <span className="card-autor">{s.autor}</span>
+                  <span className="card-status-tag">{s.status}</span>
                 </div>
+
+                {!statusAceito(s.status) && s.status !== 'recusada' && s.status !== 'recusado' && (
+                  <div className="card-acoes-admin">
+                    <button
+                      type="button"
+                      className="btn-aceitar"
+                      onClick={() => atualizarStatus(s.id, 'ACEITA')}
+                    >
+                      Aceitar (+500 pts)
+                    </button>
+                    <button
+                      type="button"
+                      className="btn-recusar"
+                      onClick={() => atualizarStatus(s.id, 'RECUSADA')}
+                    >
+                      Recusar
+                    </button>
+                  </div>
+                )}
               </article>
             );
           })

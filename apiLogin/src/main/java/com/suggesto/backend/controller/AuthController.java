@@ -1,11 +1,14 @@
 package com.suggesto.backend.controller;
 
-import com.suggesto.backend.model.Usuario;
+import com.suggesto.backend.model.Plano;
 import com.suggesto.backend.model.TipoUsuario;
+import com.suggesto.backend.model.Usuario;
+import com.suggesto.backend.repository.PlanoRepository;
 import com.suggesto.backend.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
@@ -18,42 +21,85 @@ public class AuthController {
     @Autowired
     private UsuarioRepository repository;
 
-    /**
-     * LOGIN GERAL (Web)
-     */
+    @Autowired
+    private PlanoRepository planoRepository;
+
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+
     @PostMapping("/login")
     public ResponseEntity<?> loginGeral(@RequestBody Map<String, String> dados) {
         return realizarAutenticacao(dados, false);
     }
 
-    /**
-     * LOGIN ADMINISTRATIVO (Desktop/Electron)
-     */
     @PostMapping("/login/admin")
     public ResponseEntity<?> loginAdmin(@RequestBody Map<String, String> dados) {
         return realizarAutenticacao(dados, true);
     }
 
     @PostMapping("/cadastro")
-    public ResponseEntity<?> cadastrarUsuario(@RequestBody Usuario novoUsuario) {
+    public ResponseEntity<?> cadastrarUsuario(@RequestBody Map<String, Object> dados) {
         try {
-            // 1. Verifica se o e-mail já está cadastrado no banco
-            if (repository.findByEmail(novoUsuario.getEmail()).isPresent()) {
+            String email = (String) dados.get("email");
+            String senha = (String) dados.get("senha");
+            String nome = (String) dados.get("nome");
+            String tipoStr = (String) dados.get("tipoUsuario");
+
+            if (email == null || senha == null || nome == null || tipoStr == null) {
+                return ResponseEntity.badRequest().body(Map.of(
+                        "success", false,
+                        "message", "Nome, e-mail, senha e tipo de usuário são obrigatórios."
+                ));
+            }
+
+            if (repository.findByEmail(email).isPresent()) {
                 return ResponseEntity.badRequest().body(Map.of(
                         "success", false,
                         "message", "Este e-mail já está em uso."
                 ));
             }
 
-            // 2. Salva o usuário no banco de dados
+            TipoUsuario tipoUsuario = TipoUsuario.valueOf(tipoStr);
+
+            Usuario novoUsuario = new Usuario();
+            novoUsuario.setNome(nome.trim());
+            novoUsuario.setEmail(email.trim());
+            novoUsuario.setSenha(passwordEncoder.encode(senha.trim()));
+            novoUsuario.setTipoUsuario(tipoUsuario);
+
+            if (dados.get("telefone") != null) {
+                novoUsuario.setTelefone(((String) dados.get("telefone")).trim());
+            }
+            if (dados.get("cidade") != null) {
+                novoUsuario.setCidade(((String) dados.get("cidade")).trim());
+            }
+
+            if (tipoUsuario == TipoUsuario.Administrador) {
+                if (dados.get("cpf") != null) {
+                    novoUsuario.setCpf(((String) dados.get("cpf")).trim());
+                }
+                if (dados.get("cargo") != null) {
+                    novoUsuario.setCargo((String) dados.get("cargo"));
+                }
+
+                String nomePlano = (String) dados.get("plano");
+                if (nomePlano != null && !nomePlano.isBlank()) {
+                    Plano plano = obterOuCriarPlano(nomePlano.trim());
+                    novoUsuario.setPlano(plano);
+                }
+            }
+
             repository.save(novoUsuario);
 
-            // 3. Retorna sucesso
             return ResponseEntity.ok(Map.of(
                     "success", true,
                     "message", "Cadastro realizado com sucesso!"
             ));
 
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body(Map.of(
+                    "success", false,
+                    "message", "Tipo de usuário inválido."
+            ));
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
@@ -63,9 +109,43 @@ public class AuthController {
         }
     }
 
-    /**
-     * Método de autenticação com tratamento de erros para evitar Status 500
-     */
+    private Plano obterOuCriarPlano(String nomePlano) {
+        return planoRepository.findByNome(nomePlano).orElseGet(() -> {
+            Plano plano = new Plano();
+            plano.setNome(nomePlano);
+
+            switch (nomePlano) {
+                case "Básico" -> {
+                    plano.setDescricao("Para pequenos negócios que estão começando.");
+                    plano.setPreco(49.0);
+                    plano.setLimiteEstabelecimentos(1);
+                }
+                case "Pro" -> {
+                    plano.setDescricao("Para negócios em crescimento.");
+                    plano.setPreco(119.0);
+                    plano.setLimiteEstabelecimentos(3);
+                }
+                case "Empresarial" -> {
+                    plano.setDescricao("Para redes com múltiplas unidades.");
+                    plano.setPreco(299.0);
+                    plano.setLimiteEstabelecimentos(999);
+                }
+                case "Premium" -> {
+                    plano.setDescricao("Plano premium com recursos avançados.");
+                    plano.setPreco(199.0);
+                    plano.setLimiteEstabelecimentos(5);
+                }
+                default -> {
+                    plano.setDescricao("Plano personalizado.");
+                    plano.setPreco(0.0);
+                    plano.setLimiteEstabelecimentos(1);
+                }
+            }
+
+            return planoRepository.save(plano);
+        });
+    }
+
     private ResponseEntity<?> realizarAutenticacao(Map<String, String> dados, boolean exigirAdmin) {
         try {
             String email = dados.get("email");
@@ -83,10 +163,8 @@ public class AuthController {
             if (usuarioOpt.isPresent()) {
                 Usuario usuario = usuarioOpt.get();
 
-                // Verifica se a senha no banco não está nula e bate com a digitada
-                if (usuario.getSenha() != null && usuario.getSenha().trim().equals(senha.trim())) {
+                if (usuario.getSenha() != null && passwordEncoder.matches(senha.trim(), usuario.getSenha())) {
 
-                    // SEGURANÇA: Verifica se o tipo do usuário existe no banco
                     if (usuario.getTipoUsuario() == null) {
                         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                                 "success", false,
@@ -96,7 +174,6 @@ public class AuthController {
 
                     boolean isAdmin = usuario.getTipoUsuario() == TipoUsuario.Administrador;
 
-                    // Bloqueio para o endpoint de Admin
                     if (exigirAdmin && !isAdmin) {
                         return ResponseEntity.status(HttpStatus.FORBIDDEN).body(Map.of(
                                 "success", false,
@@ -104,7 +181,6 @@ public class AuthController {
                         ));
                     }
 
-                    // Sucesso total
                     return ResponseEntity.ok(Map.of(
                             "success", true,
                             "message", "Login autorizado",
@@ -115,14 +191,12 @@ public class AuthController {
                 }
             }
 
-            // Falha na autenticação (E-mail não existe ou senha errada)
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(Map.of(
                     "success", false,
                     "message", "E-mail ou senha incorretos."
             ));
 
         } catch (Exception e) {
-            // Em caso de qualquer erro inesperado, imprime no log do IntelliJ e avisa o front
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(Map.of(
                     "success", false,

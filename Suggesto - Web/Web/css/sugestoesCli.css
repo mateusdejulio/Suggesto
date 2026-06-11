@@ -1,11 +1,11 @@
 /* ===== VARIAVEIS ===== */
 :root {
-  --fundo: #0e0e16;
-  --fundo-2: #13131f;
-  --fundo-3: #1a1a2e;
-  --roxo: #7c3aed;
-  --roxo-claro: #a78bfa;
-  --borda-roxa: rgba(124, 58, 237, 0.25);
+  --fundo: #121214;
+  --fundo-2: #1a1924;
+  --fundo-3: #1c1b26;
+  --roxo: #6366f1;
+  --roxo-claro: #818cf8;
+  --borda-roxa: rgba(99, 102, 241, 0.25);
   --texto: #f0f0f8;
   --texto-fraco: rgba(240, 240, 248, 0.55);
   --texto-mfraco: rgba(240, 240, 248, 0.3);
@@ -14,8 +14,8 @@
   --laranja: #f59e0b;
   --vermelho: #f87171;
   --azul: #3b82f6;
-  --fonte-titulo: 'Syne', sans-serif;
-  --fonte-corpo: 'DM Sans', sans-serif;
+  --fonte-titulo: 'Inter', system-ui, sans-serif;
+  --fonte-corpo: 'Inter', system-ui, sans-serif;
   --lateral: 240px;
   --trans: 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -55,7 +55,7 @@ body {
 .logo-icone {
   width: 30px; height: 30px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--roxo), var(--roxo-claro));
+  background: #6366f1;
   display: flex; align-items: center; justify-content: center;
   font-size: 14px; color: #fff;
 }
@@ -72,7 +72,7 @@ body {
 }
 .lateral-item:hover { background: rgba(255,255,255,0.05); color: var(--texto); }
 .lateral-item-ativo {
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(99, 102, 241, 0.15);
   color: var(--roxo-claro);
   border: 1px solid var(--borda-roxa);
 }
@@ -84,7 +84,7 @@ body {
 }
 .usuario-avatar {
   width: 36px; height: 36px; border-radius: 50%;
-  background: linear-gradient(135deg, var(--roxo), var(--roxo-claro));
+  background: #6366f1;
   display: flex; align-items: center; justify-content: center;
   font-size: 12px; font-weight: 700; color: #fff; flex-shrink: 0;
 }
@@ -128,7 +128,7 @@ body {
 }
 .btn-nova-sugestao:hover {
   background: #6d28d9; transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
 }
 .header-notif {
   position: relative; width: 42px; height: 42px;
@@ -165,7 +165,7 @@ body {
   display: flex; align-items: center; justify-content: center;
   font-size: 18px; flex-shrink: 0;
 }
-.resumo-icone-roxo   { background: rgba(124, 58, 237, 0.15); color: var(--roxo-claro); }
+.resumo-icone-roxo   { background: rgba(99, 102, 241, 0.15); color: var(--roxo-claro); }
 .resumo-icone-verde  { background: rgba(16, 185, 129, 0.15); color: var(--verde); }
 .resumo-icone-amarelo{ background: rgba(245, 158, 11, 0.15);  color: var(--laranja); }
 .resumo-icone-azul   { background: rgba(59, 130, 246, 0.15);  color: var(--azul); }
@@ -180,7 +180,7 @@ body {
 .filtros-secao {
   background: var(--fundo-2);
   border: 1px solid var(--borda);
-  border-radius: 20px;
+  border-radius: 8px;
   padding: 20px 24px;
   display: flex; flex-direction: column; gap: 14px;
 }
@@ -244,7 +244,7 @@ body {
 }
 .chip:hover { border-color: var(--borda-roxa); color: var(--texto); }
 .chip-ativo {
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(99, 102, 241, 0.15);
   border-color: var(--borda-roxa);
   color: var(--roxo-claro);
 }
@@ -275,7 +275,7 @@ body {
 .sugestao-card {
   background: var(--fundo-2);
   border: 1px solid var(--borda);
-  border-radius: 20px;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   transition: var(--trans);
@@ -314,14 +314,14 @@ body {
 
 .card-avatar {
   width: 42px; height: 42px; border-radius: 12px;
-  background: linear-gradient(135deg, var(--roxo), var(--roxo-claro));
+  background: #6366f1;
   display: flex; align-items: center; justify-content: center;
   font-size: 13px; font-weight: 700; color: #fff;
   flex-shrink: 0;
 }
-.card-avatar-laranja { background: linear-gradient(135deg, #d97706, #f59e0b); }
-.card-avatar-verde   { background: linear-gradient(135deg, #059669, #10b981); }
-.card-avatar-azul    { background: linear-gradient(135deg, #2563eb, #3b82f6); }
+.card-avatar-laranja { background: #d97706; }
+.card-avatar-verde   { background: #059669; }
+.card-avatar-azul    { background: #2563eb; }
 
 .card-estabelecimento {
   font-family: var(--fonte-titulo);
@@ -475,13 +475,13 @@ body {
 /* ===== MODAL ===== */
 .modal-fundo {
   display: none; position: fixed; inset: 0;
-  background: rgba(0,0,0,0.65); backdrop-filter: blur(8px);
+  background: rgba(0,0,0,0.65);
   z-index: 500; align-items: center; justify-content: center; padding: 20px;
 }
 .modal-fundo.aberto { display: flex; }
 .modal {
   background: var(--fundo-2); border: 1px solid var(--borda);
-  border-radius: 24px; padding: 36px 32px;
+  border-radius: 8px; padding: 36px 32px;
   width: 100%; max-width: 480px;
   display: flex; flex-direction: column; gap: 16px;
   animation: entrarModal 0.3s ease;
@@ -533,7 +533,7 @@ body {
 }
 .botao-modal:hover {
   background: #6d28d9; transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
 }
 
 /* MODAL DETALHE */

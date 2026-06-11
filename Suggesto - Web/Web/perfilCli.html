@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Perfil — Suggesto</title>
   <link rel="icon" type="image/png" href="imagens/logo.png">
-  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <link rel="stylesheet" href="css/perfilCli.css">
 
@@ -57,7 +57,7 @@
   }
 
   .logo-text {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     font-weight: 700;
     font-size: 15px;
     color: #e8e6ff;
@@ -68,7 +68,7 @@
     font-size: 10px;
     font-weight: 400;
     color: #6b6890;
-    font-family: 'DM Sans', sans-serif;
+    font-family: 'Inter', system-ui, sans-serif;
     letter-spacing: 0.04em;
     text-transform: uppercase;
     margin-top: 1px;
@@ -290,7 +290,6 @@
         <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
       </svg>
       Minhas Sugestões
-      <span class="nav-badge">24</span>
     </a>
 
     <a class="nav-item" href="lojapontosCli.html">
@@ -342,7 +341,7 @@
         <div class="sb-user-name" id = "sidebarNome">Carregando...</div>
         <div class="sb-user-role">Cliente</div>
       </div>
-      <button class="user-sair" title="Sair" onclick="abrirModalSair()">
+      <button class="user-sair" id="btnSairSidebar" title="Sair" type="button">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
           <polyline points="16 17 21 12 16 7"/>
@@ -387,8 +386,8 @@
         <div class="avatar-wrapper">
           <div class="avatar-ring"></div>
           <div class="avatar-foto">
-            <img src="imagens/joao.jpg" alt="João" onerror="this.style.display='none'; this.parentElement.querySelector('.avatar-iniciais').style.display='flex'">
-            <div class="avatar-iniciais">JG</div>
+            <img id="avatarImg" src="" alt="Foto de perfil" style="display:none" onerror="this.style.display='none'; document.getElementById('avatarIniciais').style.display='flex'">
+            <div class="avatar-iniciais" id="avatarIniciais">--</div>
           </div>
           <button class="avatar-editar" title="Editar foto">
             <i class="fas fa-camera"></i>
@@ -398,16 +397,16 @@
         <!-- Dados principais -->
         <div class="hero-dados">
           <div class="hero-nome-linha">
-            <h2 class="hero-nome">João Guilherme</h2>
-            <div class="hero-nivel">
-              <span class="nivel-badge nivel-ouro">
+            <h2 class="hero-nome" id="heroNome">Carregando...</h2>
+            <div class="hero-nivel" id="heroPlanoWrap" style="display:none">
+              <span class="nivel-badge nivel-ouro" id="heroPlano">
                 <i class="fas fa-medal"></i>
-                Ouro
+                <span id="heroPlanoNome"></span>
               </span>
             </div>
           </div>
-          <p class="hero-email">joão@gmail.com</p>
-          <p class="hero-membro">Membro desde março de 2024</p>
+          <p class="hero-email" id="heroEmail"></p>
+          <p class="hero-membro" id="heroCidade"></p>
         </div>
 
         <!-- Botão editar -->
@@ -420,22 +419,22 @@
       <!-- Stats rápidos -->
       <div class="hero-stats">
         <div class="stat-item">
-          <span class="stat-valor">42</span>
+          <span class="stat-valor" id="statSugestoes">0</span>
           <span class="stat-label">Sugestões</span>
         </div>
         <div class="stat-divisor"></div>
         <div class="stat-item">
-          <span class="stat-valor">1.240</span>
+          <span class="stat-valor" id="statPontos">—</span>
           <span class="stat-label">Pontos</span>
         </div>
         <div class="stat-divisor"></div>
         <div class="stat-item">
-          <span class="stat-valor">8</span>
+          <span class="stat-valor" id="statSalvos">0</span>
           <span class="stat-label">Salvos</span>
         </div>
         <div class="stat-divisor"></div>
         <div class="stat-item">
-          <span class="stat-valor">93%</span>
+          <span class="stat-valor" id="statAprovadas">—</span>
           <span class="stat-label">Aprovadas</span>
         </div>
       </div>
@@ -457,7 +456,7 @@
 
                 <div>
                   <p class="menu-item-titulo">Locais Salvos</p>
-                  <p class="menu-item-sub">8 estabelecimentos favoritos</p>
+                  <p class="menu-item-sub" id="totalSalvos">0 estabelecimentos favoritos</p>
                 </div>
               </div>
               <i class="fas fa-chevron-right menu-seta"></i>
@@ -468,7 +467,7 @@
 
                 <div>
                   <p class="menu-item-titulo">Minhas Sugestões</p>
-                  <p class="menu-item-sub">42 sugestões enviadas</p>
+                  <p class="menu-item-sub" id="totalSugestoes">0 sugestões enviadas</p>
                 </div>
               </div>
               <i class="fas fa-chevron-right menu-seta"></i>
@@ -528,7 +527,7 @@
               <i class="fas fa-chevron-right menu-seta"></i>
             </button>
 
-            <button class="menu-item menu-item-perigo" onclick="confirmarSaida()">
+            <button class="menu-item menu-item-perigo" type="button" onclick="abrirModalSair()">
               <div class="menu-item-esq">
 
                 <div>
@@ -552,44 +551,31 @@
           <div class="nivel-topo">
             <div>
               <h3 class="secao-titulo" style="margin-bottom:4px">Nível atual</h3>
-              <p class="nivel-desc">Você está quase alcançando Platina!</p>
+              <p class="nivel-desc" id="perfilNivelDesc">Carregando nível...</p>
             </div>
-            <div class="nivel-badge-grande nivel-ouro">
+            <div class="nivel-badge-grande nivel-ouro" id="perfilBadgeNivel">
               <i class="fas fa-medal"></i>
-              Ouro
+              <span id="perfilBadgeTexto">—</span>
             </div>
           </div>
 
           <div class="nivel-progresso-wrapper">
             <div class="nivel-progresso-labels">
-              <span>Ouro</span>
-              <span>1.240 / 2.000 pts</span>
-              <span>Platina</span>
+              <span id="labelNivelAtual">—</span>
+              <span id="labelPontosProgresso">—</span>
+              <span id="labelProximoNivel">—</span>
             </div>
             <div class="nivel-barra">
-              <div class="nivel-barra-fill" style="width: 62%">
+              <div class="nivel-barra-fill" id="perfilBarraFill" style="width: 0%">
                 <div class="nivel-barra-brilho"></div>
               </div>
             </div>
-            <p class="nivel-faltam"><i class="fas fa-bolt"></i> Faltam 760 pontos para Platina</p>
+            <p class="nivel-faltam" id="perfilFaltamPontos"><i class="fas fa-bolt"></i> —</p>
           </div>
 
           <div class="nivel-beneficios">
-            <p class="beneficios-titulo">Benefícios Ouro</p>
-            <div class="beneficios-lista">
-              <div class="beneficio-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Prioridade nas respostas</span>
-              </div>
-              <div class="beneficio-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Badge exclusivo no perfil</span>
-              </div>
-              <div class="beneficio-item">
-                <i class="fas fa-check-circle"></i>
-                <span>Desconto em parceiros</span>
-              </div>
-            </div>
+            <p class="beneficios-titulo" id="perfilBeneficiosTitulo">Benefícios</p>
+            <div class="beneficios-lista" id="perfilBeneficiosLista"></div>
           </div>
         </div>
 
@@ -699,25 +685,30 @@
 
       <div class="campo-grupo">
         <label class="campo-label">Nome</label>
-        <input type="text" class="campo-input" value="Manuela" placeholder="Seu nome">
+        <input type="text" class="campo-input" id="editNome" placeholder="Seu nome">
       </div>
 
       <div class="campo-grupo">
         <label class="campo-label">E-mail</label>
-        <input type="email" class="campo-input" value="manuela@gmail.com" placeholder="Seu e-mail">
+        <input type="email" class="campo-input" id="editEmail" placeholder="Seu e-mail" readonly>
       </div>
 
       <div class="campo-grupo">
         <label class="campo-label">Telefone</label>
-        <input type="tel" class="campo-input" placeholder="(00) 00000-0000">
+        <input type="tel" class="campo-input" id="editTelefone" placeholder="(00) 00000-0000">
       </div>
 
       <div class="campo-grupo">
         <label class="campo-label">Cidade</label>
-        <input type="text" class="campo-input" value="Campinas, SP" placeholder="Sua cidade">
+        <input type="text" class="campo-input" id="editCidade" placeholder="Sua cidade">
       </div>
 
-      <button class="botao-modal" onclick="salvarEdicao()">
+      <div class="campo-grupo">
+        <label class="campo-label">Foto de perfil</label>
+        <input type="file" id="editFotoFile" class="campo-input" accept="image/*">
+      </div>
+
+      <button class="botao-modal" type="button" onclick="salvarEdicao()">
         <i class="fas fa-check"></i>
         Salvar alterações
       </button>
@@ -734,7 +725,7 @@
       <p class="modal-sub">Tem certeza que deseja encerrar sua sessão? Você precisará fazer login novamente.</p>
       <div class="modal-botoes">
         <button class="botao-modal-sec" onclick="fecharModal('modalSaida')">Cancelar</button>
-        <button class="botao-modal botao-modal-perigo">
+        <button class="botao-modal botao-modal-perigo" id="btnConfirmarSaida" type="button">
           <i class="fas fa-sign-out-alt"></i>
           Sair
         </button>
@@ -748,6 +739,7 @@
     <span id="toastMsg">Salvo com sucesso!</span>
   </div>
 
+  <script src="js/pontosNiveis.js"></script>
   <script src="js/perfilCli.js"></script>
 </body>
 </html>

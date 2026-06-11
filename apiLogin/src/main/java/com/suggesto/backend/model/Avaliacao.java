@@ -2,7 +2,7 @@ package com.suggesto.backend.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import java.time.LocalDateTime; // Importação necessária
+import java.time.LocalDateTime;
 import com.suggesto.backend.model.Estabelecimento;
 
 @Entity
@@ -32,16 +32,12 @@ public class Avaliacao {
     @Column(name = "tipo", length = 50)
     private String tipo;
 
-    // --- CAMPO NOVO ---
     @Column(name = "data_avaliacao")
     private LocalDateTime dataAvaliacao;
 
-    // --- ESTABELECIMENTO ---
     @ManyToOne
-    @JoinColumn(name = "id_estabelecimento") // Nome da coluna no banco
+    @JoinColumn(name = "id_estabelecimento")
     private Estabelecimento estabelecimento;
-
-    // --- Adicione os Getters e Setters ---
 
     public Estabelecimento getEstabelecimento() {
         return estabelecimento;
@@ -50,8 +46,6 @@ public class Avaliacao {
     public void setEstabelecimento(Estabelecimento estabelecimento) {
         this.estabelecimento = estabelecimento;
     }
-
-    // --- GETTERS E SETTERS ATUALIZADOS ---
 
     public String getTipo() {
         return tipo;
@@ -93,7 +87,6 @@ public class Avaliacao {
         this.categoria = categoria;
     }
 
-    // --- MÉTODOS NOVOS PARA A DATA ---
     public LocalDateTime getDataAvaliacao() {
         return dataAvaliacao;
     }

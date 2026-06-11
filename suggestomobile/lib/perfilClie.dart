@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'usuarios.dart';
 
 class PerfilCliPage extends StatefulWidget {
   const PerfilCliPage({super.key});
@@ -8,9 +9,9 @@ class PerfilCliPage extends StatefulWidget {
 }
 
 class _PerfilCliPageState extends State<PerfilCliPage> {
-  int _currentIndex = 3; // Perfil selecionado
+  int _currentIndex = 3;
 
-  // Dados do usuário (mock)
+  // Dados do usuário logado (mock)
   final String _nome = 'Manuela';
   final String _email = 'manuela@gmail.com';
   final String _nivel = 'Ouro';
@@ -18,19 +19,11 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
       'https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=200&q=80';
 
   final List<Map<String, dynamic>> _menuItems = [
-    {
-      'icon': Icons.bookmark_outlined,
-      'label': 'Locais Salvos',
-      'route': '/locais_salvos',
-    },
-    {
-      'icon': Icons.chat_bubble_outline,
-      'label': 'Minhas Sugestões',
-    },
-    {
-      'icon': Icons.bar_chart,
-      'label': 'Contribuição',
-    },
+    {'icon': Icons.bookmark_outlined, 'label': 'Locais Salvos', 'route': '/locais_salvos'},
+    {'icon': Icons.chat_bubble_outline, 'label': 'Minhas Sugestões', 'route': null},
+    {'icon': Icons.bar_chart, 'label': 'Contribuição', 'route': null},
+    {'icon': Icons.person_outline, 'label': 'Sobre Nós', 'route': '/sobrenos'},
+    {'icon': Icons.person_outline, 'label': 'O Suggesto', 'route': '/suggesto'},
   ];
 
   @override
@@ -39,23 +32,22 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
       backgroundColor: const Color(0xFF12061E),
       body: Column(
         children: [
-          // Ícones topo direito (notificação + config)
           _buildTopBar(),
-
-          // Conteúdo rolável
           Expanded(
             child: SingleChildScrollView(
               physics: const BouncingScrollPhysics(),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const SizedBox(height: 12),
+                  SizedBox(height: 12),
                   _buildPerfilHeader(),
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
                   _buildMenuList(),
-                  const SizedBox(height: 32),
+                  /*SizedBox(height: 32),
+                  _buildBuscaUsuarios(),*/
+                  SizedBox(height: 32),
                   _buildSairButton(),
-                  const SizedBox(height: 32),
+                  SizedBox(height: 32),
                 ],
               ),
             ),
@@ -66,17 +58,16 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildTopBar() {
     return SafeArea(
       bottom: false,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 0),
+        padding: EdgeInsets.fromLTRB(20, 12, 20, 0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.end,
           children: [
             _buildIconButton(Icons.notifications_outlined, onTap: () {}),
-            const SizedBox(width: 10),
+            SizedBox(width: 10),
             _buildIconButton(Icons.settings_outlined, onTap: () {}),
           ],
         ),
@@ -91,103 +82,81 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
         width: 40,
         height: 40,
         decoration: BoxDecoration(
-          color: const Color(0xFF1E0E32),
+          color: Color(0xFF1E0E32),
           borderRadius: BorderRadius.circular(12),
-          border: Border.all(color: const Color(0xFF2A1A4A), width: 1),
+          border: Border.all(color: Color(0xFF2A1A4A), width: 1),
         ),
         child: Icon(icon, color: Colors.white70, size: 20),
       ),
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildPerfilHeader() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          // Avatar
           Container(
             width: 80,
             height: 80,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(
-                color: const Color(0xFF9B59D0),
-                width: 2.5,
-              ),
+              border: Border.all(color: Color(0xFF9B59D0), width: 2.5),
               boxShadow: [
                 BoxShadow(
-                  color: const Color(0xFF9B59D0).withOpacity(0.3),
+                  color: Color(0xFF9B59D0).withOpacity(0.3),
                   blurRadius: 12,
                   spreadRadius: 2,
                 ),
               ],
             ),
             child: ClipOval(
-              child: Image.network(
-                _fotoUrl,
+              child: Image.asset(
+                  'assets/images/manuela.jpg',
                 fit: BoxFit.cover,
                 errorBuilder: (_, __, ___) => Container(
-                  color: const Color(0xFF2A1A4A),
-                  child: const Icon(Icons.person,
-                      color: Colors.white38, size: 40),
+                  color: Color(0xFF2A1A4A),
+                  child: Icon(Icons.person, color: Colors.white38, size: 40),
                 ),
               ),
             ),
           ),
-
-          const SizedBox(width: 18),
-
-          // Nome, email e nível
+          SizedBox(width: 18),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                _nome,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                  fontFamily: 'Syne',
-                ),
-              ),
-              const SizedBox(height: 2),
-              Text(
-                _email,
-                style: TextStyle(
-                  color: Colors.white.withOpacity(0.45),
-                  fontSize: 13,
-                  fontFamily: 'Syne',
-                ),
-              ),
-              const SizedBox(height: 8),
-              // Badge nível
+              Text(_nome, style: TextStyle(
+                color: const Color.fromARGB(207, 255, 255, 255),
+                fontSize: 24,
+                fontWeight: FontWeight.bold,
+                fontFamily: 'PoppinsBold',
+              )),
+              SizedBox(height: 2),
+              Text(_email, style: TextStyle(
+                color: Colors.white.withOpacity(0.45),
+                fontSize: 13,
+                fontFamily: 'Poppins',
+              )),
+              SizedBox(height: 8),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
                 decoration: BoxDecoration(
-                  color: const Color(0xFF3A1A6A),
+                  color: Color(0xFF3A1A6A),
                   borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: const Color(0xFF9B59D0).withOpacity(0.4),
-                      width: 1),
+                  border: Border.all(color: Color(0xFF9B59D0).withOpacity(0.4)),
                 ),
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [
-                    Text(
-                      _nivel,
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        fontFamily: 'Syne',
-                      ),
-                    ),
-                    const SizedBox(width: 5),
-                    const Text('🏅', style: TextStyle(fontSize: 13)),
+                    Text(_nivel, style: TextStyle(
+                      color: const Color.fromARGB(208, 255, 255, 255),
+                      fontSize: 13,
+                      fontWeight: FontWeight.w600,
+                      fontFamily: 'Poppins',
+                    )),
+                    SizedBox(width: 5),
+                    Text('🏅', style: TextStyle(fontSize: 13)),
                   ],
                 ),
               ),
@@ -198,37 +167,32 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildMenuList() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: Container(
         decoration: BoxDecoration(
-          color: const Color(0xFF1E0E32),
+          color: Color(0xFF1E0E32),
           borderRadius: BorderRadius.circular(18),
-          border: Border.all(color: const Color(0xFF2A1A4A), width: 1),
+          border: Border.all(color: Color(0xFF2A1A4A), width: 1),
         ),
         child: Column(
           children: List.generate(_menuItems.length, (index) {
             final item = _menuItems[index];
             final isLast = index == _menuItems.length - 1;
-
             return Column(
               children: [
                 _buildMenuItem(
                   icon: item['icon'] as IconData,
                   label: item['label'] as String,
                   onTap: () {
-                    Navigator.pushNamed(context, item['route']);
+                    if (item['route'] != null) {
+                      Navigator.pushNamed(context, item['route']);
+                    }
                   },
                 ),
                 if (!isLast)
-                  Divider(
-                    height: 1,
-                    color: Colors.white.withOpacity(0.06),
-                    indent: 20,
-                    endIndent: 20,
-                  ),
+                  Divider(height: 1, color: Colors.white.withOpacity(0.06), indent: 20, endIndent: 20),
               ],
             );
           }),
@@ -237,45 +201,83 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
     );
   }
 
-  Widget _buildMenuItem({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
+  Widget _buildMenuItem({required IconData icon, required String label, required VoidCallback onTap}) {
     return GestureDetector(
       onTap: onTap,
       behavior: HitTestBehavior.opaque,
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 17),
+        padding: EdgeInsets.symmetric(horizontal: 20, vertical: 17),
         child: Row(
           children: [
             Icon(icon, color: Colors.white70, size: 20),
-            const SizedBox(width: 14),
+            SizedBox(width: 14),
             Expanded(
-              child: Text(
-                label,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 15,
-                  fontFamily: 'Syne',
-                  fontWeight: FontWeight.w500,
-                ),
-              ),
+              child: Text(label, style: TextStyle(
+                color: const Color.fromARGB(199, 255, 255, 255),
+                fontSize: 15,
+                fontFamily: 'Poppins',
+               /* fontWeight: FontWeight.w500,*/
+              )),
             ),
-            const Icon(Icons.chevron_right, color: Colors.white38, size: 20),
+            Icon(Icons.chevron_right, color: Colors.white38, size: 20),
           ],
         ),
       ),
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
+  // BUSCA DE USUARIOS CADASTRADOS (requisito: busca no vetor)
+  /*Widget _buildBuscaUsuarios() {
+    return Padding(
+      padding: EdgeInsets.symmetric(horizontal: 20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text("Buscar usuário cadastrado", style: TextStyle(
+            color: Colors.white,
+            fontSize: 16,
+            fontFamily: 'Syne',
+            fontWeight: FontWeight.bold,
+          )),
+          SizedBox(height: 12),
+          GestureDetector(
+            onTap: () {
+              showModalBottomSheet(
+                context: context,
+                backgroundColor: Colors.transparent,
+                isScrollControlled: true,
+                builder: (_) => _BuscaUsuarioSheet(),
+              );
+            },
+            child: Container(
+              width: double.infinity,
+              height: 50,
+              decoration: BoxDecoration(
+                color: Color(0xFF1E0E32),
+                borderRadius: BorderRadius.circular(14),
+                border: Border.all(color: Color(0xFF2A1A4A)),
+              ),
+              child: Row(
+                children: [
+                  SizedBox(width: 16),
+                  Icon(Icons.search, color: Color(0xFF9B59D0), size: 20),
+                  SizedBox(width: 10),
+                  Text("Pesquisar por email...", style: TextStyle(color: Colors.white38, fontSize: 14)),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+*/
   Widget _buildSairButton() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 20),
+      padding: EdgeInsets.symmetric(horizontal: 20),
       child: GestureDetector(
         onTap: () {
-          // lógica de logout
+          Navigator.pushNamedAndRemoveUntil(context, '/login', (route) => false);
         },
         child: Container(
           width: double.infinity,
@@ -283,25 +285,19 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
           decoration: BoxDecoration(
             color: Colors.transparent,
             borderRadius: BorderRadius.circular(14),
-            border: Border.all(
-              color: Colors.redAccent.withOpacity(0.4),
-              width: 1,
-            ),
+            border: Border.all(color: Colors.redAccent.withOpacity(0.4)),
           ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Icon(Icons.logout, color: Colors.redAccent, size: 18),
               SizedBox(width: 8),
-              Text(
-                'Sair da conta',
-                style: TextStyle(
-                  color: Colors.redAccent,
-                  fontSize: 14,
-                  fontFamily: 'Syne',
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
+              Text('Sair da conta', style: TextStyle(
+                color: Colors.redAccent,
+                fontSize: 14,
+                fontFamily: 'PoppinsSemi',
+                fontWeight: FontWeight.w600,
+              )),
             ],
           ),
         ),
@@ -309,41 +305,20 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
     );
   }
 
-  // ─────────────────────────────────────────────────────────────────
   Widget _buildBottomNav() {
     final items = [
-      {
-        'icon': Icons.home_outlined,
-        'activeIcon': Icons.home,
-        'label': 'Início'
-      },
-      {
-        'icon': Icons.chat_bubble_outline,
-        'activeIcon': Icons.chat_bubble,
-        'label': 'Minhas\nSugestões'
-      },
-      {
-        'icon': Icons.stars_outlined,
-        'activeIcon': Icons.stars,
-        'label': 'Pontos'
-      },
-      {
-        'icon': Icons.person_outline,
-        'activeIcon': Icons.person,
-        'label': 'Perfil'
-      },
+      {'icon': Icons.home_filled, 'label': 'Início'},
+      {'icon': Icons.forum, 'label': 'Minhas\nSugestões'},
+      {'icon': Icons.monetization_on, 'label': 'Pontos'},
+      {'icon': Icons.person, 'label': 'Perfil'},
     ];
 
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A0A2E),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            blurRadius: 20,
-            offset: const Offset(0, -4),
-          ),
-        ],
+        color: const Color(0xFF12061E),
+        border: const Border(
+          top: BorderSide(color: Color(0xFF1E0E32), width: 1),
+        ),
       ),
       child: SafeArea(
         top: false,
@@ -363,33 +338,28 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
                 },
                 behavior: HitTestBehavior.opaque,
                 child: SizedBox(
-                  width: 70,
+                  width: 75,
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Icon(
-                        isSelected
-                            ? items[index]['activeIcon'] as IconData
-                            : items[index]['icon'] as IconData,
+                        items[index]['icon'] as IconData,
                         color: isSelected
-                            ? const Color(0xFF9B59D0)
-                            : Colors.white38,
+                            ? Colors.white
+                            : Colors.white.withOpacity(0.5),
                         size: 24,
                       ),
-                      const SizedBox(height: 3),
+                      const SizedBox(height: 4),
                       Text(
                         items[index]['label'] as String,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           color: isSelected
-                              ? const Color(0xFF9B59D0)
-                              : Colors.white38,
+                              ? Colors.white
+                              : Colors.white.withOpacity(0.5),
                           fontSize: 10,
-                          height: 1.2,
-                          fontFamily: 'Syne',
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.normal,
+                          height: 1.1,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ],
@@ -404,3 +374,128 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
   }
 }
 
+// ─── Sheet de busca de usuários ───────────────────────────────────────────────
+class _BuscaUsuarioSheet extends StatefulWidget {
+  @override
+  State<_BuscaUsuarioSheet> createState() => _BuscaUsuarioSheetState();
+}
+
+class _BuscaUsuarioSheetState extends State<_BuscaUsuarioSheet> {
+  final TextEditingController buscaController = TextEditingController();
+
+  List<Map<String, dynamic>> resultados = [];
+
+  void buscar() {
+    String termo = buscaController.text.trim().toLowerCase();
+
+    if (termo.isEmpty) {
+      setState(() => resultados = []);
+      return;
+    }
+
+    // Busca no vetor pelo email
+    List<Map<String, dynamic>> encontrados = [];
+    for (var usuario in usuariosCadastrados) {
+      if (usuario['email'].toString().toLowerCase().contains(termo)) {
+        encontrados.add(usuario);
+      }
+    }
+
+    setState(() {
+      resultados = encontrados;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: EdgeInsets.fromLTRB(20, 20, 20, 40),
+      decoration: BoxDecoration(
+        color: Color(0xFF1E0E32),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          // Puxador
+          Container(
+            width: 40, height: 4,
+            decoration: BoxDecoration(color: Colors.white24, borderRadius: BorderRadius.circular(2)),
+          ),
+          SizedBox(height: 20),
+
+          Text("Buscar usuário", style: TextStyle(
+            color: Colors.white,
+            fontSize: 18,
+            fontFamily: 'Syne',
+            fontWeight: FontWeight.bold,
+          )),
+          SizedBox(height: 16),
+
+          // Campo de busca
+          Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: buscaController,
+                  style: TextStyle(color: Colors.white),
+                  decoration: InputDecoration(
+                    hintText: "Digite o email",
+                    hintStyle: TextStyle(color: Colors.white38),
+                    fillColor: Color.fromARGB(123, 88, 8, 129),
+                    filled: true,
+                    border: OutlineInputBorder(
+                      borderRadius: BorderRadius.circular(10),
+                      borderSide: BorderSide.none,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(width: 10),
+              ElevatedButton(
+                onPressed: buscar,
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFF9B59D0),
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                  padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                ),
+                child: Icon(Icons.search, color: Colors.white),
+              ),
+            ],
+          ),
+
+          SizedBox(height: 20),
+
+          // Resultados
+          if (resultados.isEmpty && buscaController.text.isNotEmpty)
+            Text("Nenhum usuário encontrado.", style: TextStyle(color: Colors.white54))
+          else
+            ...resultados.map((u) => Container(
+              margin: EdgeInsets.only(bottom: 10),
+              padding: EdgeInsets.all(14),
+              decoration: BoxDecoration(
+                color: Color(0xFF2A1A4A),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Row(
+                children: [
+                  Icon(Icons.person, color: Color(0xFF9B59D0), size: 24),
+                  SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(u['email'], style: TextStyle(color: Colors.white, fontSize: 14)),
+                        SizedBox(height: 2),
+                        Text("Tipo: ${u['tipo']}", style: TextStyle(color: Colors.white54, fontSize: 12)),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            )),
+        ],
+      ),
+    );
+  }
+}

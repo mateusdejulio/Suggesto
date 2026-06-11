@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import ModalEstabelecimento from "./ModalEstabelecimento";
-import "./Dashboard.css"; // Importando o CSS separado
+import "./Dashboard.css";
 
-// ─── ÍCONES INLINE ────────────────────────────────────────────────────────────
 const Icon = ({ d, size = 16 }) => (
   <svg
     width={size}
@@ -35,10 +34,8 @@ const IC = {
   chevron: "M9 18l6-6-6-6",
 };
 
-// ─── HELPER: inicial do nome ──────────────────────────────────────────────────
 const inicial = (nome = "") => nome.trim().charAt(0).toUpperCase() || "U";
 
-// ─── COMPONENTE PRINCIPAL ─────────────────────────────────────────────────────
 export default function Dashboard() {
   const [usuario, setUsuario] = useState({ nome: "Carregando", email: "" });
   const [estabelecimentos, setEstab] = useState([]);
@@ -51,21 +48,18 @@ export default function Dashboard() {
     emAlta: "—",
   });
 
-  // ── Carregar usuário ────────────────────────────────────────────────────────
   useEffect(() => {
     const nome = localStorage.getItem("nomeUsuario") || "Usuário";
     const email = localStorage.getItem("emailUsuario") || "";
     setUsuario({ nome, email });
   }, []);
 
-  // ── Carregar estabelecimentos ───────────────────────────────────────────────
   useEffect(() => {
     const idGerente = localStorage.getItem("idUsuario");
     if (!idGerente) return;
 
     (async () => {
       try {
-        // 1. Busca os estabelecimentos ativos do gerente
         const rEstab = await fetch(
           `http://localhost:8080/api/estabelecimentos/gerente/${idGerente}`,
         );
@@ -74,14 +68,12 @@ export default function Dashboard() {
         const estabs = await rEstab.json();
         setEstab(estabs);
 
-        if (estabs.length === 0) return; // Se não tem local, para por aqui
+        if (estabs.length === 0) return;
 
-        // 2. Busca as avaliações de TODOS os estabelecimentos ao mesmo tempo
         let totalSug = 0;
         let somaNotaGeral = 0;
         let locaisAvaliados = [];
 
-        // O Promise.all dispara todas as buscas simultaneamente (muito rápido!)
         const buscas = estabs.map(
           (e) =>
             fetch(
@@ -92,14 +84,12 @@ export default function Dashboard() {
                 if (avaliacoes.length > 0) {
                   totalSug += avaliacoes.length;
 
-                  // Soma as notas desse local específico
                   const somaLocal = avaliacoes.reduce(
                     (acc, av) => acc + av.nota,
                     0,
                   );
                   somaNotaGeral += somaLocal;
 
-                  // Salva a média desse local para descobrir quem está "Em alta"
                   locaisAvaliados.push({
                     nome: e.nome,
                     media: somaLocal / avaliacoes.length,
@@ -107,23 +97,20 @@ export default function Dashboard() {
                   });
                 }
               })
-              .catch(() => {}), // Ignora erros individuais
+              .catch(() => {}),
         );
 
         await Promise.all(buscas);
 
-        // 3. Faz os cálculos finais
         const mediaFinal =
           totalSug > 0 ? (somaNotaGeral / totalSug).toFixed(1) : "0.0";
 
-        // Em alta = Local com a maior média. Se der empate, o que tem mais avaliações ganha!
-        let emAltaFinal = estabs[0].nome; // Fallback pro primeiro local
+        let emAltaFinal = estabs[0].nome;
         if (locaisAvaliados.length > 0) {
           locaisAvaliados.sort((a, b) => b.media - a.media || b.qtd - a.qtd);
           emAltaFinal = locaisAvaliados[0].nome;
         }
 
-        // 4. Salva tudo na tela!
         setMetricas({
           totalSugestoes: totalSug,
           mediaGeral: mediaFinal,
@@ -135,7 +122,6 @@ export default function Dashboard() {
     })();
   }, []);
 
-  // ── Deletar ─────────────────────────────────────────────────────────────────
   const handleDeletar = async (id) => {
     if (!window.confirm("Tem certeza que deseja apagar este estabelecimento?"))
       return;
@@ -157,7 +143,6 @@ export default function Dashboard() {
     }
   };
 
-  // ── Métricas computadas ─────────────────────────────────────────────────────
   const totalEstab = estabelecimentos.length;
   const emAlta = estabelecimentos[0]?.nome ?? "—";
   const horaAtual = new Date().getHours();
@@ -197,6 +182,20 @@ export default function Dashboard() {
         </div>
 
         {/* Separador */}
+        <div className="side-divider" />
+
+        {!sidebarFechada && (
+          <Link to="/recompensas" className="side-item side-item-destaque">
+            <div className="side-avatar" style={{ background: "rgba(124,58,237,0.25)" }}>
+              <Icon d={IC.star} size={14} />
+            </div>
+            <div>
+              <p className="side-item-nome">Minhas Recompensas</p>
+              <p className="side-item-cat">Mercado de pontos</p>
+            </div>
+          </Link>
+        )}
+
         <div className="side-divider" />
 
         {/* Rótulo seção */}

@@ -1,22 +1,22 @@
 /* ===== VARIÁVEIS (espelhando inicioCli.css) ===== */
 :root {
-  --cor-fundo: #0e0e16;
-  --cor-fundo-2: #13131f;
-  --cor-fundo-3: #1a1a2e;
-  --cor-roxo: #7c3aed;
-  --cor-roxo-claro: #a78bfa;
-  --cor-roxo-brilho: rgba(124, 58, 237, 0.3);
+  --cor-fundo: #121214;
+  --cor-fundo-2: #1a1924;
+  --cor-fundo-3: #1c1b26;
+  --cor-roxo: #6366f1;
+  --cor-roxo-claro: #818cf8;
+  --cor-roxo-brilho: rgba(99, 102, 241, 0.3);
   --cor-texto: #f0f0f8;
   --cor-texto-fraco: rgba(240, 240, 248, 0.55);
   --cor-texto-muito-fraco: rgba(240, 240, 248, 0.3);
   --cor-borda: rgba(255, 255, 255, 0.07);
-  --cor-borda-roxa: rgba(124, 58, 237, 0.25);
+  --cor-borda-roxa: rgba(99, 102, 241, 0.25);
   --cor-laranja: #f59e0b;
   --cor-verde: #4ade80;
   --cor-perigo: #f87171;
   --cor-perigo-brilho: rgba(248, 113, 113, 0.15);
-  --fonte-titulo: 'Syne', sans-serif;
-  --fonte-texto: 'DM Sans', sans-serif;
+  --fonte-titulo: 'Inter', system-ui, sans-serif;
+  --fonte-texto: 'Inter', system-ui, sans-serif;
   --lateral-largura: 256px;
   --arredondado: 16px;
   --arredondado-sm: 8px;
@@ -152,7 +152,7 @@ body {
   flex-shrink: 0;
 }
 .stat-icone-roxo {
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(99, 102, 241, 0.15);
   color: var(--cor-roxo-claro);
 }
 .stat-icone-amarelo {
@@ -246,7 +246,7 @@ body {
 }
 .filtro-chip:hover { border-color: var(--cor-borda-roxa); color: var(--cor-texto); }
 .filtro-chip-ativo {
-  background: rgba(124, 58, 237, 0.15);
+  background: rgba(99, 102, 241, 0.15);
   border-color: var(--cor-borda-roxa);
   color: var(--cor-roxo-claro);
   font-weight: 500;
@@ -263,7 +263,7 @@ body {
 .local-card {
   background: var(--cor-fundo-2);
   border: 1px solid var(--cor-borda);
-  border-radius: 20px;
+  border-radius: 8px;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -292,9 +292,17 @@ body {
 .local-imagem {
   position: relative;
   height: 170px;
-  background-size: cover;
-  background-position: center;
   background-color: var(--cor-fundo-3);
+  overflow: hidden;
+}
+
+.local-imagem .local-foto {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  z-index: 0;
 }
 .local-imagem::after {
   content: '';
@@ -306,10 +314,9 @@ body {
 .local-categoria {
   position: absolute;
   top: 12px; left: 12px;
-  z-index: 1;
-  background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(8px);
-  border-radius: 999px;
+  z-index: 2;
+  background: rgba(0,0,0,0.65);
+  border-radius: 4px;
   padding: 4px 12px;
   font-size: 11px;
   font-weight: 600;
@@ -325,8 +332,8 @@ body {
   z-index: 1;
   width: 34px; height: 34px;
   border-radius: 50%;
-  background: rgba(124, 58, 237, 0.7);
-  backdrop-filter: blur(8px);
+  background: rgba(99, 102, 241, 0.7);
+  background: rgba(0,0,0,0.65);
   border: 1px solid rgba(167, 139, 250, 0.4);
   color: #fff;
   font-size: 14px;
@@ -399,7 +406,7 @@ body {
   display: flex;
   align-items: center;
   gap: 6px;
-  background: rgba(124, 58, 237, 0.12);
+  background: rgba(99, 102, 241, 0.12);
   border: 1px solid var(--cor-borda-roxa);
   border-radius: 999px;
   padding: 5px 12px;
@@ -410,7 +417,7 @@ body {
   cursor: pointer;
   transition: var(--animacao);
 }
-.local-btn-sugestao:hover { background: rgba(124, 58, 237, 0.22); }
+.local-btn-sugestao:hover { background: rgba(99, 102, 241, 0.22); }
 
 /* Data salvo */
 .card-data-salvo {
@@ -441,7 +448,7 @@ body {
 .locais-vazio span { font-size: 13px; }
 .btn-limpar-filtro {
   margin-top: 8px;
-  background: rgba(124, 58, 237, 0.12);
+  background: rgba(99, 102, 241, 0.12);
   border: 1px solid var(--cor-borda-roxa);
   border-radius: 999px;
   padding: 8px 20px;
@@ -451,7 +458,7 @@ body {
   cursor: pointer;
   transition: var(--animacao);
 }
-.btn-limpar-filtro:hover { background: rgba(124, 58, 237, 0.22); }
+.btn-limpar-filtro:hover { background: rgba(99, 102, 241, 0.22); }
 
 /* ===== MODAL ===== */
 .modal-fundo {
@@ -459,7 +466,7 @@ body {
   position: fixed;
   inset: 0;
   background: rgba(0,0,0,0.6);
-  backdrop-filter: blur(6px);
+  background: rgba(0,0,0,0.6);
   z-index: 500;
   align-items: center;
   justify-content: center;
@@ -470,7 +477,7 @@ body {
 .modal {
   background: var(--cor-fundo-2);
   border: 1px solid var(--cor-borda);
-  border-radius: 24px;
+  border-radius: 8px;
   padding: 36px 32px;
   width: 100%;
   max-width: 480px;
@@ -548,7 +555,7 @@ body {
 .botao-modal:hover {
   background: #6d28d9;
   transform: translateY(-1px);
-  box-shadow: 0 8px 24px rgba(124, 58, 237, 0.4);
+  box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4);
 }
 .botao-modal-ghost {
   background: transparent;
