@@ -55,7 +55,7 @@ class _LocaisSalvosPageState extends State<LocaisSalvosPage> {
       'telefone': '(19) 3231-4079',
     },
     {
-      'nome': 'PanoBianco Academia',
+      'nome': 'Panobianco Academia',
       'bairro': 'Centro, Campinas',
       'categoria': 'Academias',
       'nota': 4.5,

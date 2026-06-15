@@ -64,7 +64,7 @@ class _CadastroState extends State<Cadastro> {
       'termosAceitos': termosAceitos,
     });
     
-   print("===========================================");
+    print("===========================================");
     print("Email: $email");
     print("Senha: $senha");
     print("Tipo de usuário: $tipoUsuario");

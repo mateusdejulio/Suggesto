@@ -8,6 +8,7 @@ import 'package:suggestomobile/inicio.dart';
 import 'package:suggestomobile/locaisSalvos.dart';
 import 'package:suggestomobile/login.dart';
 import 'package:suggestomobile/lojaPontos.dart';
+import 'package:suggestomobile/minhasSugestoes.dart';
 import 'package:suggestomobile/perfilClie.dart';
 import 'package:suggestomobile/sobrenos.dart';
 import 'package:suggestomobile/sugerir.dart';
@@ -45,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/info_local': (context) => InfoLocalPage(local: {},),
         '/sobrenos': (context) => Sobrenos(),
         '/suggesto': (context) => Suggesto(),
+        '/minhasSugestoes': (context) => MinhasSugestoes(),
       },
     );
   }

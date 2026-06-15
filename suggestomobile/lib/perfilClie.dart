@@ -20,7 +20,7 @@ class _PerfilCliPageState extends State<PerfilCliPage> {
 
   final List<Map<String, dynamic>> _menuItems = [
     {'icon': Icons.bookmark_outlined, 'label': 'Locais Salvos', 'route': '/locais_salvos'},
-    {'icon': Icons.chat_bubble_outline, 'label': 'Minhas Sugestões', 'route': null},
+    {'icon': Icons.chat_bubble_outline, 'label': 'Minhas Sugestões', 'route': '/minhasSugestoes'},
     {'icon': Icons.bar_chart, 'label': 'Contribuição', 'route': null},
     {'icon': Icons.person_outline, 'label': 'Sobre Nós', 'route': '/sobrenos'},
     {'icon': Icons.person_outline, 'label': 'O Suggesto', 'route': '/suggesto'},
