@@ -135,7 +135,7 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: barraNavegacao(),
     );
   }
 
@@ -503,20 +503,12 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
     );
   }
 
-  Widget _buildBottomNav() {
-    final items = [
-      {'icon': Icons.home_filled, 'label': 'Início'},
-      {'icon': Icons.forum, 'label': 'Minhas\nSugestões'},
-      {'icon': Icons.monetization_on, 'label': 'Pontos'},
-      {'icon': Icons.person, 'label': 'Perfil'},
-    ];
-
+   int paginaAtual = 2;
+  Widget barraNavegacao() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF12061E),
-        border: const Border(
-          top: BorderSide(color: Color(0xFF1E0E32), width: 1),
-        ),
+        color: Color(0xFF12061E),
+        border: Border(top: BorderSide(color: Color(0xFF1E0E32), width: 1)),
       ),
       child: SafeArea(
         top: false,
@@ -524,47 +516,104 @@ class _LojasPontosPageState extends State<LojasPontosPage> {
           height: 64,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(items.length, (index) {
-              final isSelected = _currentIndex == index;
-              return GestureDetector(
+            children: [
+              GestureDetector(
                 onTap: () {
-                  setState(() => _currentIndex = index);
-
-                  if (index == 0) Navigator.pushNamed(context, '/home_cliente');
-                  if (index == 2) Navigator.pushNamed(context, '/loja');
-                  if (index == 3) Navigator.pushNamed(context, '/perfil');
+                  setState(() => paginaAtual = 0);
+                  Navigator.pushNamed(context, '/home_cliente');
                 },
-                behavior: HitTestBehavior.opaque,
-                child: SizedBox(
-                  width: 75,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        items[index]['icon'] as IconData,
-                        color: isSelected
-                            ? Colors.white
-                            : Colors.white.withOpacity(0.5),
-                        size: 24,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.home_filled,
+                      color: paginaAtual == 0 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Início",
+                      style: TextStyle(
+                        color: paginaAtual == 0 ? Colors.white : Colors.white54,
+                        fontSize: 10,
                       ),
-                      const SizedBox(height: 4),
-                      Text(
-                        items[index]['label'] as String,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: isSelected
-                              ? Colors.white
-                              : Colors.white.withOpacity(0.5),
-                          fontSize: 10,
-                          height: 1.1,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              );
-            }),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() => paginaAtual = 1);
+                  Navigator.pushNamed(context, '/minhasSugestoes');
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.forum,
+                      color: paginaAtual == 1 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Minhas\nSugestões",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: paginaAtual == 1 ? Colors.white : Colors.white54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() => paginaAtual = 2);
+                  Navigator.pushNamed(context, '/loja');
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.monetization_on,
+                      color: paginaAtual == 2 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Pontos",
+                      style: TextStyle(
+                        color: paginaAtual == 2 ? Colors.white : Colors.white54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() => paginaAtual = 3);
+                  Navigator.pushNamed(context, '/perfil');
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: paginaAtual == 3 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Perfil",
+                      style: TextStyle(
+                        color: paginaAtual == 3 ? Colors.white : Colors.white54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),

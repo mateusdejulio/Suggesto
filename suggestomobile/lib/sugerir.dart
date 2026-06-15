@@ -1,18 +1,16 @@
- 
 import 'package:flutter/material.dart';
 
 class SugerirPage extends StatefulWidget {
   final Map<String, dynamic>? local;
- 
+
   const SugerirPage({super.key, this.local});
- 
+
   @override
   State<SugerirPage> createState() => _SugerirPageState();
 }
- 
-class _SugerirPageState extends State<SugerirPage>
 
-  with SingleTickerProviderStateMixin {
+class _SugerirPageState extends State<SugerirPage>
+    with SingleTickerProviderStateMixin {
   int _currentIndex = 0;
   final TextEditingController _controller = TextEditingController();
   final int _maxChars = 500;
@@ -21,60 +19,54 @@ class _SugerirPageState extends State<SugerirPage>
   late Animation<double> _fadeAnim;
   late Animation<Offset> _slideAnim;
   bool _enviado = false;
- 
+
   final List<String> _categorias = [
-  'Atendimento',
-  'Qualidade do produto',
-  'Preço',
-  'Estrutura',
-  'Ambiente',
-  'Higiene',
-  'Cardápio',
-  'Outro',
-];
- 
+    'Atendimento',
+    'Qualidade do produto',
+    'Preço',
+    'Estrutura',
+    'Ambiente',
+    'Higiene',
+    'Cardápio',
+    'Outro',
+  ];
+
   @override
   void initState() {
     super.initState();
     _controller.addListener(() => setState(() {}));
- 
+
     _animController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 600),
     );
- 
-    _fadeAnim = CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOut,
-    );
- 
+
+    _fadeAnim = CurvedAnimation(parent: _animController, curve: Curves.easeOut);
+
     _slideAnim = Tween<Offset>(
       begin: const Offset(0, 0.08),
       end: Offset.zero,
-    ).animate(CurvedAnimation(
-      parent: _animController,
-      curve: Curves.easeOut,
-    ));
- 
+    ).animate(CurvedAnimation(parent: _animController, curve: Curves.easeOut));
+
     _animController.forward();
   }
- 
+
   @override
   void dispose() {
     _controller.dispose();
     _animController.dispose();
     super.dispose();
   }
- 
+
   bool get _podeEnviar =>
       _controller.text.trim().isNotEmpty &&
       _categoriaSelecionada != null &&
       !_enviado;
- 
+
   void _enviar() {
     if (!_podeEnviar) return;
     setState(() => _enviado = true);
- 
+
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         backgroundColor: const Color(0xFF2D5A27),
@@ -93,21 +85,22 @@ class _SugerirPageState extends State<SugerirPage>
         duration: const Duration(seconds: 2),
       ),
     );
- 
+
     Future.delayed(const Duration(milliseconds: 2200), () {
       if (mounted) Navigator.of(context).pop();
     });
   }
- 
+
   @override
   Widget build(BuildContext context) {
-    final local = widget.local ??
+    final local =
+        widget.local ??
         {
           'nome': 'BigJack',
           'imagem':
               'https://images.unsplash.com/photo-1571091718767-18b5b1457add?w=800&q=80',
         };
- 
+
     return Scaffold(
       backgroundColor: const Color(0xFF12061E),
       body: Column(
@@ -140,10 +133,10 @@ class _SugerirPageState extends State<SugerirPage>
           ),
         ],
       ),
-      bottomNavigationBar: _buildBottomNav(),
+      bottomNavigationBar: barraNavegacao(),
     );
   }
- 
+
   // ─── AppBar ────────────────────────────────────────────────────────
   Widget _buildAppBar(BuildContext context) {
     return Container(
@@ -164,8 +157,11 @@ class _SugerirPageState extends State<SugerirPage>
           child: Row(
             children: [
               IconButton(
-                icon: const Icon(Icons.arrow_back_ios_new,
-                    color: Colors.white, size: 20),
+                icon: const Icon(
+                  Icons.arrow_back_ios_new,
+                  color: Colors.white,
+                  size: 20,
+                ),
                 onPressed: () => Navigator.of(context).pop(),
               ),
               const Expanded(
@@ -188,7 +184,7 @@ class _SugerirPageState extends State<SugerirPage>
       ),
     );
   }
- 
+
   // ─── Local Info ────────────────────────────────────────────────────
   Widget _buildLocalInfo(Map<String, dynamic> local) {
     return Container(
@@ -229,7 +225,7 @@ class _SugerirPageState extends State<SugerirPage>
       ),
     );
   }
- 
+
   Widget _placeholderLogo() {
     return Container(
       width: 52,
@@ -241,12 +237,12 @@ class _SugerirPageState extends State<SugerirPage>
       child: const Icon(Icons.storefront, color: Colors.white38, size: 28),
     );
   }
- 
+
   // ─── Text Area ─────────────────────────────────────────────────────
   Widget _buildTextArea() {
     final charCount = _controller.text.length;
     final isNearLimit = charCount > (_maxChars * 0.8);
- 
+
     return Column(
       children: [
         Container(
@@ -310,7 +306,7 @@ class _SugerirPageState extends State<SugerirPage>
       ],
     );
   }
- 
+
   // ─── Categorias ────────────────────────────────────────────────────
   Widget _buildCategoriasSection() {
     return Column(
@@ -341,10 +337,10 @@ class _SugerirPageState extends State<SugerirPage>
       ],
     );
   }
- 
+
   Widget _buildCategoriaChip(String label) {
     final isSelected = _categoriaSelecionada == label;
- 
+
     return GestureDetector(
       onTap: () => setState(() {
         _categoriaSelecionada = isSelected ? null : label;
@@ -378,17 +374,15 @@ class _SugerirPageState extends State<SugerirPage>
             style: TextStyle(
               color: isSelected ? Colors.white : Colors.white60,
               fontSize: 12,
-              fontWeight:
-                  isSelected ? FontWeight.w600 : FontWeight.normal,
+              fontWeight: isSelected ? FontWeight.w600 : FontWeight.normal,
               fontFamily: 'Poppins',
             ),
-
           ),
         ),
       ),
     );
   }
- 
+
   // ─── Botão Enviar ──────────────────────────────────────────────────
   Widget _buildEnviarButton() {
     return AnimatedOpacity(
@@ -440,33 +434,14 @@ class _SugerirPageState extends State<SugerirPage>
       ),
     );
   }
- 
+
   // ─── Bottom Nav ────────────────────────────────────────────────────
-  Widget _buildBottomNav() {
-    final items = [
-      {'icon': Icons.home_outlined, 'activeIcon': Icons.home, 'label': 'Início'},
-      {
-        'icon': Icons.chat_bubble_outline,
-        'activeIcon': Icons.chat_bubble,
-        'label': 'Minhas\nSugestões'
-      },
-      {'icon': Icons.stars_outlined, 'activeIcon': Icons.stars, 'label': 'Pontos'},
-      {'icon': Icons.person_outline, 'activeIcon': Icons.person, 'label': 'Perfil'},
-    ];
- 
-    // Na tela de sugerir, "Minhas Sugestões" fica ativo (índice 1)
-    const activeIndex = 1;
- 
+   int paginaAtual = 1;
+  Widget barraNavegacao() {
     return Container(
       decoration: BoxDecoration(
-        color: const Color(0xFF1A0A2E),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.4),
-            blurRadius: 20,
-            offset: const Offset(0, -4),
-          ),
-        ],
+        color: Color(0xFF12061E),
+        border: Border(top: BorderSide(color: Color(0xFF1E0E32), width: 1)),
       ),
       child: SafeArea(
         top: false,
@@ -474,53 +449,104 @@ class _SugerirPageState extends State<SugerirPage>
           height: 64,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: List.generate(items.length, (index) {
-              final isSelected = activeIndex == index;
-              return GestureDetector(
+            children: [
+              GestureDetector(
                 onTap: () {
-                  setState(() => _currentIndex = index);
-
-                  if (index == 0) Navigator.pushNamed(context, '/home_cliente');
-                  if (index == 1) Navigator.pushNamed(context, '/sugerir');
-                  if (index == 2) Navigator.pushNamed(context, '/loja');
-                  if (index == 3) Navigator.pushNamed(context, '/perfil');
+                  setState(() => paginaAtual = 0);
+                  Navigator.pushNamed(context, '/home_cliente');
                 },
-                behavior: HitTestBehavior.opaque,
-                child: SizedBox(
-                  width: 70,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        isSelected
-                            ? items[index]['activeIcon'] as IconData
-                            : items[index]['icon'] as IconData,
-                        color: isSelected
-                            ? const Color(0xFF9B59D0)
-                            : Colors.white38,
-                        size: 24,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.home_filled,
+                      color: paginaAtual == 0 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Início",
+                      style: TextStyle(
+                        color: paginaAtual == 0 ? Colors.white : Colors.white54,
+                        fontSize: 10,
                       ),
-                      const SizedBox(height: 3),
-                      Text(
-                        items[index]['label'] as String,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          color: isSelected
-                              ? const Color(0xFF9B59D0)
-                              : Colors.white38,
-                          fontSize: 10,
-                          height: 1.2,
-                          fontWeight: isSelected
-                              ? FontWeight.w600
-                              : FontWeight.normal,
-                          fontFamily: 'Poppins',
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              );
-            }),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() => paginaAtual = 1);
+                  Navigator.pushNamed(context, '/minhasSugestoes');
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.forum,
+                      color: paginaAtual == 1 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Minhas\nSugestões",
+                      textAlign: TextAlign.center,
+                      style: TextStyle(
+                        color: paginaAtual == 1 ? Colors.white : Colors.white54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() => paginaAtual = 2);
+                  Navigator.pushNamed(context, '/loja');
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.monetization_on,
+                      color: paginaAtual == 2 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Pontos",
+                      style: TextStyle(
+                        color: paginaAtual == 2 ? Colors.white : Colors.white54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              GestureDetector(
+                onTap: () {
+                  setState(() => paginaAtual = 3);
+                  Navigator.pushNamed(context, '/perfil');
+                },
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      Icons.person,
+                      color: paginaAtual == 3 ? Colors.white : Colors.white54,
+                    ),
+                    SizedBox(height: 4),
+                    Text(
+                      "Perfil",
+                      style: TextStyle(
+                        color: paginaAtual == 3 ? Colors.white : Colors.white54,
+                        fontSize: 10,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
