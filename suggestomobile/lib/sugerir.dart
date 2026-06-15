@@ -86,7 +86,7 @@ class _SugerirPageState extends State<SugerirPage>
             SizedBox(width: 10),
             Text(
               'Sugestão enviada com sucesso!',
-              style: TextStyle(color: Colors.white, fontWeight: FontWeight.w600),
+              style: TextStyle(color: Colors.white, fontFamily: 'Poppins'),
             ),
           ],
         ),
@@ -175,8 +175,7 @@ class _SugerirPageState extends State<SugerirPage>
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 18,
-                    fontFamily: 'Syne',
-                    fontWeight: FontWeight.bold,
+                    fontFamily: 'PoppinsBold',
                     letterSpacing: 0.3,
                   ),
                 ),
@@ -222,8 +221,7 @@ class _SugerirPageState extends State<SugerirPage>
               style: const TextStyle(
                 color: Colors.white,
                 fontSize: 18,
-                fontFamily: 'Syne',
-                fontWeight: FontWeight.bold,
+                fontFamily: 'PoppinsSemiBold',
               ),
             ),
           ),
@@ -271,6 +269,7 @@ class _SugerirPageState extends State<SugerirPage>
                 style: const TextStyle(
                   color: Colors.white,
                   fontSize: 14,
+                  fontFamily: 'Poppins',
                   height: 1.5,
                 ),
                 decoration: InputDecoration(
@@ -278,6 +277,7 @@ class _SugerirPageState extends State<SugerirPage>
                   hintStyle: TextStyle(
                     color: Colors.white.withOpacity(0.3),
                     fontSize: 14,
+                    fontFamily: 'Poppins',
                   ),
                   border: InputBorder.none,
                   contentPadding: const EdgeInsets.all(16),
@@ -298,6 +298,7 @@ class _SugerirPageState extends State<SugerirPage>
                             : Colors.white.withOpacity(0.3),
                         fontSize: 11,
                         fontWeight: FontWeight.w500,
+                        fontFamily: 'Poppins',
                       ),
                     ),
                   ],
@@ -320,8 +321,7 @@ class _SugerirPageState extends State<SugerirPage>
           style: TextStyle(
             color: Colors.white,
             fontSize: 16,
-            fontFamily: 'Syne',
-            fontWeight: FontWeight.bold,
+            fontFamily: 'PoppinsSemiBold',
           ),
         ),
         const SizedBox(height: 14),
@@ -380,7 +380,9 @@ class _SugerirPageState extends State<SugerirPage>
               fontSize: 12,
               fontWeight:
                   isSelected ? FontWeight.w600 : FontWeight.normal,
+              fontFamily: 'Poppins',
             ),
+
           ),
         ),
       ),
@@ -429,7 +431,7 @@ class _SugerirPageState extends State<SugerirPage>
                     style: TextStyle(
                       color: Colors.white,
                       fontSize: 16,
-                      fontWeight: FontWeight.bold,
+                      fontFamily: 'PoppinsSemiBold',
                       letterSpacing: 0.5,
                     ),
                   ),
@@ -511,6 +513,7 @@ class _SugerirPageState extends State<SugerirPage>
                           fontWeight: isSelected
                               ? FontWeight.w600
                               : FontWeight.normal,
+                          fontFamily: 'Poppins',
                         ),
                       ),
                     ],
