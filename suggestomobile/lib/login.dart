@@ -18,7 +18,7 @@ class _LoginState extends State<Login> {
     String email = emailController.text.trim();
     String senha = senhaController.text.trim();
 
-    // Valida se os campos estão preenchidos
+    // VE SE OS CAMPOS ESTÃO VAZIOS
     if (email.isEmpty || senha.isEmpty) {
       setState(() {
         mensagemErro = "Preencha todos os campos.";
@@ -26,7 +26,7 @@ class _LoginState extends State<Login> {
       return;
     }
 
-    // Procura o usuário no vetor
+    // PROCURA O USUÁRIO
     bool encontrou = false;
     for (var usuario in usuariosCadastrados) {
       if (usuario['email'] == email && usuario['senha'] == senha) {

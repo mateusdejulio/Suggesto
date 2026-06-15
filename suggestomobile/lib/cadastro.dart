@@ -75,6 +75,7 @@ class _CadastroState extends State<Cadastro> {
 
     setState(() => mensagemErro = "");
 
+  // MENSAGEM DE SUCESSO
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
         content: Text("Conta criada com sucesso!", style: TextStyle(fontFamily: "Poppins"),),
@@ -86,7 +87,7 @@ class _CadastroState extends State<Cadastro> {
   }
 
   @override
-Widget build(BuildContext context) {
+  Widget build(BuildContext context) {
   return Scaffold(
     backgroundColor: const Color.fromRGBO(18, 6, 30, 1),
     body: Stack(
@@ -115,7 +116,7 @@ Widget build(BuildContext context) {
 
                 const SizedBox(height: 30),
 
-                // LABEL EMAIL
+                //EMAIL
                 SizedBox(
                   width: 400,
                   child: Align(
@@ -133,7 +134,6 @@ Widget build(BuildContext context) {
 
                 const SizedBox(height: 8),
 
-                // CAMPO EMAIL
                 SizedBox(
                   width: 400,
                   child: TextField(
@@ -172,7 +172,7 @@ Widget build(BuildContext context) {
 
                 const SizedBox(height: 16),
 
-                // LABEL SENHA
+                //SENHA
                 SizedBox(
                   width: 400,
                   child: Align(
@@ -190,7 +190,6 @@ Widget build(BuildContext context) {
 
                 const SizedBox(height: 8),
 
-                // CAMPO SENHA
                 SizedBox(
                   width: 400,
                   child: TextField(
@@ -480,7 +479,7 @@ Widget build(BuildContext context) {
           ),
         ),
 
-        // LOGO IGUAL À TELA DE LOGIN
+        // LOGO
         Positioned(
           top: 35,
           left: 0,

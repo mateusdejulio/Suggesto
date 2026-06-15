@@ -11,6 +11,7 @@ import 'package:suggestomobile/lojaPontos.dart';
 import 'package:suggestomobile/perfilClie.dart';
 import 'package:suggestomobile/sobrenos.dart';
 import 'package:suggestomobile/sugerir.dart';
+import 'package:suggestomobile/suggesto.dart';
 
 void main() {
   runApp(const MyApp());
@@ -43,6 +44,7 @@ class MyApp extends StatelessWidget {
         '/loja': (context) => LojasPontosPage(),
         '/info_local': (context) => InfoLocalPage(local: {},),
         '/sobrenos': (context) => Sobrenos(),
+        '/suggesto': (context) => Suggesto(),
       },
     );
   }
